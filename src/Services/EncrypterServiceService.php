@@ -13,6 +13,7 @@ namespace FirecmsExt\Utils\Encrypter;
 
 use Exception;
 use FirecmsExt\Utils\Exceptions\DecryptException;
+use Hyperf\Contract\ConfigInterface;
 use RuntimeException;
 
 use function openssl_decrypt;
@@ -45,9 +46,10 @@ class EncrypterServiceService implements EncrypterServiceInterface
      *
      * @throws RuntimeException
      */
-    public function __construct(string $key, string $cipher = 'aes-128-cbc')
+    public function __construct(ConfigInterface $config)
     {
-        $key = (string) $key;
+        $key = $config->get('app_key');
+        $cipher = $config->get('app_cipher', 'AES-256-CBC');
 
         if (! static::supported($key, $cipher)) {
             $ciphers = implode(', ', array_keys(self::$supportedCiphers));

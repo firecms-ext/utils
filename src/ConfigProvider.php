@@ -11,6 +11,8 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils;
 
+use FirecmsExt\Utils\Commands\GenAppKeyCommand;
+
 class ConfigProvider
 {
     public function __invoke(): array
@@ -19,6 +21,7 @@ class ConfigProvider
             'dependencies' => [
             ],
             'commands' => [
+                GenAppKeyCommand::class,
             ],
             'annotations' => [
                 'scan' => [
