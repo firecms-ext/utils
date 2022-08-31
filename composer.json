@@ -9,7 +9,7 @@
     "toTree",
     "hyperf"
   ],
-  "description": "",
+  "description": "hyperf 扩展：常用工具函数",
   "autoload": {
     "psr-4": {
       "FirecmsExt\\Utils\\": "src/"
