@@ -13,13 +13,24 @@ namespace FirecmsExt\Utils\Commands;
 
 use Exception;
 use FirecmsExt\Utils\Services\EncrypterService;
+use Hyperf\Contract\ConfigInterface;
 use Hyperf\Utils\Str;
+use Symfony\Component\Console\Input\InputOption;
 
 class GenAppKeyCommand extends AbstractGenCommand
 {
-    protected ?string $name = 'gen:app-key';
+    protected $name = 'gen:app-key';
 
-    protected string $description = 'Set the app key used to encrypter the tokens';
+    protected string $description = 'Set the app key used to encrypter';
+
+    public function __construct(ConfigInterface $config)
+    {
+        parent::__construct($config);
+
+        $this->addOption('show', 's', InputOption::VALUE_NONE, 'Display the key instead of modifying files');
+        $this->addOption('always-no', null, InputOption::VALUE_NONE, 'Skip generating key if it already exists');
+        $this->addOption('force', 'f', InputOption::VALUE_NONE, 'Skip confirmation when overwriting an existing key');
+    }
 
     /**
      * @throws Exception
