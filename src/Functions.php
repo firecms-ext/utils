@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * This file is part of FirecmsExt Demo.
  *
@@ -10,10 +9,6 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://gitee.com/firecms-ext/demo/blob/master/LICENSE
  */
-
-use FirecmsExt\Utils\Contracts\EncrypterServiceInterface;
-use Hyperf\Utils\ApplicationContext;
-
 if (! function_exists('age')) {
     /**
      * 年龄.
@@ -168,49 +163,5 @@ if (! function_exists('groupOptions')) {
         }
 
         return $items;
-    }
-}
-
-if (! function_exists('encrypt')) {
-    /**
-     * 加密.
-     */
-    function encrypt(mixed $value, bool $serialize = true)
-    {
-        return make(EncrypterServiceInterface::class)
-            ->encrypt($value, $serialize);
-    }
-}
-
-if (! function_exists('decrypt')) {
-    /**
-     * 解密.
-     */
-    function decrypt(string $payload, bool $unserialize = true)
-    {
-        return make(EncrypterServiceInterface::class)
-            ->decrypt($payload, $unserialize);
-    }
-}
-
-if (! function_exists('encryptString')) {
-    /**
-     * 加密字符串.
-     */
-    function encryptString(mixed $value): string
-    {
-        return make(EncrypterServiceInterface::class)
-            ->encryptString($value);
-    }
-}
-
-if (! function_exists('decryptString')) {
-    /**
-     * 解密字符串.
-     */
-    function decryptString(string $payload): string
-    {
-        return make(EncrypterServiceInterface::class)
-            ->decryptString($payload);
     }
 }
