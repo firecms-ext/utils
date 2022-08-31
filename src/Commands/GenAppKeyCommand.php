@@ -12,12 +12,12 @@ declare(strict_types=1);
 namespace FirecmsExt\Utils\Commands;
 
 use Exception;
-use FirecmsExt\Utils\Encrypter\EncrypterServiceService;
+use FirecmsExt\Utils\Services\EncrypterService;
 use Hyperf\Utils\Str;
 
 class GenAppKeyCommand extends AbstractGenCommand
 {
-    protected $name = 'gen:app-key';
+    protected ?string $name = 'gen:app-key';
 
     protected string $description = 'Set the app key used to encrypter the tokens';
 
@@ -26,18 +26,26 @@ class GenAppKeyCommand extends AbstractGenCommand
      */
     public function handle(): void
     {
-        $cipher = $this->config->get('app_cipher', 'AES-256-CBC');
+        $path = $this->envFilePath();
+        if (! $cipher = env('APP_CIPHER', $this->config->get('app_cipher'))) {
+            $cipher = 'AES-256-CBC';
+            if (Str::contains(file_get_contents($path), 'APP_CIPHER') === false) {
+                file_put_contents($path, "\n\nAPP_CIPHER={$cipher}\n", FILE_APPEND);
+            }
+        }
         $key = $this->generateRandomKey($cipher);
+
         if ($this->getOption('show')) {
             $this->comment($key);
             return;
         }
-        if (file_exists($path = $this->envFilePath()) === false) {
+        if (file_exists($path) === false) {
             $this->displayKey($key);
             return;
         }
+
         if (Str::contains(file_get_contents($path), 'APP_KEY') === false) {
-            file_put_contents($path, "\nAPP_KEY={$key}\n", FILE_APPEND);
+            file_put_contents($path, "APP_KEY={$key}\n", FILE_APPEND);
         } else {
             if ($this->getOption('always-no')) {
                 $this->comment('Secret key already exists. Skipping...');
@@ -51,13 +59,7 @@ class GenAppKeyCommand extends AbstractGenCommand
 
             file_put_contents($path, preg_replace(
                 "~APP_KEY=[^\n]*~",
-                "APP_KEY=\"{$key}\"",
-                file_get_contents($path)
-            ));
-
-            file_put_contents($path, preg_replace(
-                "~APP_CIPHER=[^\n]*~",
-                "APP_CIPHER=\"{$cipher}\"",
+                "APP_KEY={$key}",
                 file_get_contents($path)
             ));
         }
@@ -71,7 +73,7 @@ class GenAppKeyCommand extends AbstractGenCommand
      */
     protected function generateRandomKey(string $cipher): string
     {
-        return 'base64:' . base64_encode(EncrypterServiceService::generateKey($cipher));
+        return 'base64:' . base64_encode(EncrypterService::generateKey($cipher));
     }
 
     /**

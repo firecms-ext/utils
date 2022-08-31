@@ -9,17 +9,19 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://gitee.com/firecms-ext/demo/blob/master/LICENSE
  */
-namespace FirecmsExt\Utils\Encrypter;
+namespace FirecmsExt\Utils\Services;
 
 use Exception;
+use FirecmsExt\Utils\Contracts\EncrypterServiceInterface;
 use FirecmsExt\Utils\Exceptions\DecryptException;
 use Hyperf\Contract\ConfigInterface;
+use Hyperf\Utils\Str;
 use RuntimeException;
 
 use function openssl_decrypt;
 use function openssl_encrypt;
 
-class EncrypterServiceService implements EncrypterServiceInterface
+class EncrypterService implements EncrypterServiceInterface
 {
     /**
      * 加密密钥。
@@ -48,8 +50,8 @@ class EncrypterServiceService implements EncrypterServiceInterface
      */
     public function __construct(ConfigInterface $config)
     {
-        $key = $config->get('app_key');
-        $cipher = $config->get('app_cipher', 'AES-256-CBC');
+        $key = $this->parseKey(env('APP_KEY', $config->get('app_key', '')));
+        $cipher = env('APP_CIPHER', $config->get('app_cipher', 'AES-256-CBC'));
 
         if (! static::supported($key, $cipher)) {
             $ciphers = implode(', ', array_keys(self::$supportedCiphers));
@@ -138,9 +140,8 @@ class EncrypterServiceService implements EncrypterServiceInterface
         $payload = $this->getJsonPayload($payload);
 
         $iv = base64_decode($payload['iv']);
-
         $this->ensureTagIsValid(
-            $tag = empty($payload['tag']) ? null : base64_decode($payload['tag'])
+            $tag = empty($payload['tag']) ? '' : base64_decode($payload['tag'])
         );
 
         // Here we will decrypt the value. If we are able to successfully decrypt it
@@ -176,6 +177,18 @@ class EncrypterServiceService implements EncrypterServiceInterface
     public function getKey(): string
     {
         return $this->key;
+    }
+
+    /**
+     * Parse the encryption key.
+     */
+    protected function parseKey(string $key): string
+    {
+        if (Str::startsWith($key, $prefix = 'base64:')) {
+            $key = base64_decode(Str::after($key, $prefix));
+        }
+
+        return $key;
     }
 
     /**
@@ -230,14 +243,15 @@ class EncrypterServiceService implements EncrypterServiceInterface
     /**
      * 确保给定的标记是给定密码的有效标记。
      */
-    protected function ensureTagIsValid(string $tag): void
+    protected function ensureTagIsValid(?string $tag): void
     {
         if (self::$supportedCiphers[strtolower($this->cipher)]['aead'] && strlen($tag) !== 16) {
             throw new DecryptException('Could not decrypt the data.');
         }
 
-        if (! self::$supportedCiphers[strtolower($this->cipher)]['aead']) {
+        if (! self::$supportedCiphers[strtolower($this->cipher)]['aead'] && $tag) {
             throw new DecryptException('Unable to use tag because the cipher algorithm does not support AEAD.');
         }
     }
+
 }

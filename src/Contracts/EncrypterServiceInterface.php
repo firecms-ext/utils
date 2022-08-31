@@ -9,7 +9,8 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://gitee.com/firecms-ext/demo/blob/master/LICENSE
  */
-namespace FirecmsExt\Utils\Encrypter;
+namespace FirecmsExt\Utils\Contracts;
+
 
 interface EncrypterServiceInterface
 {

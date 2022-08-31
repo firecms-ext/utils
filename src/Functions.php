@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of FirecmsExt Demo.
  *
@@ -9,6 +10,10 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://gitee.com/firecms-ext/demo/blob/master/LICENSE
  */
+
+use FirecmsExt\Utils\Contracts\EncrypterServiceInterface;
+use Hyperf\Utils\ApplicationContext;
+
 if (! function_exists('age')) {
     /**
      * 年龄.
@@ -49,16 +54,16 @@ if (! function_exists('filesizeFormat')) {
     function filesizeFormat(int $filesize): string
     {
         if ($filesize > 1099511627776) {
-            return number_format($filesize / 1099511627776, 2) . ' TB';
+            return floatval(number_format($filesize / 1099511627776, 2)) . ' TB';
         }
         if ($filesize > 1073741824) {
-            return number_format($filesize / 1073741824, 2) . ' GB';
+            return floatval(number_format($filesize / 1073741824, 2)) . ' GB';
         }
         if ($filesize > 1048576) {
-            return number_format($filesize / 1048576, 2) . ' MB';
+            return floatval(number_format($filesize / 1048576, 2)) . ' MB';
         }
         if ($filesize > 1024) {
-            return number_format($filesize / 1024, 2) . ' KB';
+            return floatval(number_format($filesize / 1024, 2)) . ' KB';
         }
         if ($filesize > 0) {
             return $filesize . ' b';
@@ -163,5 +168,49 @@ if (! function_exists('groupOptions')) {
         }
 
         return $items;
+    }
+}
+
+if (! function_exists('encrypt')) {
+    /**
+     * 加密.
+     */
+    function encrypt(mixed $value, bool $serialize = true)
+    {
+        return make(EncrypterServiceInterface::class)
+            ->encrypt($value, $serialize);
+    }
+}
+
+if (! function_exists('decrypt')) {
+    /**
+     * 解密.
+     */
+    function decrypt(string $payload, bool $unserialize = true)
+    {
+        return make(EncrypterServiceInterface::class)
+            ->decrypt($payload, $unserialize);
+    }
+}
+
+if (! function_exists('encryptString')) {
+    /**
+     * 加密字符串.
+     */
+    function encryptString(mixed $value): string
+    {
+        return make(EncrypterServiceInterface::class)
+            ->encryptString($value);
+    }
+}
+
+if (! function_exists('decryptString')) {
+    /**
+     * 解密字符串.
+     */
+    function decryptString(string $payload): string
+    {
+        return make(EncrypterServiceInterface::class)
+            ->decryptString($payload);
     }
 }
