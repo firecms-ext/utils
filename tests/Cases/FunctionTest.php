@@ -11,11 +11,6 @@ declare(strict_types=1);
  */
 namespace HyperfTest\Cases;
 
-use FirecmsExt\Utils\Contracts\EncrypterServiceInterface;
-use FirecmsExt\Utils\Services\EncrypterService;
-use Hyperf\Utils\ApplicationContext;
-use Hyperf\Utils\Str;
-
 /**
  * @internal
  * @coversNothing
@@ -69,5 +64,4 @@ class FunctionTest extends AbstractTestCase
             ],
         ], $tree);
     }
-
 }
