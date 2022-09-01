@@ -1,6 +1,7 @@
 # firecms-ext/utils
 
-```
+```shell
+# 依赖安装
 composer require firecms-ext/utils
 ```
 
