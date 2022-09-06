@@ -8,6 +8,18 @@ composer require firecms-ext/utils
 # 函数列表
 
 ```php
+# Cache 对象
+function cache(): CacheInterface;
+
+# Redis 对象
+function redis(): RedisProxy;
+
+# 生成主键
+function generateId(): string;
+
+# 处理模型数据
+function handleModelData(array $data): array;
+
 # 计算年龄
 function age(string $birthday): int;
 

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of FirecmsExt utils.
  *
@@ -9,6 +10,63 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
+use Carbon\Carbon;
+use Hyperf\Redis\RedisProxy;
+use Hyperf\Snowflake\IdGeneratorInterface;
+use Psr\SimpleCache\CacheInterface;
+
+if (! function_exists('cache')) {
+    /**
+     * Cache 对象
+     */
+    function cache(): CacheInterface
+    {
+        return make(CacheInterface::class);
+    }
+}
+
+if (! function_exists('redis')) {
+    /**
+     * Redis 对象
+     */
+    function redis(): RedisProxy
+    {
+        return make(RedisProxy::class);
+    }
+}
+
+if (! function_exists('generateId')) {
+    /**
+     * ID 生成.
+     */
+    function generateId(): string
+    {
+        return (string) make(IdGeneratorInterface::class)->generate();
+    }
+}
+
+if (! function_exists('handleModelData')) {
+    /**
+     * 处理模型数据.
+     */
+    function handleModelData(array $data): array
+    {
+        $datetime = Carbon::now();
+        if (isset($data['created_at'])) {
+            $data['created_at'] = $datetime->toDateTimeString();
+        }
+        if (isset($data['updated_at'])) {
+            $data['updated_at'] = $datetime->toDateTimeString();
+        }
+        if (isset($data['id'])) {
+            $data['id'] = generateId();
+        }
+
+        return $data;
+    }
+}
+
 if (! function_exists('age')) {
     /**
      * 年龄.
@@ -165,3 +223,5 @@ if (! function_exists('groupOptions')) {
         return $items;
     }
 }
+
+
