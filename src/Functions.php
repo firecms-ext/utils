@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * This file is part of FirecmsExt utils.
  *
@@ -10,9 +9,8 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
-
 use Carbon\Carbon;
-use Hyperf\Redis\RedisProxy;
+use Hyperf\Redis\Redis;
 use Hyperf\Snowflake\IdGeneratorInterface;
 use Psr\SimpleCache\CacheInterface;
 
@@ -30,9 +28,9 @@ if (! function_exists('redis')) {
     /**
      * Redis 对象
      */
-    function redis(): RedisProxy
+    function redis(): Redis
     {
-        return make(RedisProxy::class);
+        return make(Redis::class);
     }
 }
 
@@ -223,5 +221,3 @@ if (! function_exists('groupOptions')) {
         return $items;
     }
 }
-
-
