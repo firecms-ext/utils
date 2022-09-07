@@ -44,27 +44,6 @@ if (! function_exists('generateId')) {
     }
 }
 
-if (! function_exists('handleModelData')) {
-    /**
-     * 处理模型数据.
-     */
-    function handleModelData(array $data): array
-    {
-        $datetime = Carbon::now();
-        if (isset($data['created_at'])) {
-            $data['created_at'] = $datetime->toDateTimeString();
-        }
-        if (isset($data['updated_at'])) {
-            $data['updated_at'] = $datetime->toDateTimeString();
-        }
-        if (isset($data['id'])) {
-            $data['id'] = generateId();
-        }
-
-        return $data;
-    }
-}
-
 if (! function_exists('age')) {
     /**
      * 年龄.
