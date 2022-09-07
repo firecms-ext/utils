@@ -38,4 +38,6 @@ function options(array $rows, ?string $label = 'title', ?string $value = 'id'): 
 # 分组下拉选项
 function groupOptions(array $groups, ?string $label = 'title', ?string $value = 'id'): array;
 
+# 净化 HTML 字符串
+function purifyHtml(string $html, HTMLPurifier_Config $config = null): string;
 ```

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of FirecmsExt utils.
  *
@@ -9,7 +10,7 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
-use Carbon\Carbon;
+
 use Hyperf\Redis\Redis;
 use Hyperf\Snowflake\IdGeneratorInterface;
 use Psr\SimpleCache\CacheInterface;
@@ -198,5 +199,15 @@ if (! function_exists('groupOptions')) {
         }
 
         return $items;
+    }
+}
+
+if (! function_exists('purifyHtml')) {
+    /**
+     * 净化 HTML 字符串.
+     */
+    function purifyHtml(string $html, HTMLPurifier_Config $config = null): string
+    {
+        return (new HTMLPurifier($config ?: HTMLPurifier_Config::createDefault()))->purify($html);
     }
 }

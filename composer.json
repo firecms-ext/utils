@@ -25,9 +25,10 @@
   },
   "require": {
     "php": ">=8.0",
+    "ezyang/htmlpurifier": "^4.14",
     "hyperf/cache": "~v2.0",
-    "hyperf/redis": "~v2.0",
     "hyperf/http-server": "~v2.0",
+    "hyperf/redis": "~v2.0",
     "hyperf/snowflake": "~v2.0",
     "nesbot/carbon": "^2.62"
   },
