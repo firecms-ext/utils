@@ -12,7 +12,7 @@ composer require firecms-ext/utils
 function cache(): CacheInterface;
 
 # Redis 对象
-function redis(): RedisProxy;
+function redis(): Redis;
 
 # 生成主键
 function generateId(): string;
