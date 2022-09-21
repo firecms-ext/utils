@@ -11,6 +11,8 @@ declare(strict_types=1);
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
 
+use Hyperf\HttpServer\Contract\RequestInterface;
+use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Redis\Redis;
 use Hyperf\Snowflake\IdGeneratorInterface;
 use Psr\SimpleCache\CacheInterface;
@@ -32,6 +34,26 @@ if (! function_exists('redis')) {
     function redis(): Redis
     {
         return make(Redis::class);
+    }
+}
+
+if (! function_exists('request')) {
+    /**
+     * Request 对象
+     */
+    function request(): RequestInterface
+    {
+        return make(RequestInterface::class);
+    }
+}
+
+if (! function_exists('response')) {
+    /**
+     * Response 对象
+     */
+    function response(): ResponseInterface
+    {
+        return make(ResponseInterface::class);
     }
 }
 
