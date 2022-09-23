@@ -13,6 +13,7 @@ namespace FirecmsExt\Utils\Service;
 
 use Hyperf\HttpServer\MiddlewareManager;
 use Hyperf\HttpServer\Router\Dispatched;
+use Hyperf\HttpServer\Router\DispatcherFactory;
 use Hyperf\HttpServer\Router\Handler;
 use Hyperf\HttpServer\Router\RouteCollector;
 use Hyperf\Utils\Str;
@@ -23,8 +24,7 @@ use ReflectionFunction;
 class RouteParseService
 {
     /**
-     * 解析当前路由.
-     * @return mixed
+     * 当前路由。
      */
     public function current(): Handler
     {
@@ -32,7 +32,7 @@ class RouteParseService
     }
 
     /**
-     * @return mixed
+     * 解析。
      */
     public function dispatched(): Dispatched
     {
@@ -40,13 +40,13 @@ class RouteParseService
     }
 
     /**
-     * @param null $path
-     * @throws ReflectionException
+     * 解析
      */
     public function parse($path = null, string $server = 'http'): array
     {
-        $fun = new ReflectionFunction($this->dispatched()->handler->callback);
-        $router = $fun->getClosureThis()->getRouter($server);
+
+        $factory = container()->get(DispatcherFactory::class);
+        $router = $factory->getRouter($server);
 
         return $this->rows($this->analyzeRouter($server, $router, $path));
     }

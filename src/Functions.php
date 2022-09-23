@@ -13,7 +13,20 @@ use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Redis\Redis;
 use Hyperf\Snowflake\IdGeneratorInterface;
+use Hyperf\Utils\ApplicationContext;
+use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
+
+
+if (! function_exists('container')) {
+    /**
+     * ContainerInterface 对象
+     */
+    function container(): ContainerInterface
+    {
+        return ApplicationContext::getContainer();
+    }
+}
 
 if (! function_exists('cache')) {
     /**
