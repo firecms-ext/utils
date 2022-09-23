@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of FirecmsExt utils.
  *
@@ -9,6 +10,8 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
+use Hyperf\Context\Context;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Redis\Redis;
@@ -19,7 +22,7 @@ use Psr\SimpleCache\CacheInterface;
 
 if (! function_exists('container')) {
     /**
-     * ContainerInterface 对象
+     * App 容器 对象
      */
     function container(): ContainerInterface
     {
