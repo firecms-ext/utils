@@ -16,10 +16,9 @@ use Hyperf\HttpServer\Router\Dispatched;
 use Hyperf\HttpServer\Router\DispatcherFactory;
 use Hyperf\HttpServer\Router\Handler;
 use Hyperf\HttpServer\Router\RouteCollector;
+use Hyperf\Utils\ApplicationContext;
 use Hyperf\Utils\Str;
 use Psr\Http\Message\ServerRequestInterface;
-use ReflectionException;
-use ReflectionFunction;
 
 class RouteParseService
 {
@@ -44,8 +43,7 @@ class RouteParseService
      */
     public function parse($path = null, string $server = 'http'): array
     {
-
-        $factory = container()->get(DispatcherFactory::class);
+        $factory = ApplicationContext::getContainer()->get(DispatcherFactory::class);
         $router = $factory->getRouter($server);
 
         return $this->rows($this->analyzeRouter($server, $router, $path));
