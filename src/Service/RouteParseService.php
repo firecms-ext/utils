@@ -35,7 +35,9 @@ class RouteParseService
      */
     public function dispatched(): Dispatched
     {
-        return make(ServerRequestInterface::class)->getAttribute(Dispatched::class);
+        return ApplicationContext::getContainer()
+            ->get(ServerRequestInterface::class)
+            ->getAttribute(Dispatched::class);
     }
 
     /**
