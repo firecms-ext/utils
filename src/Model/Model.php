@@ -11,8 +11,8 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model;
 
-use App\Model\Traits\TableUtils;
 use Carbon\Carbon;
+use FirecmsExt\Utils\Model\Traits\TableUtils;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Model\Model as BaseModel;
 use Hyperf\ModelCache\Cacheable;

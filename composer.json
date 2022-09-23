@@ -33,8 +33,9 @@
     "hyperf/framework": "~v2.0",
     "hyperf/http-message": "~v2.0",
     "hyperf/http-server": "~v2.0",
+    "hyperf/model-cache": "^2.2",
     "hyperf/redis": "~v2.0",
-    "hyperf/snowflake": "~v2.0",
+    "hyperf/snowflake": "v2.2.33.1",
     "nesbot/carbon": "^2.62"
   },
   "require-dev": {
