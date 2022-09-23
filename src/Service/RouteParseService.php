@@ -11,7 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Service;
 
-use FastRoute\Route;
 use Hyperf\HttpServer\MiddlewareManager;
 use Hyperf\HttpServer\Router\Dispatched;
 use Hyperf\HttpServer\Router\Handler;
@@ -27,9 +26,9 @@ class RouteParseService
      * 解析当前路由.
      * @return mixed
      */
-    public function current(): Route
+    public function current(): Handler
     {
-        return $this->dispatched()->handler->routeInstance;
+        return $this->dispatched()->handler;
     }
 
     /**
@@ -99,13 +98,13 @@ class RouteParseService
             $middlewares = config('middlewares.' . $serverName, []);
             $middlewares = array_merge($middlewares, $registeredMiddlewares);
 
-            if ($handler->routeInstance->name && in_array('App\Middleware\Authenticate', $middlewares)) {
+            if ($name = ($handler->options['name'] ?? null)) {
                 $data[$unique] = [
                     'server' => $serverName,
                     'method' => [$method],
                     'uri' => $uri,
                     'action' => $action,
-                    'name' => $handler->routeInstance->name,
+                    'name' => implode('/', array_values(array_filter((array) $name))),
                 ];
             }
         }
