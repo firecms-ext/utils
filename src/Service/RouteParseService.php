@@ -41,9 +41,9 @@ class RouteParseService
     }
 
     /**
-     * 解析
+     * 解析。
      */
-    public function parse($path = null, string $server = 'http'): array
+    public function parse(?string $path = null, string $server = 'http'): array
     {
         $factory = ApplicationContext::getContainer()->get(DispatcherFactory::class);
         $router = $factory->getRouter($server);
