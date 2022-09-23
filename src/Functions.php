@@ -17,7 +17,6 @@ use Hyperf\Utils\ApplicationContext;
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 
-
 if (! function_exists('container')) {
     /**
      * ContainerInterface 对象

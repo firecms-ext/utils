@@ -28,6 +28,7 @@
     "ezyang/htmlpurifier": "^4.14",
     "hyperf/cache": "~v2.0",
     "hyperf/config": "^2.2",
+    "hyperf/db-connection": "^2.2",
     "hyperf/di": "~v2.0",
     "hyperf/framework": "~v2.0",
     "hyperf/http-message": "~v2.0",
