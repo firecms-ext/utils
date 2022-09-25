@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace FirecmsExt\Utils\Model\Traits;
 
 use Carbon\Carbon;
-use FirecmsExt\Utils\Model\Model;
+use Hyperf\Database\Model\Model;
 use Hyperf\DbConnection\Db;
 
 trait TableUtils
