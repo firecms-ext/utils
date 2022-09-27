@@ -16,14 +16,16 @@ use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Redis\Redis;
 use Hyperf\Snowflake\IdGeneratorInterface;
 use Hyperf\Utils\ApplicationContext;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\CacheInterface;
 
-if (! function_exists('container')) {
+if (! function_exists('app')) {
     /**
      * App 容器 对象
      */
-    function container(): ContainerInterface
+    function app(): ContainerInterface
     {
         return ApplicationContext::getContainer();
     }
@@ -35,7 +37,7 @@ if (! function_exists('cache')) {
      */
     function cache(): CacheInterface
     {
-        return make(CacheInterface::class);
+        return app()->get(CacheInterface::class);
     }
 }
 
@@ -45,7 +47,7 @@ if (! function_exists('redis')) {
      */
     function redis(): Redis
     {
-        return make(Redis::class);
+        return app()->get(Redis::class);
     }
 }
 
@@ -55,7 +57,7 @@ if (! function_exists('request')) {
      */
     function request(): RequestInterface
     {
-        return make(RequestInterface::class);
+        return app()->get(RequestInterface::class);
     }
 }
 
@@ -65,7 +67,7 @@ if (! function_exists('response')) {
      */
     function response(): ResponseInterface
     {
-        return make(ResponseInterface::class);
+        return app()->get(ResponseInterface::class);
     }
 }
 
@@ -75,7 +77,41 @@ if (! function_exists('generateId')) {
      */
     function generateId(): string
     {
-        return (string) make(IdGeneratorInterface::class)->generate();
+        return (string) app()->get(IdGeneratorInterface::class)->generate();
+    }
+}
+
+if (! function_exists('getRealIp')) {
+    /**
+     * 获取请求 IP.
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    function getRealIp(): string
+    {
+        $request = app()->get(RequestInterface::class);
+        $headers = $request->getHeaders();
+
+        if (isset($headers['x-forwarded-for'][0]) && ! empty($headers['x-forwarded-for'][0])) {
+            return $headers['x-forwarded-for'][0];
+        }
+        if (isset($headers['x-real-ip'][0]) && ! empty($headers['x-real-ip'][0])) {
+            return $headers['x-real-ip'][0];
+        }
+
+        $serverParams = $request->getServerParams();
+        if (isset($res['http_client_ip'])) {
+            return $serverParams['http_client_ip'];
+        }
+        if (isset($serverParams['http_x_real_ip'])) {
+            return $serverParams['http_x_real_ip'];
+        }
+        if (isset($serverParams['http_x_forwarded_for'])) {
+            // 部分CDN会获取多层代理IP，所以转成数组取第一个值
+            $arr = explode(',', $serverParams['http_x_forwarded_for']);
+            return $arr[0];
+        }
+        return $serverParams['remote_addr'];
     }
 }
 
@@ -242,6 +278,7 @@ if (! function_exists('purifyHtml')) {
      */
     function purifyHtml(string $html, HTMLPurifier_Config $config = null): string
     {
-        return (new HTMLPurifier($config ?: HTMLPurifier_Config::createDefault()))->purify($html);
+        return make(HTMLPurifier::class, ['config' => $config ?: HTMLPurifier_Config::createDefault()])
+            ->purify($html);
     }
 }
