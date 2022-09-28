@@ -282,3 +282,13 @@ if (! function_exists('purifyHtml')) {
             ->purify($html);
     }
 }
+
+if (! function_exists('fileExtension')) {
+    /**
+     * 文件扩展名.
+     */
+    function fileExtension(string $filename): string
+    {
+        return pathinfo($filename)['extension'];
+    }
+}
