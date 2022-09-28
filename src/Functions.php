@@ -281,12 +281,32 @@ if (! function_exists('purifyHtml')) {
     }
 }
 
-if (! function_exists('fileExtension')) {
+if (! function_exists('filename')) {
     /**
-     * 文件扩展名.
+     * 从文件路径中提取文件名。
      */
-    function fileExtension(string $filename): string
+    function filename(string $path): string
     {
-        return pathinfo($filename)['extension'];
+        return pathinfo($path, PATHINFO_FILENAME);
+    }
+}
+
+if (! function_exists('basename')) {
+    /**
+     * 从文件路径中提取尾随名称。
+     */
+    function basename(string $path): string
+    {
+        return pathinfo($path, PATHINFO_BASENAME);
+    }
+}
+
+if (! function_exists('extension')) {
+    /**
+     * 从文件路径提取文件扩展名。
+     */
+    function extension(string $path): string
+    {
+        return pathinfo($path, PATHINFO_EXTENSION);
     }
 }

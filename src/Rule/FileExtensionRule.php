@@ -22,7 +22,7 @@ class FileExtensionRule
         // 扩展名检查
         $validatorFactory->extend('file_extension', function ($attribute, $value, $parameters, $validator) {
             /* @var Validator $validator */
-            $result = in_array(Str::lower(fileExtension($value)), array_map(function ($parameter) {
+            $result = in_array(Str::lower(extension($value)), array_map(function ($parameter) {
                 return Str::lower($parameter);
             }, $parameters));
             if (! $result) {
