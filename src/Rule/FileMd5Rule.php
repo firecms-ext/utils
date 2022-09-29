@@ -22,7 +22,7 @@ class FileMd5Rule
         $validatorFactory->extend('file_md5', function ($attribute, $value, $parameters, $validator) {
             /* @var Validator $validator */
             /* @var UploadedFile $value */
-            $result = md5_file($value->getRealPath()) === $validator->getData()[array_pop($parameters) ?: 'md5'];
+            $result = hash_equals(md5_file($value->getRealPath()), $validator->getData()[array_pop($parameters) ?: 'md5']);
 
             if (! $result) {
                 $validator->setCustomMessages([
