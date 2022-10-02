@@ -35,6 +35,7 @@
     "hyperf/http-server": "~v2.0",
     "hyperf/model-cache": "^2.2",
     "hyperf/redis": "~v2.0",
+    "hyperf/resource": "^2.2",
     "hyperf/snowflake": "v2.2.33.1",
     "hyperf/validation": "^2.2",
     "nesbot/carbon": "^2.62"
