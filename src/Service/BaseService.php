@@ -57,11 +57,12 @@ class BaseService
     /**
      * 分页.
      */
-    public function listTable(array $params): array
+    public function listTable(array $params)
     {
         $model = $this->getModelInstance();
 
-        return $this->getCollection(
+        return json_decode(
+            $this->getCollection(
             $model->with($this->listWith())
                 ->where(function ($query) use ($params) {
                     return $this->baseWhere($query, $params);
@@ -70,7 +71,7 @@ class BaseService
                     return $this->listWhere($query, $params);
                 })
                 ->when(
-                    (string) $params['field'] ?: ($this->orderField ?: $model->getKeyName()),
+                    (string) ($params['field'] ?? null) ?: ($this->orderField ?: $model->getKeyName()),
                     function ($query, $value) use ($params) {
                         // 排序方式
                         return $query->orderBy($value, in_array(
@@ -79,13 +80,17 @@ class BaseService
                         ) ? 'desc' : 'asc');
                     }
                 )
-                ->when((bool) $params['recycle'], function ($query) {
+                ->when((bool) ($params['recycle'] ?? null), function ($query) {
                     // 回收站
                     return $query->onlyTrashed();
                 })
-                ->paginate((int) ($params['perpage'] ?: $params['pageSize']) ?: 20)
+                ->paginate((int) ($params['perpage'] ?? $params['pageSize']) ?? 20)
         )
-            ->toArray();
+                ->toResponse()
+                ->getBody()
+                ->getContents(),
+            true
+        );
     }
 
     /**
