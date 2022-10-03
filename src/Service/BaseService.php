@@ -57,35 +57,35 @@ class BaseService
     /**
      * 分页.
      */
-    public function listTable(array $params)
+    public function listTable(array $params): array
     {
         $model = $this->getModelInstance();
 
         return json_decode(
             $this->getCollection(
-            $model->with($this->listWith())
-                ->where(function ($query) use ($params) {
-                    return $this->baseWhere($query, $params);
-                })
-                ->where(function ($query) use ($params) {
-                    return $this->listWhere($query, $params);
-                })
-                ->when(
-                    (string) ($params['field'] ?? null) ?: ($this->orderField ?: $model->getKeyName()),
-                    function ($query, $value) use ($params) {
-                        // 排序方式
-                        return $query->orderBy($value, in_array(
-                            $params['order'] ?: $this->orderBy,
-                            ['descend', 'desc']
-                        ) ? 'desc' : 'asc');
-                    }
-                )
-                ->when((bool) ($params['recycle'] ?? null), function ($query) {
-                    // 回收站
-                    return $query->onlyTrashed();
-                })
-                ->paginate((int) ($params['perpage'] ?? $params['pageSize']) ?? 20)
-        )
+                $model->with($this->listWith())
+                    ->where(function ($query) use ($params) {
+                        return $this->baseWhere($query, $params);
+                    })
+                    ->where(function ($query) use ($params) {
+                        return $this->listWhere($query, $params);
+                    })
+                    ->when(
+                        (string) ($params['field'] ?? null) ?: ($this->orderField ?: $model->getKeyName()),
+                        function ($query, $value) use ($params) {
+                            // 排序方式
+                            return $query->orderBy($value, in_array(
+                                $params['order'] ?: $this->orderBy,
+                                ['descend', 'desc']
+                            ) ? 'desc' : 'asc');
+                        }
+                    )
+                    ->when((bool) ($params['recycle'] ?? null), function ($query) {
+                        // 回收站
+                        return $query->onlyTrashed();
+                    })
+                    ->paginate((int) ($params['perpage'] ?? $params['pageSize']) ?? 20)
+            )
                 ->toResponse()
                 ->getBody()
                 ->getContents(),
