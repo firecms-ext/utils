@@ -24,14 +24,14 @@ class BaseService
     /** @var string 模型类名 */
     protected string $modelClass;
 
-    /** @var string 响应资源类 */
-    protected string $showResourceClass;
+    /** @var null|string 响应资源类 */
+    protected ?string $showResourceClass;
 
-    /** @var string 响应集合资源 */
-    protected string $listCollectionClass;
+    /** @var null|string 响应集合资源 */
+    protected ?string $listCollectionClass;
 
-    /** @var string 树响应集合资源 */
-    protected string $treeCollectionClass;
+    /** @var null|string 树响应集合资源 */
+    protected ?string $treeCollectionClass;
 
     /** @var string 排序字段 */
     protected string $orderField = '';
