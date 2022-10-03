@@ -42,11 +42,11 @@ class BaseService
     /**
      * 构造函数.
      */
-    public function __construct(string $modelClass, string $showResourceClass, string $listCollectionClass, string $treeCollectionClass)
+    public function __construct(string $modelClass, ?string $listCollectionClass, ?string $showResourceClass, ?string $treeCollectionClass)
     {
         $this->modelClass = $modelClass;
-        $this->showResourceClass = $showResourceClass;
         $this->listCollectionClass = $listCollectionClass;
+        $this->showResourceClass = $showResourceClass;
         $this->treeCollectionClass = $treeCollectionClass;
     }
 
