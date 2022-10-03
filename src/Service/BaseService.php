@@ -606,7 +606,7 @@ class BaseService
     /**
      * 获取响应集合.
      */
-    protected function getCollection(Collection $collection): ResourceCollection
+    protected function getCollection(mixed $collection): ResourceCollection
     {
         return new $this->listCollectionClass($collection);
     }
@@ -672,12 +672,11 @@ class BaseService
     {
         $ids = $this->getParseIds($ids);
 
-        $model = $this->getModelInstance()->query($cache);
+        $model = $this->getModelInstance();
         if ($recycle) {
             $model = $model->onlyTrashed();
         }
-
-        return $model->whereIn($model->getKeyName(), $ids);
+        return $model->query($cache)->whereIn($model->getKeyName(), $ids);
     }
 
     /**
