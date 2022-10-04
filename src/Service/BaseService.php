@@ -40,21 +40,6 @@ class BaseService
     protected string $orderBy = 'desc';
 
     /**
-     * 构造函数.
-     */
-    public function __construct(
-        string $modelClass,
-        ?string $listCollectionClass = null,
-        ?string $showResourceClass = null,
-        ?string $treeCollectionClass = null
-    ) {
-        $this->modelClass = $modelClass;
-        $this->listCollectionClass = $listCollectionClass;
-        $this->showResourceClass = $showResourceClass;
-        $this->treeCollectionClass = $treeCollectionClass;
-    }
-
-    /**
      * 分页.
      */
     public function listTable(array $params): array
