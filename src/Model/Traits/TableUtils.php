@@ -58,7 +58,7 @@ trait TableUtils
     /**
      * 模型填充数据.
      */
-    public static function fillData(array $attributes, Model $parent = null): array
+    public static function fillData(array $attributes, array|Model $parent = null): array
     {
         $model = self::getInstance();
         // 模型填充
@@ -79,12 +79,25 @@ trait TableUtils
         }
         // 添加父级
         if ($parent) {
-            $attributes['parent_id'] = $parent->id;
-            $attributes['level'] = $parent->level + 1;
-            $attributes['node'] = $parent->node . $parent->id . '_';
+            $attributes['parent_id'] = $parent['id'];
+            $attributes['level'] = $parent['level'] + 1;
+            $attributes['node'] = $parent['node'] . $parent['id'] . '_';
         }
 
         return $attributes;
+    }
+
+    /**
+     * 批量数据插入。
+     */
+    public static function batchDataInsert(array $items, array|Model $parent = null): bool
+    {
+        $data = [];
+        foreach ($items as $item) {
+            $data[] = self::fillData($item, $parent);
+        }
+
+        return self::insert($data);
     }
 
     /**
@@ -93,18 +106,5 @@ trait TableUtils
     public static function getInstance(): Model
     {
         return new static();
-    }
-
-    /**
-     * 批量数据插入。
-     */
-    public static function batchDataInsert(array $items, Model $parent = null): bool
-    {
-        $data = [];
-        foreach ($items as $item) {
-            $data[] = self::fillData($item, $parent);
-        }
-
-        return self::insert($data);
     }
 }
