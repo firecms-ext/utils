@@ -625,19 +625,26 @@ class BaseService
     }
 
     /**
-     * 获取响应资源.
-     */
-    protected function getResource(Model $model, ?string $resourceClass = null): JsonResource
-    {
-        return $resourceClass ? new $resourceClass($model) : new $this->showResourceClass($model);
-    }
-
-    /**
      * 更新数据.
      */
     protected function updateData(array $params): array
     {
         return $params;
+    }
+
+    /**
+     * 更新之后.
+     */
+    protected function afterUpdate(Model $model, array $params): void
+    {
+    }
+
+    /**
+     * 获取响应资源.
+     */
+    protected function getResource(Model $model, ?string $resourceClass = null): JsonResource
+    {
+        return $resourceClass ? new $resourceClass($model) : new $this->showResourceClass($model);
     }
 
     /**
@@ -667,12 +674,5 @@ class BaseService
             $model = $model->onlyTrashed();
         }
         return $model->query($cache)->whereIn($model->getKeyName(), $ids);
-    }
-
-    /**
-     * 更新之后.
-     */
-    private function afterUpdate(Model $model, array $params): void
-    {
     }
 }
