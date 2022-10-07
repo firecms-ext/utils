@@ -620,7 +620,7 @@ class BaseService
     /**
      * 新增之后.
      */
-    protected function afterStore(Model $model, array $params): void
+    protected function afterStore(mixed $model, array $params): void
     {
     }
 
@@ -635,14 +635,14 @@ class BaseService
     /**
      * 更新之后.
      */
-    protected function afterUpdate(Model $model, array $params): void
+    protected function afterUpdate(mixed $model, array $params): void
     {
     }
 
     /**
      * 获取响应资源.
      */
-    protected function getResource(Model $model, ?string $resourceClass = null): JsonResource
+    protected function getResource(mixed $model, ?string $resourceClass = null): JsonResource
     {
         return $resourceClass ? new $resourceClass($model) : new $this->showResourceClass($model);
     }
