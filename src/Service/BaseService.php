@@ -60,7 +60,7 @@ class BaseService
                         function ($query, $value) use ($params) {
                             // 排序方式
                             return $query->orderBy($value, in_array(
-                                $params['order'] ?: $this->orderBy,
+                                ($params['order']??null) ?: $this->orderBy,
                                 ['descend', 'desc']
                             ) ? 'desc' : 'asc');
                         }
@@ -95,11 +95,11 @@ class BaseService
                 })
                 ->orderBy('level')
                 ->when(
-                    (string) $params('field') ?: ($this->orderField ?: $model->getKeyName()),
+                    (string) ($params['field'] ?? null) ?: ($this->orderField ?: $model->getKeyName()),
                     function ($query, $value) use ($params) {
                         // 排序方式
                         return $query->orderBy($value, in_array(
-                            $params('order') ?: $this->orderBy,
+                            ($params['order']??null) ?: $this->orderBy,
                             ['descend', 'desc']
                         ) ? 'desc' : 'asc');
                     }
