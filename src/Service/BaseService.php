@@ -535,7 +535,7 @@ class BaseService
         })->when(is_numeric($params['unusual'] ?? null), function ($query) use ($params) {
             // 是否异常
             return $query->where('unusual', (bool) $params['unusual']);
-        })->when(is_numeric($params['draft']), function ($query) use ($params) {
+        })->when(is_numeric($params['draft'] ?? null), function ($query) use ($params) {
             // 是否草稿
             return $query->where('draft', (bool) $params['draft']);
         })->when(is_numeric($params['publish'] ?? null), function ($query) use ($params) {
