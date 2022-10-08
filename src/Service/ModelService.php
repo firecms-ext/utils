@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of FirecmsExt utils.
+ *
+ * @link     https://www.klmis.cn
+ * @document https://www.klmis.cn
+ * @contact  zhimengxingyun@klmis.cn
+ * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
+ */
 namespace FirecmsExt\Utils\Service;
 
 class ModelService
@@ -54,16 +63,16 @@ class ModelService
     public function validateArray(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
         return $this->model($modelClass)
-                ->where(function ($query) use ($ignore) {
-                    foreach ($ignore as $key => $val) {
-                        if ($key && $val) {
-                            $query = $query->where($key, '<>', $val);
-                        }
+            ->where(function ($query) use ($ignore) {
+                foreach ($ignore as $key => $val) {
+                    if ($key && $val) {
+                        $query = $query->where($key, '<>', $val);
                     }
-                })
-                ->where($where)
-                ->whereIn($attribute, $value)
-                ->count($attribute) === count((array) $value);
+                }
+            })
+            ->where($where)
+            ->whereIn($attribute, $value)
+            ->count($attribute) === count((array) $value);
     }
 
     public function validateExists(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool

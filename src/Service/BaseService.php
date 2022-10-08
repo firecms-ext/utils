@@ -60,7 +60,7 @@ class BaseService
                         function ($query, $value) use ($params) {
                             // 排序方式
                             return $query->orderBy($value, in_array(
-                                ($params['order']??null) ?: $this->orderBy,
+                                ($params['order'] ?? null) ?: $this->orderBy,
                                 ['descend', 'desc']
                             ) ? 'desc' : 'asc');
                         }
@@ -99,7 +99,7 @@ class BaseService
                     function ($query, $value) use ($params) {
                         // 排序方式
                         return $query->orderBy($value, in_array(
-                            ($params['order']??null) ?: $this->orderBy,
+                            ($params['order'] ?? null) ?: $this->orderBy,
                             ['descend', 'desc']
                         ) ? 'desc' : 'asc');
                     }
