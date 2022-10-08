@@ -12,7 +12,8 @@ declare(strict_types=1);
 namespace FirecmsExt\Utils\Service;
 
 use FirecmsExt\Utils\Model\Model;
-use Hyperf\Database\Model\Builder;
+use Hyperf\Database\Query\Builder;
+use Hyperf\Database\Model\Builder as ModelBuilder;
 
 class ModelService
 {
@@ -102,7 +103,7 @@ class ModelService
             ->count($attribute);
     }
 
-    protected function andWhere(Builder $query, array $where): Builder
+    protected function andWhere(Builder|ModelBuilder $query, array $where): Builder|ModelBuilder
     {
         foreach ($where as $key => $val) {
             if (is_null($val)) {
@@ -116,7 +117,7 @@ class ModelService
         return $query;
     }
 
-    protected function ignoreWhere(Builder $query, array $ignore): Builder
+    protected function ignoreWhere(Builder|ModelBuilder $query, array $ignore): Builder|ModelBuilder
     {
         foreach ($ignore as $key => $val) {
             if (is_null($val)) {

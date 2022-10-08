@@ -12,8 +12,9 @@ declare(strict_types=1);
 namespace FirecmsExt\Utils\Service;
 
 use Carbon\Carbon;
-use Hyperf\Database\Query\Builder;
+use Hyperf\Database\Model\Builder as ModelBuilder;
 use Hyperf\Database\Model\Model;
+use Hyperf\Database\Query\Builder;
 use Hyperf\DbConnection\Db;
 use Hyperf\Resource\Json\JsonResource;
 use Hyperf\Resource\Json\ResourceCollection;
@@ -527,7 +528,7 @@ class BaseService
     /**
      * 基础查询条件.
      */
-    protected function baseWhere(Builder $query, array $params): Builder
+    protected function baseWhere(Builder|ModelBuilder $query, array $params): Builder|ModelBuilder
     {
         return $query->when(is_numeric($params['display'] ?? null), function ($query) use ($params) {
             // 是否显示
@@ -564,7 +565,7 @@ class BaseService
     /**
      * 分页列表查询条件.
      */
-    protected function listWhere(Builder $query, array $params): Builder
+    protected function listWhere(Builder|ModelBuilder $query, array $params): Builder|ModelBuilder
     {
         return $query;
     }
@@ -580,7 +581,7 @@ class BaseService
     /**
      * 树列表查询条件.
      */
-    protected function treeWhere(Builder $query, array $params): Builder
+    protected function treeWhere(Builder|ModelBuilder $query, array $params): Builder|ModelBuilder
     {
         return $query;
     }
@@ -665,7 +666,7 @@ class BaseService
     /**
      * Ids 查询条件.
      */
-    protected function queryByIds(string $ids, bool $recycle = false, bool $cache = false): Builder
+    protected function queryByIds(string $ids, bool $recycle = false, bool $cache = false): Builder|ModelBuilder
     {
         $ids = $this->getParseIds($ids);
 
