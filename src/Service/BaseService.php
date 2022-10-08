@@ -529,28 +529,28 @@ class BaseService
      */
     protected function baseWhere(Builder $query, array $params): Builder
     {
-        return $query->when(is_numeric($params['display']), function ($query) use ($params) {
+        return $query->when(is_numeric($params['display'] ?? null), function ($query) use ($params) {
             // 是否显示
             return $query->where('display', (bool) $params['display']);
-        })->when(is_numeric($params['unusual']), function ($query) use ($params) {
+        })->when(is_numeric($params['unusual'] ?? null), function ($query) use ($params) {
             // 是否异常
             return $query->where('unusual', (bool) $params['unusual']);
         })->when(is_numeric($params['draft']), function ($query) use ($params) {
             // 是否草稿
             return $query->where('draft', (bool) $params['draft']);
-        })->when(is_numeric($params['publish']), function ($query) use ($params) {
+        })->when(is_numeric($params['publish'] ?? null), function ($query) use ($params) {
             // 是否发布
             return $query->where('publish', (bool) $params['publish']);
-        })->when(is_numeric($params['top']), function ($query) use ($params) {
+        })->when(is_numeric($params['top'] ?? null), function ($query) use ($params) {
             // 是否置顶
             return $query->where('top', (bool) $params['top']);
-        })->when(is_numeric($params['recommend']), function ($query) use ($params) {
+        })->when(is_numeric($params['recommend'] ?? null), function ($query) use ($params) {
             // 是否推荐
             return $query->where('recommend', (bool) $params['recommend']);
-        })->when(is_numeric($params['enable']), function ($query) use ($params) {
+        })->when(is_numeric($params['enable'] ?? null), function ($query) use ($params) {
             // 是否启用
             return $query->where('enable', (bool) $params['enable']);
-        })->queryKeyword($params['keyword']);
+        })->queryKeyword($params['keyword'] ?? null);
     }
 
     /**
