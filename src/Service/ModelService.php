@@ -11,6 +11,8 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Service;
 
+use FirecmsExt\Utils\Model\Model;
+
 class ModelService
 {
     public function getTableName(string $modelClass, bool $prefix = false): string
@@ -38,7 +40,7 @@ class ModelService
         return $this->model($modelClass)->fillData($attributes, $parent);
     }
 
-    public function model(string $modelClass): \App\Model\Model
+    public function model(string $modelClass): Model
     {
         $modelClass = (str_contains($modelClass, '\\App\\Model\\') ? '' : '\\App\\Model\\') . $modelClass;
 
