@@ -19,7 +19,7 @@ trait MetaAttribute
     /**
      * 设置 Meta。
      */
-    public function setMetaAttribute(?array $value): void
+    public function setMetaAttribute(mixed $value): void
     {
         $value = array_filter((array) $value);
         $this->attributes['meta'] = json_encode($value);
@@ -28,7 +28,7 @@ trait MetaAttribute
     /**
      * 获取 Meta。
      */
-    public function getMetaAttribute(string $value): array
+    public function getMetaAttribute(mixed $value): array
     {
         return $value ? json_decode($value) : [];
     }
