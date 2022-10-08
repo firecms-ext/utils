@@ -345,7 +345,7 @@ class BaseService
     {
         $model = $this->getModelInstance()->findOrFail($id);
         Db::transaction(function () use ($model, $params, $id) {
-            if ($params('top')) {
+            if ($params['top']) {
                 $this->getModelInstance()
                     ->query(true)
                     ->where($model->getKeyName(), '<>', $id)
