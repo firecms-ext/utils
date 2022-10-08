@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace FirecmsExt\Utils\Service;
 
 use Carbon\Carbon;
-use Hyperf\Database\Model\Builder;
+use Hyperf\Database\Query\Builder;
 use Hyperf\Database\Model\Model;
 use Hyperf\DbConnection\Db;
 use Hyperf\Resource\Json\JsonResource;
