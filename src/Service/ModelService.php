@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace FirecmsExt\Utils\Service;
 
 use FirecmsExt\Utils\Model\Model;
-use Hyperf\ModelCache\Builder;
+use Hyperf\Database\Model\Builder;
 
 class ModelService
 {
