@@ -463,6 +463,48 @@ class BaseService
     }
 
     /**
+     *  热门/取消（批量）.
+     */
+    public function hot(array $params, string $ids): array
+    {
+        $count = 0;
+        Db::transaction(function () use ($ids, $params, &$count) {
+            $count = $this->queryByIds($ids, false, true)
+                ->update([
+                    'hot' => $params['hot'],
+                ]);
+        });
+
+        return [
+            'count' => $count,
+            'message' => $params['hot'] ?
+                __('message.Hot success', compact('count')) :
+                __('message.Hot cancel', compact('count')),
+        ];
+    }
+
+    /**
+     *  直接/取消（批量）.
+     */
+    public function directly(array $params, string $ids): array
+    {
+        $count = 0;
+        Db::transaction(function () use ($ids, $params, &$count) {
+            $count = $this->queryByIds($ids, false, true)
+                ->update([
+                    'directly' => $params['directly'],
+                ]);
+        });
+
+        return [
+            'count' => $count,
+            'message' => $params['directly'] ?
+                __('message.Directly success', compact('count')) :
+                __('message.Directly cancel', compact('count')),
+        ];
+    }
+
+    /**
      * 发布|取消（批量）.
      */
     public function publish(array $params, string $ids): array
