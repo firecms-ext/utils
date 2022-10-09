@@ -121,7 +121,6 @@ class BaseService
                 ->where(function (Builder $query) use ($params) {
                     return $this->listWhere($query, $params);
                 })
-                ->orderBy('level')
                 ->when($sort, function ($query, $value) {
                     foreach ($value as $field => $order) {
                         $query = $query->orderBy($field, $order);
