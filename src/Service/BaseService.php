@@ -620,9 +620,9 @@ class BaseService
                 if (is_null($val)) {
                     $query = $query->whereNull($key);
                 } elseif (is_array($val)) {
-                    $query = $query->whereNotIn($key, $val);
+                    $query = $query->whereIn($key, $val);
                 } else {
-                    $query = $query->where($key, '<>', $val);
+                    $query = $query->where($key, $val);
                 }
             }
             return $query;
