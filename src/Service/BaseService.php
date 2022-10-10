@@ -582,6 +582,29 @@ class BaseService
     }
 
     /**
+     * 已读.
+     */
+    public function read(array $params): array
+    {
+        $count = 0;
+        Db::transaction(function () use ($params, &$count) {
+            $count = $this->getModelInstance()
+                ->where('read', false)
+                ->where(function (Builder $query) use ($params) {
+                    return $this->addWhere($query, $params);
+                })
+                ->update([
+                    'read' => true,
+                    'read_at' => Carbon::now(),
+                ]);
+        });
+
+        return [
+            'message' => __('message.Read success', compact('count')),
+        ];
+    }
+
+    /**
      * 基础查询条件.
      */
     protected function baseWhere(Builder $query, array $params): Builder
