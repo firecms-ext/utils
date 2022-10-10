@@ -270,6 +270,11 @@ class BaseService
                     return $query->where('created_at', '>=', $value);
                 })
                 ->where('created_at', '<=', (string) $params['end_at'])
+                ->where(function (Builder $query) use ($params) {
+                    unset($params['start_at'], $params['end_at']);
+
+                    return $this->addWhere($query, $params);
+                })
                 ->delete();
         });
 
@@ -291,6 +296,11 @@ class BaseService
                     return $query->where('created_at', '>=', $value);
                 })
                 ->where('created_at', '<=', (string) $params['end_at'])
+                ->where(function (Builder $query) use ($params) {
+                    unset($params['start_at'], $params['end_at']);
+
+                    return $this->addWhere($query, $params);
+                })
                 ->onlyTrashed()
                 ->forceDelete();
         });
@@ -304,12 +314,15 @@ class BaseService
     /**
      * 清空数据.
      */
-    public function clearEmpty(): array
+    public function clearEmpty(?array $params = []): array
     {
         $count = 0;
-        Db::transaction(function () use (&$count) {
+        Db::transaction(function () use (&$count, $params) {
             $count = $this->getModelInstance()
                 ->query(true)
+                ->where(function (Builder $query) use ($params) {
+                    return $this->addWhere($query, $params);
+                })
                 ->delete();
         });
 
@@ -322,12 +335,15 @@ class BaseService
     /**
      * 清空.
      */
-    public function forceClearEmpty(): array
+    public function forceClearEmpty(?array $params = []): array
     {
         $count = 0;
-        Db::transaction(function () use (&$count) {
+        Db::transaction(function () use (&$count, $params) {
             $count = $this->getModelInstance()
                 ->onlyTrashed()
+                ->where(function (Builder $query) use ($params) {
+                    return $this->addWhere($query, $params);
+                })
                 ->forceDelete();
         });
 
@@ -592,6 +608,25 @@ class BaseService
             // 是否启用
             return $query->where('enable', (bool) $params['enable']);
         })->queryKeyword($params['keyword'] ?? null);
+    }
+
+    /**
+     * 其他查询条件.
+     */
+    protected function addWhere(Builder $query, ?array $params): Builder
+    {
+        return $query->when($params, function ($query) use ($params) {
+            foreach ($params as $key => $val) {
+                if (is_null($val)) {
+                    $query = $query->whereNull($key);
+                } elseif (is_array($val)) {
+                    $query = $query->whereNotIn($key, $val);
+                } else {
+                    $query = $query->where($key, '<>', $val);
+                }
+            }
+            return $query;
+        });
     }
 
     /**
