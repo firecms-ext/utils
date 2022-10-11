@@ -98,14 +98,14 @@ class ModelService
     public function validateArray(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
         return $this->model($modelClass)
-                ->where(function ($query) use ($ignore) {
-                    return $this->ignoreWhere($query, $ignore);
-                })
-                ->where(function ($query) use ($where) {
-                    return $this->andWhere($query, $where);
-                })
-                ->whereIn($attribute, $value)
-                ->count($attribute) === count((array) $value);
+            ->where(function ($query) use ($ignore) {
+                return $this->ignoreWhere($query, $ignore);
+            })
+            ->where(function ($query) use ($where) {
+                return $this->andWhere($query, $where);
+            })
+            ->whereIn($attribute, $value)
+            ->count($attribute) === count((array) $value);
     }
 
     public function validateExists(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
