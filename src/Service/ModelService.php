@@ -68,7 +68,7 @@ class ModelService
                 return $this->andWhere($query, $where);
             })
                 ->with($with)
-                ->offset(($page - 1) * $limit)
+                ->offset((max($page, 1) - 1) * $limit)
                 ->limit($limit)
                 ->get()
                 ->toArray() : [],
