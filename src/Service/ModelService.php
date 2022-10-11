@@ -52,7 +52,7 @@ class ModelService
             ->toArray();
     }
 
-    public function getItems(string $modelClass, array $where = [], array $with = [], int $offset = 0, int $limit = 20): array
+    public function getItems(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20): array
     {
         $model = $this->model($modelClass);
 
@@ -68,7 +68,7 @@ class ModelService
                 return $this->andWhere($query, $where);
             })
                 ->with($with)
-                ->offset($offset)
+                ->offset(($page - 1) * $limit)
                 ->limit($limit)
                 ->get()
                 ->toArray() : [],
@@ -98,14 +98,14 @@ class ModelService
     public function validateArray(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
         return $this->model($modelClass)
-            ->where(function ($query) use ($ignore) {
-                return $this->ignoreWhere($query, $ignore);
-            })
-            ->where(function ($query) use ($where) {
-                return $this->andWhere($query, $where);
-            })
-            ->whereIn($attribute, $value)
-            ->count($attribute) === count((array) $value);
+                ->where(function ($query) use ($ignore) {
+                    return $this->ignoreWhere($query, $ignore);
+                })
+                ->where(function ($query) use ($where) {
+                    return $this->andWhere($query, $where);
+                })
+                ->whereIn($attribute, $value)
+                ->count($attribute) === count((array) $value);
     }
 
     public function validateExists(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
