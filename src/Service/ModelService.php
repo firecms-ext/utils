@@ -41,6 +41,40 @@ class ModelService
         return $this->model($modelClass)->fillData($attributes, $parent);
     }
 
+    public function getData(string $modelClass, array $where = [], array $with = []): array
+    {
+        return $this->model($modelClass)
+            ->where(function ($query) use ($where) {
+                return $this->andWhere($query, $where);
+            })
+            ->with($with)
+            ->first()
+            ->toArray();
+    }
+
+    public function getItems(string $modelClass, array $where = [], array $with = [], int $offset = 0, int $limit = 20): array
+    {
+        $model = $this->model($modelClass);
+
+        $total = $model->where(function ($query) use ($where) {
+            return $this->andWhere($query, $where);
+        })
+            ->with($with)
+            ->count($model->getKeyName());
+
+        return [
+            'total' => $total,
+            'items' => $total ? $model->where(function ($query) use ($where) {
+                return $this->andWhere($query, $where);
+            })
+                ->with($with)
+                ->offset($offset)
+                ->limit($limit)
+                ->get()
+                ->toArray() : [],
+        ];
+    }
+
     public function model(string $modelClass): Model
     {
         $modelClass = (str_contains($modelClass, '\\App\\Model\\') ? '' : '\\App\\Model\\') . $modelClass;
