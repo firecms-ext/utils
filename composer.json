@@ -34,6 +34,7 @@
     "hyperf/http-message": "~v2.0",
     "hyperf/http-server": "~v2.0",
     "hyperf/model-cache": "^2.2",
+    "hyperf/constants": "~2.2.0",
     "hyperf/redis": "~v2.0",
     "hyperf/resource": "^2.2",
     "hyperf/snowflake": "v2.2.33.1",
