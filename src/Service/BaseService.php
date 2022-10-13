@@ -69,7 +69,7 @@ class BaseService
                         // 回收站
                         return $query->onlyTrashed();
                     })
-                    ->paginate((int) ($params['perpage'] ?? $params['pageSize']) ?? 20)
+                    ->paginate((int) ($params['perpage'] ?? $params['pageSize'] ?? 20))
             )
                 ->toResponse()
                 ->getBody()
