@@ -45,6 +45,7 @@ use Hyperf\Snowflake\Concern\Snowflake;
  * @property Carbon $deleted_at
  * @property Carbon $publish_at
  * @property Carbon $expired_at
+ * @property Carbon $execution_at
  * @method static static queryKeyword($value)
  */
 abstract class Model extends BaseModel implements CacheableInterface
