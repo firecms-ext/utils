@@ -457,6 +457,25 @@ class BaseService
     }
 
     /**
+     * 状态（批量）.
+     */
+    public function state(array $params, string $ids): array
+    {
+        $count = 0;
+        Db::transaction(function () use ($ids, $params, &$count) {
+            $count = $this->queryByIds($ids, false, true)
+                ->update([
+                    'state' => $params['state'],
+                ]);
+        });
+
+        return [
+            'count' => $count,
+            'message' => __('message.State success', compact('count')),
+        ];
+    }
+
+    /**
      *  异常/正常（批量）.
      */
     public function unusual(array $params, string $ids): array
