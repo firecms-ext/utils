@@ -45,7 +45,10 @@ class ModelService implements ModelServiceInterface
     #[Cacheable(prefix: 'AuthModel', value: '#{id}', ttl: 1)]
     public function find(string $modelClass, string $id, array $with = []): ?array
     {
-        return $this->model($modelClass)->with($with)->find($id);
+        return $this->model($modelClass)
+            ->with($with)
+            ->find($id)
+            ?->toArray();
     }
 
     public function getData(string $modelClass, array $where = [], array $with = []): ?array
