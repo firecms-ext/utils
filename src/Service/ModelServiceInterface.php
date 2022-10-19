@@ -23,7 +23,7 @@ interface ModelServiceInterface
 
     public function fillData(string $modelClass, array $attributes, array $parent = null): array;
 
-    public function findFromCache(string $modelClass, string $id): ?array;
+    public function find(string $modelClass, string $id, array $with = []): ?array;
 
     public function getData(string $modelClass, array $where = [], array $with = []): ?array;
 

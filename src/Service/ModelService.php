@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace FirecmsExt\Utils\Service;
 
 use FirecmsExt\Utils\Model\Model;
+use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Database\Model\Builder;
 
 class ModelService implements ModelServiceInterface
@@ -41,9 +42,10 @@ class ModelService implements ModelServiceInterface
         return $this->model($modelClass)->fillData($attributes, $parent);
     }
 
-    public function findFromCache(string $modelClass, string $id): ?array
+    #[Cacheable(prefix: 'AuthModel', value: '#{id}', ttl: 1)]
+    public function find(string $modelClass, string $id, array $with = []): ?array
     {
-        return $this->model($modelClass)->findFromCache($id)?->toArray();
+        return $this->model($modelClass)->with($with)->find($id);
     }
 
     public function getData(string $modelClass, array $where = [], array $with = []): ?array
