@@ -14,7 +14,7 @@ namespace FirecmsExt\Utils\Service;
 use FirecmsExt\Utils\Model\Model;
 use Hyperf\Database\Model\Builder;
 
-class ModelService
+class ModelService implements ModelServiceInterface
 {
     public function getTableName(string $modelClass, bool $prefix = false): string
     {
@@ -39,6 +39,11 @@ class ModelService
     public function fillData(string $modelClass, array $attributes, array $parent = null): array
     {
         return $this->model($modelClass)->fillData($attributes, $parent);
+    }
+
+    public function findFromCache(string $modelClass, string $id): ?array
+    {
+        return $this->model($modelClass)->findFromCache($id)?->toArray();
     }
 
     public function getData(string $modelClass, array $where = [], array $with = []): ?array
