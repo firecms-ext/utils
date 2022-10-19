@@ -41,7 +41,7 @@ class ModelService
         return $this->model($modelClass)->fillData($attributes, $parent);
     }
 
-    public function getData(string $modelClass, array $where = [], array $with = []): array
+    public function getData(string $modelClass, array $where = [], array $with = []): ?array
     {
         return $this->model($modelClass)
             ->where(function ($query) use ($where) {
@@ -49,7 +49,7 @@ class ModelService
             })
             ->with($with)
             ->first()
-            ->toArray();
+            ?->toArray();
     }
 
     public function getItems(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20): array
