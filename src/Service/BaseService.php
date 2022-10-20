@@ -172,7 +172,9 @@ class BaseService
         // 新增数据
         $model = $this->getModelInstance()->create($this->storeData($params));
         // 新增之后
-        $this->afterStore($model, $params);
+        if ($result = $this->afterStore($model, $params)) {
+            return $result;
+        }
 
         return $this->getResource($model)->toArray();
     }
@@ -197,7 +199,9 @@ class BaseService
         // 更新数据
         $model->update($this->updateData($params));
         // 更新之后
-        $this->afterUpdate($model, $params);
+        if ($result = $this->afterUpdate($model, $params)) {
+            return $result;
+        }
 
         return ['message' => __('message.Update success')];
     }
@@ -738,8 +742,9 @@ class BaseService
     /**
      * 新增之后.
      */
-    protected function afterStore(mixed $model, array $params): void
+    protected function afterStore(mixed $model, array $params): mixed
     {
+        return null;
     }
 
     /**
@@ -753,8 +758,9 @@ class BaseService
     /**
      * 更新之后.
      */
-    protected function afterUpdate(mixed $model, array $params): void
+    protected function afterUpdate(mixed $model, array $params): mixed
     {
+        return null;
     }
 
     /**
