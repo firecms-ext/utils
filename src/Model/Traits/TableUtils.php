@@ -61,7 +61,7 @@ trait TableUtils
      * @param string $field
      * @return bool
      */
-    public static function hasField(string $field): bool
+    public static function isField(string $field): bool
     {
         return isset(self::getTableFields()[$field]);
     }
