@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
 namespace FirecmsExt\Utils\Model\Traits;
 
 use Carbon\Carbon;
@@ -52,7 +53,17 @@ trait TableUtils
      */
     public static function getPrefix(): string
     {
-        return (string) static::query()->getConnection()->getTablePrefix();
+        return (string)static::query()->getConnection()->getTablePrefix();
+    }
+
+    /**
+     * 是否包含字段
+     * @param string $field
+     * @return bool
+     */
+    public static function hasField(string $field): bool
+    {
+        return isset(self::getTableFields()[$field]);
     }
 
     /**
