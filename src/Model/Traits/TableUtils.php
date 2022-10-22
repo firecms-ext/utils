@@ -23,7 +23,7 @@ trait TableUtils
      */
     public static function getTableName(bool $prefix = false): string
     {
-        return ($prefix ? self::getPrefix() : '') . self::getInstance()->getTable();
+        return ($prefix ? static::getPrefix() : '') . static::getInstance()->getTable();
     }
 
     /**
@@ -32,7 +32,7 @@ trait TableUtils
     public static function getTableColumns(): array
     {
         $items = [];
-        foreach (Db::select('SHOW COLUMNS FROM ' . self::getTableName(true)) as $row) {
+        foreach (Db::select('SHOW COLUMNS FROM ' . static::getTableName(true)) as $row) {
             $items[$row->Field] = $row;
         }
 
@@ -45,7 +45,7 @@ trait TableUtils
      */
     public static function getTableFields(): array
     {
-        return array_keys(self::getTableColumns());
+        return array_keys(static::getTableColumns());
     }
 
     /**
@@ -63,7 +63,7 @@ trait TableUtils
      */
     public static function isField(string $field): bool
     {
-        return isset(self::getTableFields()[$field]);
+        return isset(static::getTableColumns()[$field]);
     }
 
     /**
@@ -71,7 +71,7 @@ trait TableUtils
      */
     public static function fillData(array $attributes, array|Model $parent = null): array
     {
-        $model = self::getInstance();
+        $model = static::getInstance();
         // 模型填充
         $attributes = $model->fill($attributes)->getAttributes();
         // 添加主键
@@ -105,10 +105,10 @@ trait TableUtils
     {
         $data = [];
         foreach ($items as $item) {
-            $data[] = self::fillData($item, $parent);
+            $data[] = static::fillData($item, $parent);
         }
 
-        return self::insert($data);
+        return static::insert($data);
     }
 
     /**
