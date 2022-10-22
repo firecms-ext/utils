@@ -31,9 +31,11 @@ trait TableUtils
      */
     public static function getTableColumns(): array
     {
-        $items = [];
-        foreach (Db::select('SHOW COLUMNS FROM ' . static::getTableName(true)) as $row) {
-            $items[$row->Field] = $row;
+        if (!$items = cache()->get(static::class . __FUNCTION__)) {
+            foreach (Db::select('SHOW COLUMNS FROM ' . static::getTableName(true)) as $row) {
+                $items[$row->Field] = $row;
+            }
+            cache()->set(static::class . __FUNCTION__, $items,1);
         }
 
         return $items;
