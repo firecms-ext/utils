@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
 namespace FirecmsExt\Utils\Amqp\Consumer;
 
 use Hyperf\Amqp\Message\ConsumerMessage;
@@ -20,13 +21,12 @@ abstract class AbstractConsumerMessage extends ConsumerMessage
 {
     public function __construct()
     {
+        $this->routingKey = Str::snake(str_replace(['App\\Amqp\\Consumer', 'Consumer', '\\'], '', static::class));
         if ($this->getType() === Type::FANOUT) {
             $this->exchange = config('app_prefix', 'firecms') . '.'
-                . Str::snake(str_replace(['App\\Amqp\\Consumer', 'Consumer', '\\'], '', static::class));
-            $this->routingKey = '';
+                . $this->getType() . '.' . $this->routingKey;
         } else {
             $this->exchange = config('app_prefix', 'firecms') . '.' . $this->getType();
-            $this->routingKey = Str::snake(str_replace(['App\\Amqp\\Consumer', 'Consumer', '\\'], '', static::class));
         }
         $this->queue = config('app_name') . '.' . $this->routingKey . '.' . config('app_queues', 'queues');
     }
