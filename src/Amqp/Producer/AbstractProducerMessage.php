@@ -20,7 +20,7 @@ abstract class AbstractProducerMessage extends ProducerMessage
 {
     public function __construct(array $data)
     {
-        var_dump('投递：' . static::class);
+        var_dump('MQ 投递：' . static::class);
 
         $this->routingKey = Str::snake(str_replace(['App\\Amqp\\Producer', 'Producer', '\\'], '', static::class));
         if ($this->getType() === Type::FANOUT) {
