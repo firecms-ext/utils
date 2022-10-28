@@ -20,14 +20,20 @@ abstract class AbstractConsumerMessage extends ConsumerMessage
 {
     public function __construct()
     {
-        $this->routingKey = Str::snake(str_replace(['App\\Amqp\\Consumer', 'Consumer', '\\'], '', static::class));
-        if ($this->getType() === Type::FANOUT) {
-            $this->exchange = config('app_prefix', 'firecms') . '.'
-                . $this->getType() . '.' . $this->routingKey;
-        } else {
-            $this->exchange = config('app_prefix', 'firecms') . '.' . $this->getType();
+        if (! $this->routingKey) {
+            $this->routingKey = Str::snake(str_replace(['App\\Amqp\\Consumer', 'Consumer', '\\'], '', static::class));
         }
-        $this->queue = config('app_name') . '.' . $this->routingKey . '.' . config('app_queues', 'queues');
+        if (! $this->exchange) {
+            if ($this->getType() === Type::FANOUT) {
+                $this->exchange = config('app_prefix', 'firecms') . '.'
+                    . $this->getType() . '.' . $this->routingKey;
+            } else {
+                $this->exchange = config('app_prefix', 'firecms') . '.' . $this->getType();
+            }
+        }
+        if (! $this->queue) {
+            $this->queue = config('app_name') . '.' . $this->routingKey . '.' . config('app_queues', 'queues');
+        }
     }
 
     public function consumeMessage($data, AMQPMessage $message): string

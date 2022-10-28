@@ -21,12 +21,16 @@ abstract class AbstractProducerMessage extends ProducerMessage
     {
         var_dump('MQ 投递：' . static::class);
 
-        $this->routingKey = Str::snake(str_replace(['App\\Amqp\\Producer', 'Producer', '\\'], '', static::class));
-        if ($this->getType() === Type::FANOUT) {
-            $this->exchange = config('app_prefix', 'firecms')
-                . '.' . $this->getType() . '.' . $this->routingKey;
-        } else {
-            $this->exchange = config('app_prefix', 'firecms') . '.' . $this->getType();
+        if (! $this->routingKey) {
+            $this->routingKey = Str::snake(str_replace(['App\\Amqp\\Producer', 'Producer', '\\'], '', static::class));
+        }
+        if (! $this->exchange) {
+            if ($this->getType() === Type::FANOUT) {
+                $this->exchange = config('app_prefix', 'firecms')
+                    . '.' . $this->getType() . '.' . $this->routingKey;
+            } else {
+                $this->exchange = config('app_prefix', 'firecms') . '.' . $this->getType();
+            }
         }
 
         $this->payload = $data;
