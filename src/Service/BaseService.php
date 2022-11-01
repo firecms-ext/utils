@@ -140,7 +140,7 @@ class BaseService
      */
     public function treeOptions(array $params, ?array $columns = ['id', 'parent_id', 'title', 'enable'], ?array $sort = ['sort' => 'asc']): array
     {
-        return treeToOptions(toTree(
+        return treeToOptions(arrayToTree(
             $this->getModelInstance()
                 ->where(function (Builder $query) use ($params) {
                     return $this->baseWhere($query, $params);
@@ -728,7 +728,7 @@ class BaseService
      */
     protected function getTreeCollection(Collection $collection): array
     {
-        return toTree((new $this->treeCollectionClass($collection))->toArray());
+        return arrayToTree((new $this->treeCollectionClass($collection))->toArray());
     }
 
     /**

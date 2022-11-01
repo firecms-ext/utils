@@ -20,7 +20,7 @@ class FunctionTest extends AbstractTestCase
     public function testAge()
     {
         $birthday = date('Y-m-d', strtotime('-1 year -1 month  -1 day'));
-        // var_dump($birthday);
+
         $this->assertEquals(1, age($birthday));
     }
 
@@ -39,9 +39,9 @@ class FunctionTest extends AbstractTestCase
         $this->assertEquals('9.98 MB', $str);
     }
 
-    public function testToTree()
+    public function testArrayToTree()
     {
-        $tree = toTree([
+        $tree = arrayToTree([
             ['id' => 1, 'parent_id' => null],
             ['id' => 2, 'parent_id' => 1],
             ['id' => 3, 'parent_id' => 2],

@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * This file is part of FirecmsExt utils.
  *
@@ -10,7 +9,7 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
-
+use Carbon\Carbon;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Redis\Redis;
@@ -21,7 +20,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\CacheInterface;
 
-if (!function_exists('app')) {
+if (! function_exists('app')) {
     /**
      * App 容器 对象
      */
@@ -31,7 +30,7 @@ if (!function_exists('app')) {
     }
 }
 
-if (!function_exists('cache')) {
+if (! function_exists('cache')) {
     /**
      * Cache 对象
      */
@@ -41,7 +40,7 @@ if (!function_exists('cache')) {
     }
 }
 
-if (!function_exists('redis')) {
+if (! function_exists('redis')) {
     /**
      * Redis 对象
      */
@@ -51,7 +50,7 @@ if (!function_exists('redis')) {
     }
 }
 
-if (!function_exists('request')) {
+if (! function_exists('request')) {
     /**
      * Request 对象
      */
@@ -61,7 +60,7 @@ if (!function_exists('request')) {
     }
 }
 
-if (!function_exists('response')) {
+if (! function_exists('response')) {
     /**
      * Response 对象
      */
@@ -71,17 +70,17 @@ if (!function_exists('response')) {
     }
 }
 
-if (!function_exists('generateId')) {
+if (! function_exists('generateId')) {
     /**
      * ID 生成.
      */
     function generateId(): string
     {
-        return (string)app()->get(IdGeneratorInterface::class)->generate();
+        return (string) app()->get(IdGeneratorInterface::class)->generate();
     }
 }
 
-if (!function_exists('getRealIp')) {
+if (! function_exists('getRealIp')) {
     /**
      * 获取请求 IP.
      * @throws ContainerExceptionInterface
@@ -92,10 +91,10 @@ if (!function_exists('getRealIp')) {
         $request = app()->get(RequestInterface::class);
         $headers = $request->getHeaders();
 
-        if (isset($headers['x-forwarded-for'][0]) && !empty($headers['x-forwarded-for'][0])) {
+        if (isset($headers['x-forwarded-for'][0]) && ! empty($headers['x-forwarded-for'][0])) {
             return $headers['x-forwarded-for'][0];
         }
-        if (isset($headers['x-real-ip'][0]) && !empty($headers['x-real-ip'][0])) {
+        if (isset($headers['x-real-ip'][0]) && ! empty($headers['x-real-ip'][0])) {
             return $headers['x-real-ip'][0];
         }
 
@@ -115,30 +114,23 @@ if (!function_exists('getRealIp')) {
     }
 }
 
-if (!function_exists('age')) {
+if (! function_exists('age')) {
     /**
      * 年龄.
      */
     function age(string $birthday): int
     {
-        [$year, $month, $day] = explode('-', $birthday);
-        $age = date('Y') - $year;
-        $month_diff = date('m') - $month;
-        $day_diff = date('d') - $day;
-        if ($day_diff < 0 || $month_diff < 0) {
-            --$age;
-        }
-        return (int)$age;
+        return Carbon::parse($birthday)->diffInYears();
     }
 }
 
-if (!function_exists('uuid')) {
+if (! function_exists('uuid')) {
     /**
      * uuid 生成.
      */
     function uuid(string $prefix = ''): string
     {
-        $chars = md5(uniqid((string)mt_rand(), true));
+        $chars = md5(uniqid((string) mt_rand(), true));
         $uuid = substr($chars, 0, 8) . '-'
             . substr($chars, 8, 4) . '-'
             . substr($chars, 12, 4) . '-'
@@ -148,7 +140,7 @@ if (!function_exists('uuid')) {
     }
 }
 
-if (!function_exists('filesizeFormat')) {
+if (! function_exists('filesizeFormat')) {
     /**
      * 格式化文件大小.
      */
@@ -174,10 +166,10 @@ if (!function_exists('filesizeFormat')) {
     }
 }
 
-/**
+/*
  * @deprecated
  */
-if (!function_exists('toTree')) {
+if (! function_exists('toTree')) {
     /**
      * 转树.
      */
@@ -187,8 +179,7 @@ if (!function_exists('toTree')) {
     }
 }
 
-
-if (!function_exists('arrayToTree')) {
+if (! function_exists('arrayToTree')) {
     /**
      * 转树.
      */
@@ -197,7 +188,7 @@ if (!function_exists('arrayToTree')) {
         $tree = [];
         $items = [];
         foreach ($rows as $item) {
-            $item = (array)$item;
+            $item = (array) $item;
             $items[$item[$id]] = $item;
         }
         foreach ($items as $item) {
@@ -211,7 +202,7 @@ if (!function_exists('arrayToTree')) {
     }
 }
 
-if (!function_exists('treeToOptions')) {
+if (! function_exists('treeToOptions')) {
     /**
      * 树形选项.
      */
@@ -222,16 +213,16 @@ if (!function_exists('treeToOptions')) {
         foreach ($tree as $item) {
             if (isset($item[$children])) {
                 $items[] = [
-                    'value' => (string)$item[$value],
-                    'label' => (string)$item[$label],
-                    'disabled' => (bool)($item['disabled'] ?? !$item['enable']),
+                    'value' => (string) $item[$value],
+                    'label' => (string) $item[$label],
+                    'disabled' => (bool) ($item['disabled'] ?? ! $item['enable']),
                     'children' => treeToOptions($item[$children]),
                 ];
             } else {
                 $items[] = [
-                    'value' => (string)$item[$value],
-                    'label' => (string)$item[$label],
-                    'disabled' => (bool)($item['disabled'] ?? !$item['enable']),
+                    'value' => (string) $item[$value],
+                    'label' => (string) $item[$label],
+                    'disabled' => (bool) ($item['disabled'] ?? ! $item['enable']),
                 ];
             }
         }
@@ -240,7 +231,7 @@ if (!function_exists('treeToOptions')) {
     }
 }
 
-if (!function_exists('options')) {
+if (! function_exists('options')) {
     /**
      * 下拉选项.
      */
@@ -251,14 +242,14 @@ if (!function_exists('options')) {
         foreach ($rows as $key => $row) {
             if ($label && $value) {
                 $items[] = [
-                    'value' => (string)$row[$value],
-                    'label' => (string)$row[$label],
-                    'disabled' => (bool)($row['disabled'] ?? !$row['enable']),
+                    'value' => (string) $row[$value],
+                    'label' => (string) $row[$label],
+                    'disabled' => (bool) ($row['disabled'] ?? ! $row['enable']),
                 ];
             } else {
                 $items[] = [
-                    'value' => (string)$key,
-                    'label' => (string)$row,
+                    'value' => (string) $key,
+                    'label' => (string) $row,
                 ];
             }
         }
@@ -267,7 +258,7 @@ if (!function_exists('options')) {
     }
 }
 
-if (!function_exists('groupOptions')) {
+if (! function_exists('groupOptions')) {
     /**
      * 分组下拉选项.
      */
@@ -286,7 +277,7 @@ if (!function_exists('groupOptions')) {
     }
 }
 
-if (!function_exists('purifyHtml')) {
+if (! function_exists('purifyHtml')) {
     /**
      * 净化 HTML 字符串.
      */
@@ -297,7 +288,7 @@ if (!function_exists('purifyHtml')) {
     }
 }
 
-if (!function_exists('filename')) {
+if (! function_exists('filename')) {
     /**
      * 从文件路径中提取文件名。
      */
@@ -307,7 +298,7 @@ if (!function_exists('filename')) {
     }
 }
 
-if (!function_exists('basename')) {
+if (! function_exists('basename')) {
     /**
      * 从文件路径中提取尾随名称。
      */
@@ -317,7 +308,7 @@ if (!function_exists('basename')) {
     }
 }
 
-if (!function_exists('extension')) {
+if (! function_exists('extension')) {
     /**
      * 从文件路径提取文件扩展名。
      */
