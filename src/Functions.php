@@ -166,12 +166,10 @@ if (! function_exists('filesizeFormat')) {
     }
 }
 
-/*
- * @deprecated
- */
 if (! function_exists('toTree')) {
     /**
      * 转树.
+     * @deprecated [将在正式版删除]
      */
     function toTree(array $rows, string $pid = 'parent_id', string $id = 'id', string $children = 'children'): array
     {
