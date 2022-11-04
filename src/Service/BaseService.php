@@ -214,7 +214,7 @@ class BaseService
     {
         $count = 0;
         Db::transaction(function () use ($ids, &$count) {
-            $count = $this->queryByIds($ids, false, true)
+            $count = $this->queryByIds($ids, false)
                 ->delete();
         });
 
@@ -406,7 +406,7 @@ class BaseService
     {
         $count = 0;
         Db::transaction(function () use ($ids, $params, &$count) {
-            $count = $this->queryByIds($ids, false, true)->update([
+            $count = $this->queryByIds($ids, false)->update([
                 'display' => (int)$params['display'],
             ]);
         });
@@ -426,7 +426,7 @@ class BaseService
     {
         $count = 0;
         Db::transaction(function () use ($ids, $params, &$count) {
-            $count = $this->queryByIds($ids, false, true)
+            $count = $this->queryByIds($ids, false)
                 ->update([
                     'enable' => (int)$params['enable'],
                 ]);
@@ -447,7 +447,7 @@ class BaseService
     {
         $count = 0;
         Db::transaction(function () use ($ids, $params, &$count) {
-            $count = $this->queryByIds($ids, false, true)
+            $count = $this->queryByIds($ids, false)
                 ->update([
                     'recommend' => (int)$params['recommend'],
                 ]);
@@ -468,7 +468,7 @@ class BaseService
     {
         $count = 0;
         Db::transaction(function () use ($ids, $params, &$count) {
-            $count = $this->queryByIds($ids, false, true)
+            $count = $this->queryByIds($ids, false)
                 ->update([
                     'state' => (int)$params['state'],
                 ]);
@@ -487,7 +487,7 @@ class BaseService
     {
         $count = 0;
         Db::transaction(function () use ($ids, $params, &$count) {
-            $count = $this->queryByIds($ids, false, true)
+            $count = $this->queryByIds($ids, false)
                 ->update([
                     'unusual' => $params['unusual'],
                 ]);
@@ -508,7 +508,7 @@ class BaseService
     {
         $count = 0;
         Db::transaction(function () use ($ids, $params, &$count) {
-            $count = $this->queryByIds($ids, false, true)
+            $count = $this->queryByIds($ids, false)
                 ->update([
                     'hot' => $params['hot'],
                 ]);
@@ -529,7 +529,7 @@ class BaseService
     {
         $count = 0;
         Db::transaction(function () use ($ids, $params, &$count) {
-            $count = $this->queryByIds($ids, false, true)
+            $count = $this->queryByIds($ids, false)
                 ->update([
                     'directly' => $params['directly'],
                 ]);
@@ -551,13 +551,13 @@ class BaseService
         $count = 0;
         Db::transaction(function () use ($ids, $params, &$count) {
             if ($params['publish']) {
-                $count = $this->queryByIds($ids, false, true)
+                $count = $this->queryByIds($ids, false)
                     ->update([
                         'publish' => true,
                         'publish_at' => $params['publish_at'] ?: Carbon::now(),
                     ]);
             } else {
-                $count = $this->queryByIds($ids, false, true)
+                $count = $this->queryByIds($ids, false)
                     ->update([
                         'publish' => false,
                         'publish_at' => null,
@@ -581,14 +581,14 @@ class BaseService
         $count = 0;
         Db::transaction(function () use ($ids, $params, &$count) {
             if ($params['publish']) {
-                $count = $this->queryByIds($ids, false, true)
+                $count = $this->queryByIds($ids, false)
                     ->update([
                         'publish' => true,
                         'publish_at' => $params['publish_at'] ?: Carbon::now(),
                         'expired_at' => $params['expired_at'] ?: null,
                     ]);
             } else {
-                $count = $this->queryByIds($ids, false, true)
+                $count = $this->queryByIds($ids, false)
                     ->update([
                         'publish' => false,
                         'publish_at' => null,
@@ -799,7 +799,7 @@ class BaseService
     /**
      * Ids 查询条件.
      */
-    protected function queryByIds(string $ids, bool $recycle = false, bool $cache = false): Builder
+    protected function queryByIds(string $ids, bool $recycle = false): Builder
     {
         $ids = $this->getParseIds($ids);
 
@@ -807,6 +807,6 @@ class BaseService
         if ($recycle) {
             $model = $model->onlyTrashed();
         }
-        return $model->query($cache)->whereIn($model->getKeyName(), $ids);
+        return $model->query(true)->whereIn($model->getKeyName(), $ids);
     }
 }
