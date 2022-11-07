@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
 namespace FirecmsExt\Utils\Service;
 
 use FirecmsExt\Utils\Model\Model;
@@ -37,9 +38,36 @@ class ModelService implements ModelServiceInterface
         return $this->model($modelClass)->getPrefix();
     }
 
+    public function create(string $modelClass, array $data): array
+    {
+        $model = $this->model($modelClass);
+        $model->fill($data);
+        $model->save();
+
+        return [
+            'message' => __('message.Create success'),
+        ];
+    }
+
+    public function update(string $modelClass, array $data, array $where): array
+    {
+        $this->model($modelClass)->where(function ($query) use ($where) {
+            return $this->andWhere($query, $where);
+        })->update($data);
+
+        return [
+            'message' => __('message.Update success'),
+        ];
+    }
+
     public function fillData(string $modelClass, array $attributes, array $parent = null): array
     {
         return $this->model($modelClass)->fillData($attributes, $parent);
+    }
+
+    public function batchDataInsert(string $modelClass, array $items, ?array $parent = null): bool
+    {
+        return $this->model($modelClass)->batchDataInsert($items, $parent);
     }
 
     #[Cacheable(prefix: 'ModelService', value: '#{id}', ttl: 1)]
@@ -114,7 +142,7 @@ class ModelService implements ModelServiceInterface
 
     public function validateUnique(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return ! $this->model($modelClass)
+        return !$this->model($modelClass)
             ->where(function ($query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -128,19 +156,19 @@ class ModelService implements ModelServiceInterface
     public function validateArray(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
         return $this->model($modelClass)
-            ->where(function ($query) use ($ignore) {
-                return $this->ignoreWhere($query, $ignore);
-            })
-            ->where(function ($query) use ($where) {
-                return $this->andWhere($query, $where);
-            })
-            ->whereIn($attribute, $value)
-            ->count($attribute) === count((array) $value);
+                ->where(function ($query) use ($ignore) {
+                    return $this->ignoreWhere($query, $ignore);
+                })
+                ->where(function ($query) use ($where) {
+                    return $this->andWhere($query, $where);
+                })
+                ->whereIn($attribute, $value)
+                ->count($attribute) === count((array)$value);
     }
 
     public function validateExists(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return (bool) $this->model($modelClass)
+        return (bool)$this->model($modelClass)
             ->where(function (Builder $query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -153,7 +181,7 @@ class ModelService implements ModelServiceInterface
 
     public function validateDescendant(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return (bool) $this->model($modelClass)
+        return (bool)$this->model($modelClass)
             ->where(function ($query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })

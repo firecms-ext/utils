@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
 namespace FirecmsExt\Utils\Service;
 
 interface ModelServiceInterface
@@ -21,7 +22,13 @@ interface ModelServiceInterface
 
     public function getPrefix(string $modelClass): string;
 
+    public function create(string $modelClass, array $data): array;
+
+    public function update(string $modelClass, array $data, array $where): array;
+
     public function fillData(string $modelClass, array $attributes, array $parent = null): array;
+
+    public function batchDataInsert(string $modelClass, array $items, ?array $parent = null): bool;
 
     public function find(string $modelClass, string $id, array $with = []): ?array;
 
