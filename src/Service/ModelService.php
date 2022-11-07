@@ -42,7 +42,7 @@ class ModelService implements ModelServiceInterface
         return $this->model($modelClass)->fillData($attributes, $parent);
     }
 
-    #[Cacheable(prefix: 'AuthModel', value: '#{id}', ttl: 1)]
+    #[Cacheable(prefix: 'ModelService', value: '#{id}', ttl: 1)]
     public function find(string $modelClass, string $id, array $with = []): ?array
     {
         return $this->model($modelClass)
