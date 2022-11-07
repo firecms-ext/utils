@@ -19,7 +19,7 @@ use Hyperf\Resource\Json\JsonResource;
 use Hyperf\Resource\Json\ResourceCollection;
 use Hyperf\Utils\Collection;
 
-class BaseService
+class BaseService implements BaseServiceInterface
 {
     /** @var string 模型类名 */
     protected string $modelClass;
@@ -258,6 +258,29 @@ class BaseService
         return [
             'count' => $count,
             'message' => __('message.Restore success', compact('count')),
+        ];
+    }
+
+    /**
+     * 已读.
+     */
+    public function read(array $params): array
+    {
+        $count = 0;
+        Db::transaction(function () use ($params, &$count) {
+            $count = $this->getModelInstance()
+                ->where('read', false)
+                ->where(function (Builder $query) use ($params) {
+                    return $this->addWhere($query, $params);
+                })
+                ->update([
+                    'read' => true,
+                    'read_at' => Carbon::now(),
+                ]);
+        });
+
+        return [
+            'message' => __('message.Read success', compact('count')),
         ];
     }
 
@@ -601,29 +624,6 @@ class BaseService
             'message' => $params['publish'] ?
                 __('message.Publish success', compact('count')) :
                 __('message.Publish cancel', compact('count')),
-        ];
-    }
-
-    /**
-     * 已读.
-     */
-    public function read(array $params): array
-    {
-        $count = 0;
-        Db::transaction(function () use ($params, &$count) {
-            $count = $this->getModelInstance()
-                ->where('read', false)
-                ->where(function (Builder $query) use ($params) {
-                    return $this->addWhere($query, $params);
-                })
-                ->update([
-                    'read' => true,
-                    'read_at' => Carbon::now(),
-                ]);
-        });
-
-        return [
-            'message' => __('message.Read success', compact('count')),
         ];
     }
 

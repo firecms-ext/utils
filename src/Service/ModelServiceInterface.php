@@ -27,6 +27,8 @@ interface ModelServiceInterface
 
     public function getData(string $modelClass, array $where = [], array $with = []): ?array;
 
+    public function setData(string $modelClass, array $data, ?array $where = null): ?array;
+
     public function getItems(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20): array;
 
     public function validateUnique(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool;

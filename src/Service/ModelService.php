@@ -62,6 +62,26 @@ class ModelService implements ModelServiceInterface
             ?->toArray();
     }
 
+    public function setData(string $modelClass, array $data, ?array $where = null): ?array
+    {
+        if ($where) {
+            $this->model($modelClass)->where(function ($query) use ($where) {
+                return $this->andWhere($query, $where);
+            })->update($data);
+
+            return [
+                'message' => __('message.Update success'),
+            ];
+        }
+        $model = $this->model($modelClass);
+        $model->fill($data);
+        $model->save();
+
+        return [
+            'message' => __('message.Store success'),
+        ];
+    }
+
     public function getItems(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20): array
     {
         $model = $this->model($modelClass);
@@ -87,7 +107,7 @@ class ModelService implements ModelServiceInterface
 
     public function model(string $modelClass): Model
     {
-        $modelClass = (str_contains($modelClass, '\\App\\Model\\') ? '' : '\\App\\Model\\') . $modelClass;
+        $modelClass = (str_contains($modelClass, 'App\\Model\\') ? '' : 'App\\Model\\') . $modelClass;
 
         return new $modelClass();
     }
