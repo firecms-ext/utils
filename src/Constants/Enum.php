@@ -11,9 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Constants;
 
-use ReflectionClass;
-use ReflectionException;
-
 /**
  * @method static string getMessage($code, $translate = null)
  */
@@ -24,7 +21,7 @@ trait Enum
     /**
      * 价值对
      * key 和 value.
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public static function getValues(): array
     {
@@ -35,7 +32,7 @@ trait Enum
     /**
      * 价值对
      * value=>label.
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public static function getItems(): array
     {
@@ -50,7 +47,7 @@ trait Enum
     /**
      * 下拉选项
      * [value,label].
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public static function getOptions(): array
     {
@@ -67,14 +64,14 @@ trait Enum
 
     /**
      * 获取类上定义的所有常量。
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public static function getConstants(): array
     {
         $calledClass = get_called_class();
 
         if (! array_key_exists($calledClass, static::$constCacheArray)) {
-            $reflect = new ReflectionClass($calledClass);
+            $reflect = new \ReflectionClass($calledClass);
             static::$constCacheArray[$calledClass] = $reflect->getConstants();
         }
 
