@@ -279,7 +279,9 @@ if (!function_exists('groupOptions')) {
 
 if (!function_exists('purifyHtml')) {
     /**
+     * 防范 XSS 安全漏洞
      * 净化 HTML 字符串.
+     * http://htmlpurifier.org/docs
      */
     function purifyHtml(string $html, HTMLPurifier_Config $config = null): string
     {
