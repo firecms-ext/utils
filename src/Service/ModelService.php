@@ -9,11 +9,9 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
-
 namespace FirecmsExt\Utils\Service;
 
 use FirecmsExt\Utils\Model\Model;
-use http\Client\Curl\User;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Database\Model\Builder;
 
@@ -142,16 +140,9 @@ class ModelService implements ModelServiceInterface
         ];
     }
 
-    protected function model(string $modelClass): Model
-    {
-        $modelClass = (str_contains($modelClass, 'App\\Model\\') ? '' : 'App\\Model\\') . $modelClass;
-
-        return new $modelClass();
-    }
-
     public function validateUnique(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return !$this->model($modelClass)
+        return ! $this->model($modelClass)
             ->where(function ($query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -165,19 +156,19 @@ class ModelService implements ModelServiceInterface
     public function validateArray(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
         return $this->model($modelClass)
-                ->where(function ($query) use ($ignore) {
-                    return $this->ignoreWhere($query, $ignore);
-                })
-                ->where(function ($query) use ($where) {
-                    return $this->andWhere($query, $where);
-                })
-                ->whereIn($attribute, $value)
-                ->count($attribute) === count((array)$value);
+            ->where(function ($query) use ($ignore) {
+                return $this->ignoreWhere($query, $ignore);
+            })
+            ->where(function ($query) use ($where) {
+                return $this->andWhere($query, $where);
+            })
+            ->whereIn($attribute, $value)
+            ->count($attribute) === count((array) $value);
     }
 
     public function validateExists(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return (bool)$this->model($modelClass)
+        return (bool) $this->model($modelClass)
             ->where(function (Builder $query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -190,7 +181,7 @@ class ModelService implements ModelServiceInterface
 
     public function validateDescendant(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return (bool)$this->model($modelClass)
+        return (bool) $this->model($modelClass)
             ->where(function ($query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -203,31 +194,20 @@ class ModelService implements ModelServiceInterface
             ->count($attribute);
     }
 
+    protected function model(string $modelClass): Model
+    {
+        $modelClass = (str_contains($modelClass, 'App\\Model\\') ? '' : 'App\\Model\\') . $modelClass;
+
+        return new $modelClass();
+    }
+
     protected function andWhere(Builder $query, array $where): Builder
     {
-        foreach ($where as $key => $val) {
-            if (is_null($val)) {
-                $query = $query->whereNull($key);
-            } elseif (is_array($val)) {
-                $query = $query->whereIn($key, $val);
-            } else {
-                $query = $query->where($key, $val);
-            }
-        }
-        return $query;
+        return andWhere($query, $where);
     }
 
     protected function ignoreWhere(Builder $query, array $ignore): Builder
     {
-        foreach ($ignore as $key => $val) {
-            if (is_null($val)) {
-                $query = $query->whereNotNull($key);
-            } elseif (is_array($val)) {
-                $query = $query->whereNotIn($key, $val);
-            } else {
-                $query = $query->where($key, '<>', $val);
-            }
-        }
-        return $query;
+        return ignoreWhere($query, $ignore);
     }
 }

@@ -10,11 +10,13 @@ declare(strict_types=1);
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
 use Carbon\Carbon;
+use Hyperf\Database\Model\Builder;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Redis\Redis;
 use Hyperf\Snowflake\IdGeneratorInterface;
 use Hyperf\Utils\ApplicationContext;
+use Hyperf\Utils\Str;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -315,5 +317,44 @@ if (! function_exists('extension')) {
     function extension(string $path): string
     {
         return pathinfo($path, PATHINFO_EXTENSION);
+    }
+}
+
+if (! function_exists('andWhere')) {
+    /**
+     * 并行查询条件。
+     */
+    function andWhere(Builder $query, array $where): Builder
+    {
+        foreach ($where as $key => $val) {
+            if (is_null($val)) {
+                $query = $query->whereNull($key);
+            } elseif (is_string($val) && Str::upper($val) == 'NOT NULL') {
+                $query = $query->whereNotNull($key);
+            } elseif (is_array($val)) {
+                $query = $query->whereIn($key, $val);
+            } else {
+                $query = $query->where($key, $val);
+            }
+        }
+        return $query;
+    }
+}
+if (! function_exists('ignoreWhere')) {
+    /**
+     * 排除查询条件。
+     */
+    function ignoreWhere(Builder $query, array $ignore): Builder
+    {
+        foreach ($ignore as $key => $val) {
+            if (is_null($val)) {
+                $query = $query->whereNotNull($key);
+            } elseif (is_array($val)) {
+                $query = $query->whereNotIn($key, $val);
+            } else {
+                $query = $query->where($key, '<>', $val);
+            }
+        }
+        return $query;
     }
 }

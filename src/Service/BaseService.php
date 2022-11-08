@@ -271,7 +271,7 @@ class BaseService implements BaseServiceInterface
             $count = $this->getModelInstance()
                 ->where('read', false)
                 ->where(function (Builder $query) use ($params) {
-                    return $this->addWhere($query, $params);
+                    return $this->andWhere($query, $params);
                 })
                 ->update([
                     'read' => true,
@@ -300,7 +300,7 @@ class BaseService implements BaseServiceInterface
                 ->where(function (Builder $query) use ($params) {
                     unset($params['start_at'], $params['end_at']);
 
-                    return $this->addWhere($query, $params);
+                    return $this->andWhere($query, $params);
                 })
                 ->delete();
         });
@@ -326,7 +326,7 @@ class BaseService implements BaseServiceInterface
                 ->where(function (Builder $query) use ($params) {
                     unset($params['start_at'], $params['end_at']);
 
-                    return $this->addWhere($query, $params);
+                    return $this->andWhere($query, $params);
                 })
                 ->onlyTrashed()
                 ->forceDelete();
@@ -348,7 +348,7 @@ class BaseService implements BaseServiceInterface
             $count = $this->getModelInstance()
                 ->query(true)
                 ->where(function (Builder $query) use ($params) {
-                    return $this->addWhere($query, $params);
+                    return $this->andWhere($query, $params);
                 })
                 ->delete();
         });
@@ -369,7 +369,7 @@ class BaseService implements BaseServiceInterface
             $count = $this->getModelInstance()
                 ->onlyTrashed()
                 ->where(function (Builder $query) use ($params) {
-                    return $this->addWhere($query, $params);
+                    return $this->andWhere($query, $params);
                 })
                 ->forceDelete();
         });
@@ -668,19 +668,10 @@ class BaseService implements BaseServiceInterface
     /**
      * 其他查询条件.
      */
-    protected function addWhere(Builder $query, ?array $params): Builder
+    protected function andWhere(Builder $query, ?array $params): Builder
     {
         return $query->when($params, function ($query) use ($params) {
-            foreach ($params as $key => $val) {
-                if (is_null($val)) {
-                    $query = $query->whereNull($key);
-                } elseif (is_array($val)) {
-                    $query = $query->whereIn($key, $val);
-                } else {
-                    $query = $query->where($key, $val);
-                }
-            }
-            return $query;
+            return andWhere($query, $params);
         });
     }
 
