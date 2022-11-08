@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace FirecmsExt\Utils\Service;
 
 use FirecmsExt\Utils\Model\Model;
+use http\Client\Curl\User;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Database\Model\Builder;
 
@@ -110,7 +111,7 @@ class ModelService implements ModelServiceInterface
         ];
     }
 
-    public function getItems(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20): array
+    public function getItems(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, string|array $orderBy = null): array
     {
         $model = $this->model($modelClass);
 
@@ -128,12 +129,20 @@ class ModelService implements ModelServiceInterface
                 ->with($with)
                 ->offset((max($page, 1) - 1) * $limit)
                 ->limit($limit)
+                ->when(is_array($orderBy) && count($orderBy), function ($query) use ($orderBy) {
+                    foreach ($orderBy as $field => $order) {
+                        $query->orderBy($field, $order ?: 'asc');
+                    }
+                })
+                ->when(is_string($orderBy) && $orderBy, function ($query) use ($orderBy) {
+                    $query->orderByRaw($orderBy);
+                })
                 ->get()
                 ->toArray() : [],
         ];
     }
 
-    public function model(string $modelClass): Model
+    protected function model(string $modelClass): Model
     {
         $modelClass = (str_contains($modelClass, 'App\\Model\\') ? '' : 'App\\Model\\') . $modelClass;
 
