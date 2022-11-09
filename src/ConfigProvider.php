@@ -11,10 +11,14 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils;
 
+use FirecmsExt\Utils\JsonRpc\Consumer\AuthModelRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\AuthModelRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
+use FirecmsExt\Utils\JsonRpc\Consumer\SettingRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\SettingRpcServiceInterface;
 
 class ConfigProvider
 {
@@ -23,7 +27,9 @@ class ConfigProvider
         return [
             'dependencies' => [
                 AuthRpcServiceInterface::class => AuthRpcService::class,
+                AuthModelRpcServiceInterface::class => AuthModelRpcService::class,
                 ConstantRpcServiceInterface::class => ConstantRpcService::class,
+                SettingRpcServiceInterface::class => SettingRpcService::class,
             ],
             'commands' => [
             ],
