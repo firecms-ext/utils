@@ -15,8 +15,12 @@ use FirecmsExt\Utils\JsonRpc\Consumer\AuthModelRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthModelRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcServiceInterface;
+use FirecmsExt\Utils\JsonRpc\Consumer\BaseModelRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\BaseModelRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
+use FirecmsExt\Utils\JsonRpc\Consumer\ContentModelRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\ContentModelRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\IpQueryRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\IpQueryRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\RegionRpcService;
@@ -34,7 +38,9 @@ class ConfigProvider
             'dependencies' => [
                 AuthRpcServiceInterface::class => AuthRpcService::class,
                 AuthModelRpcServiceInterface::class => AuthModelRpcService::class,
+                BaseModelRpcServiceInterface::class => BaseModelRpcService::class,
                 ConstantRpcServiceInterface::class => ConstantRpcService::class,
+                ContentModelRpcServiceInterface::class => ContentModelRpcService::class,
                 IpQueryRpcServiceInterface::class => IpQueryRpcService::class,
                 RegionRpcServiceInterface::class => RegionRpcService::class,
                 SettingRpcServiceInterface::class => SettingRpcService::class,
