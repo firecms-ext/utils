@@ -26,21 +26,22 @@
   "require": {
     "php": ">=8.0",
     "ezyang/htmlpurifier": "^4.14",
+    "hyperf/amqp": "~2.2.0",
     "hyperf/cache": "~v2.0",
     "hyperf/config": "^2.2",
+    "hyperf/constants": "~2.2.0",
     "hyperf/db-connection": "^2.2",
     "hyperf/di": "~v2.0",
     "hyperf/framework": "~v2.0",
     "hyperf/http-message": "~v2.0",
     "hyperf/http-server": "~v2.0",
     "hyperf/model-cache": "^2.2",
-    "hyperf/constants": "~2.2.0",
     "hyperf/redis": "~v2.0",
     "hyperf/resource": "^2.2",
+    "hyperf/rpc-client": "^2.2",
     "hyperf/snowflake": "v2.2.33.1",
     "hyperf/validation": "^2.2",
-    "nesbot/carbon": "^2.62",
-    "hyperf/amqp": "~2.2.0"
+    "nesbot/carbon": "^2.62"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.0",

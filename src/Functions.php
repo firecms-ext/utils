@@ -340,6 +340,7 @@ if (! function_exists('andWhere')) {
         return $query;
     }
 }
+
 if (! function_exists('ignoreWhere')) {
     /**
      * 排除查询条件。
@@ -356,5 +357,15 @@ if (! function_exists('ignoreWhere')) {
             }
         }
         return $query;
+    }
+}
+
+if (! function_exists('class_basename')) {
+    /**
+     * 获取不带命名空间的类名。
+     */
+    function class_basename(string $class): string
+    {
+        return basename(str_replace('\\', '/', $class));
     }
 }
