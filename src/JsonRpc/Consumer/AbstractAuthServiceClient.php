@@ -9,12 +9,10 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
-
 namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 abstract class AbstractAuthServiceClient extends AbstractServiceClient implements AbstractAuthServiceClientInterface
 {
-
     public function check(array $authorization): bool
     {
         return $this->__request(__FUNCTION__, compact('authorization'));
@@ -39,5 +37,4 @@ abstract class AbstractAuthServiceClient extends AbstractServiceClient implement
     {
         return $this->__request(__FUNCTION__, compact('authorization'));
     }
-
 }
