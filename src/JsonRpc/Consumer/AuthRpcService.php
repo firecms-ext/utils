@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
-abstract class AbstractAuthServiceClient extends AbstractServiceClient implements AbstractAuthServiceClientInterface
+class AuthRpcService extends AbstractServiceClient implements AuthRpcServiceInterface
 {
     public function check(array $authorization): bool
     {

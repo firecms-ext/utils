@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
-abstract class AbstractConstantServiceClient extends AbstractServiceClient implements AbstractConstantServiceClientInterface
+class ConstantRpcService extends AbstractServiceClient implements ConstantRpcServiceInterface
 {
     public function all(): array
     {

@@ -9,7 +9,13 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
 namespace FirecmsExt\Utils;
+
+use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcServiceInterface;
+use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
 
 class ConfigProvider
 {
@@ -17,6 +23,8 @@ class ConfigProvider
     {
         return [
             'dependencies' => [
+                AuthRpcServiceInterface::class => AuthRpcService::class,
+                ConstantRpcServiceInterface::class => ConstantRpcService::class,
             ],
             'commands' => [
             ],

@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
-interface AbstractAuthServiceClientInterface
+interface AuthRpcServiceInterface
 {
     public function check(array $authorization): bool;
 
