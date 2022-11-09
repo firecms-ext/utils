@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
-
 namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 class ConstantRpcService extends AbstractServiceClient implements ConstantRpcServiceInterface
