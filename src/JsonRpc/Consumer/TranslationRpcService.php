@@ -13,9 +13,14 @@ namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 use Hyperf\RpcClient\AbstractServiceClient;
 
-class IpQueryRpcService extends AbstractServiceClient implements IpQueryRpcServiceInterface
+class TranslationRpcService extends AbstractServiceClient implements TranslationRpcServiceInterface
 {
-    public function query(string $ip): ?array
+    public function translations(string $category_name, string $local = 'zh_CN'): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
+    public function all(): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }

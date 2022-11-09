@@ -11,12 +11,9 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
-use Hyperf\RpcClient\AbstractServiceClient;
-
-class IpQueryRpcService extends AbstractServiceClient implements IpQueryRpcServiceInterface
+interface TranslationRpcServiceInterface
 {
-    public function query(string $ip): ?array
-    {
-        return $this->__request(__FUNCTION__, func_get_args());
-    }
+    public function translations(string $category_name, string $local = 'zh_CN'): array;
+
+    public function all(): array;
 }

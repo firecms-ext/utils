@@ -15,11 +15,11 @@ class SettingRpcService extends AbstractServiceClient implements SettingRpcServi
 {
     public function group(string $group): ?array
     {
-        return $this->__request(__FUNCTION__, compact('group'));
+        return $this->__request(__FUNCTION__, func_get_args());
     }
 
     public function value(string $group, string $name): ?string
     {
-        return $this->__request(__FUNCTION__, compact('group', 'name'));
+        return $this->__request(__FUNCTION__, func_get_args());
     }
 }

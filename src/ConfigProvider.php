@@ -23,6 +23,8 @@ use FirecmsExt\Utils\JsonRpc\Consumer\RegionRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\RegionRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\SettingRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\SettingRpcServiceInterface;
+use FirecmsExt\Utils\JsonRpc\Consumer\TranslationRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\TranslationRpcServiceInterface;
 
 class ConfigProvider
 {
@@ -36,6 +38,7 @@ class ConfigProvider
                 IpQueryRpcServiceInterface::class => IpQueryRpcService::class,
                 RegionRpcServiceInterface::class => RegionRpcService::class,
                 SettingRpcServiceInterface::class => SettingRpcService::class,
+                TranslationRpcServiceInterface::class => TranslationRpcService::class,
             ],
             'commands' => [
             ],

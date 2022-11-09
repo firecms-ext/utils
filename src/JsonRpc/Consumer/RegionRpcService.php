@@ -19,11 +19,11 @@ class RegionRpcService extends AbstractServiceClient implements RegionRpcService
 
     public function options(array $params): array
     {
-        return $this->__request(__FUNCTION__, compact('params'));
+        return $this->__request(__FUNCTION__, func_get_args());
     }
 
     public function search($params, int $page = 1, int $limit = -1): array
     {
-        return $this->__request(__FUNCTION__, compact('params', 'page', 'limit'));
+        return $this->__request(__FUNCTION__, func_get_args());
     }
 }

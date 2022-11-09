@@ -15,26 +15,26 @@ class AuthRpcService extends AbstractServiceClient implements AuthRpcServiceInte
 {
     public function check(array $authorization): bool
     {
-        return $this->__request(__FUNCTION__, compact('authorization'));
+        return $this->__request(__FUNCTION__, func_get_args());
     }
 
     public function checkPassword(array $authorization, string $password): bool
     {
-        return $this->__request(__FUNCTION__, compact('authorization', 'password'));
+        return $this->__request(__FUNCTION__, func_get_args());
     }
 
     public function id(array $authorization): ?string
     {
-        return $this->__request(__FUNCTION__, compact('authorization'));
+        return $this->__request(__FUNCTION__, func_get_args());
     }
 
     public function user(array $authorization): ?array
     {
-        return $this->__request(__FUNCTION__, compact('authorization'));
+        return $this->__request(__FUNCTION__, func_get_args());
     }
 
     public function username(array $authorization): ?string
     {
-        return $this->__request(__FUNCTION__, compact('authorization'));
+        return $this->__request(__FUNCTION__, func_get_args());
     }
 }
