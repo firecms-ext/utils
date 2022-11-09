@@ -13,7 +13,7 @@ namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 use FirecmsExt\Utils\Service\ModelServiceInterface;
 
-abstract class AbstractModelService extends AbstractServiceClient implements ModelServiceInterface
+abstract class AbstractModelServiceClient extends AbstractServiceClient implements ModelServiceInterface
 {
     public function getTableName(string $modelClass, bool $prefix = false): string
     {
