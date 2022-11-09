@@ -13,6 +13,8 @@ namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 interface AbstractConstantServiceClientInterface
 {
+    public function all(): array;
+
     public function options(array $params): array;
 
     public function items(string $category_name): array;
@@ -30,6 +32,4 @@ interface AbstractConstantServiceClientInterface
     public function message(string $category_name, int $value): ?string;
 
     public function title(string $category_name, int $value): ?string;
-
-    public function all(): array;
 }

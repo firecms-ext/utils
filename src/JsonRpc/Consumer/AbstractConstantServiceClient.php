@@ -14,6 +14,11 @@ namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 abstract class AbstractConstantServiceClient extends AbstractServiceClient implements AbstractConstantServiceClientInterface
 {
+    public function all(): array
+    {
+        return $this->__request(__FUNCTION__, []);
+    }
+
     public function options(array $params): array
     {
         return $this->__request(__FUNCTION__, compact('params'));
@@ -57,10 +62,5 @@ abstract class AbstractConstantServiceClient extends AbstractServiceClient imple
     public function title(string $category_name, int $value): ?string
     {
         return $this->__request(__FUNCTION__, compact('category_name', 'value'));
-    }
-
-    public function all(): array
-    {
-        return $this->__request(__FUNCTION__, []);
     }
 }
