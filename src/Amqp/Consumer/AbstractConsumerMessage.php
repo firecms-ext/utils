@@ -21,7 +21,12 @@ abstract class AbstractConsumerMessage extends ConsumerMessage
     public function __construct()
     {
         if (! $this->routingKey) {
-            $this->routingKey = Str::snake(str_replace(['FirecmsExt\\Utils\\Amqp\\Consumer', 'App\\Amqp\\Consumer', 'Consumer', '\\'], '', static::class));
+            $this->routingKey = Str::snake(str_replace([
+                'FirecmsExt\\Utils\\Amqp\\Consumer',
+                'App\\Amqp\\Consumer',
+                'Consumer',
+                '\\',
+            ], '', static::class));
         }
         if (! $this->exchange) {
             if ($this->getType() === Type::FANOUT) {
