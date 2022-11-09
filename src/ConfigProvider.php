@@ -11,12 +11,16 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils;
 
+use FirecmsExt\Utils\JsonRpc\Base\RegionRpcService;
+use FirecmsExt\Utils\JsonRpc\Base\RegionRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthModelRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthModelRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
+use FirecmsExt\Utils\JsonRpc\Consumer\IpQueryRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\IpQueryRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\SettingRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\SettingRpcServiceInterface;
 
@@ -29,6 +33,8 @@ class ConfigProvider
                 AuthRpcServiceInterface::class => AuthRpcService::class,
                 AuthModelRpcServiceInterface::class => AuthModelRpcService::class,
                 ConstantRpcServiceInterface::class => ConstantRpcService::class,
+                IpQueryRpcServiceInterface::class => IpQueryRpcService::class,
+                RegionRpcServiceInterface::class => RegionRpcService::class,
                 SettingRpcServiceInterface::class => SettingRpcService::class,
             ],
             'commands' => [
