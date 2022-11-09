@@ -23,7 +23,7 @@ interface ModelServiceInterface
 
     public function create(string $modelClass, array $data): array;
 
-    public function update(string $modelClass, array $data, array $where): array;
+    public function update(string $modelClass, string $id, array $data): array;
 
     public function fillData(string $modelClass, array $attributes, array $parent = null): array;
 
