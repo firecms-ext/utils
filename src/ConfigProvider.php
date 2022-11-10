@@ -37,14 +37,14 @@ class ConfigProvider
         return [
             'dependencies' => [
                 AuthRpcServiceInterface::class => AuthRpcService::class,
-                AuthModelRpcServiceInterface::class => AuthModelRpcService::class,
-                BaseModelRpcServiceInterface::class => BaseModelRpcService::class,
                 ConstantRpcServiceInterface::class => ConstantRpcService::class,
-                ContentModelRpcServiceInterface::class => ContentModelRpcService::class,
                 IpQueryRpcServiceInterface::class => IpQueryRpcService::class,
                 RegionRpcServiceInterface::class => RegionRpcService::class,
                 SettingRpcServiceInterface::class => SettingRpcService::class,
                 TranslationRpcServiceInterface::class => TranslationRpcService::class,
+                AuthModelRpcServiceInterface::class => AuthModelRpcService::class,
+                BaseModelRpcServiceInterface::class => BaseModelRpcService::class,
+                ContentModelRpcServiceInterface::class => ContentModelRpcService::class,
             ],
             'commands' => [
             ],
