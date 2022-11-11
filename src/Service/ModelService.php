@@ -109,7 +109,7 @@ class ModelService implements ModelServiceInterface
         ];
     }
 
-    public function getItems(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, string|array $orderBy = null): array
+    public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, string|array $orderBy = null): array
     {
         $model = $this->model($modelClass);
 
@@ -121,12 +121,12 @@ class ModelService implements ModelServiceInterface
 
         return [
             'total' => $total,
+            'page' => $page,
+            'limit' => $limit,
             'items' => $total ? $model->where(function ($query) use ($where) {
                 return $this->andWhere($query, $where);
             })
                 ->with($with)
-                ->offset((max($page, 1) - 1) * $limit)
-                ->limit($limit)
                 ->when(is_array($orderBy) && count($orderBy), function ($query) use ($orderBy) {
                     foreach ($orderBy as $field => $order) {
                         $query->orderBy($field, $order ?: 'asc');
@@ -134,6 +134,10 @@ class ModelService implements ModelServiceInterface
                 })
                 ->when(is_string($orderBy) && $orderBy, function ($query) use ($orderBy) {
                     $query->orderByRaw($orderBy);
+                })
+                ->when($limit > 0, function ($query) use ($page, $limit) {
+                    return $query->offset((max($page, 1) - 1) * $limit)
+                        ->limit($limit);
                 })
                 ->get()
                 ->toArray() : [],

@@ -68,7 +68,7 @@ class AuditModelRpcService extends AbstractServiceClient implements AuditModelRp
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function getItems(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, string|array $orderBy = null): array
+    public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, string|array $orderBy = null): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
