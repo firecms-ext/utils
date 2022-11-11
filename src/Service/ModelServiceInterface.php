@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
 namespace FirecmsExt\Utils\Service;
 
 interface ModelServiceInterface
@@ -35,7 +36,9 @@ interface ModelServiceInterface
 
     public function setData(string $modelClass, array $data, ?array $where = null): ?array;
 
-    public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, string|array $orderBy = null): array;
+    public function getItems(string $modelClass, array $where = [], array $with = [], array $orderBy = []): array;
+
+    public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, array $orderBy = []): array;
 
     public function validateUnique(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool;
 

@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
-class CrawlModelRpcService extends AbstractServiceClient implements CrawlModelRpcServiceInterface
+class CrawlModelRpcService extends AbstractServiceClient implements AuditModelRpcServiceInterface
 {
     public function getTableName(string $modelClass, bool $prefix = false): string
     {
@@ -68,7 +68,12 @@ class CrawlModelRpcService extends AbstractServiceClient implements CrawlModelRp
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, string|array $orderBy = null): array
+    public function getItems(string $modelClass, array $where = [], array $with = [], array $orderBy = []): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
+    public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, array $orderBy = []): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }

@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
 namespace FirecmsExt\Utils\Service;
 
 use FirecmsExt\Utils\Model\Model;
@@ -109,7 +110,26 @@ class ModelService implements ModelServiceInterface
         ];
     }
 
-    public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, string|array $orderBy = null): array
+    public function getItems(string $modelClass, array $where = [], array $with = [], array $orderBy = []): array
+    {
+        return $this->model($modelClass)->where(function ($query) use ($where) {
+            return $this->andWhere($query, $where);
+        })
+            ->with($with)
+            ->when(is_array($orderBy) && count($orderBy), function ($query) use ($orderBy) {
+                foreach ($orderBy as $field => $order) {
+                    if (is_int($field)) {
+                        $query->orderByRaw($order);
+                    } else {
+                        $query->orderBy($field, $order ?: 'asc');
+                    }
+                }
+            })
+            ->get()
+            ->toArray();
+    }
+
+    public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, array $orderBy = []): array
     {
         $model = $this->model($modelClass);
 
@@ -129,11 +149,12 @@ class ModelService implements ModelServiceInterface
                 ->with($with)
                 ->when(is_array($orderBy) && count($orderBy), function ($query) use ($orderBy) {
                     foreach ($orderBy as $field => $order) {
-                        $query->orderBy($field, $order ?: 'asc');
+                        if (is_int($field)) {
+                            $query->orderByRaw($order);
+                        } else {
+                            $query->orderBy($field, $order ?: 'asc');
+                        }
                     }
-                })
-                ->when(is_string($orderBy) && $orderBy, function ($query) use ($orderBy) {
-                    $query->orderByRaw($orderBy);
                 })
                 ->when($limit > 0, function ($query) use ($page, $limit) {
                     return $query->offset((max($page, 1) - 1) * $limit)
@@ -146,7 +167,7 @@ class ModelService implements ModelServiceInterface
 
     public function validateUnique(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return ! $this->model($modelClass)
+        return !$this->model($modelClass)
             ->where(function ($query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -160,19 +181,19 @@ class ModelService implements ModelServiceInterface
     public function validateArray(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
         return $this->model($modelClass)
-            ->where(function ($query) use ($ignore) {
-                return $this->ignoreWhere($query, $ignore);
-            })
-            ->where(function ($query) use ($where) {
-                return $this->andWhere($query, $where);
-            })
-            ->whereIn($attribute, $value)
-            ->count($attribute) === count((array) $value);
+                ->where(function ($query) use ($ignore) {
+                    return $this->ignoreWhere($query, $ignore);
+                })
+                ->where(function ($query) use ($where) {
+                    return $this->andWhere($query, $where);
+                })
+                ->whereIn($attribute, $value)
+                ->count($attribute) === count((array)$value);
     }
 
     public function validateExists(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return (bool) $this->model($modelClass)
+        return (bool)$this->model($modelClass)
             ->where(function (Builder $query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -185,7 +206,7 @@ class ModelService implements ModelServiceInterface
 
     public function validateDescendant(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return (bool) $this->model($modelClass)
+        return (bool)$this->model($modelClass)
             ->where(function ($query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
