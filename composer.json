@@ -36,6 +36,7 @@
     "hyperf/http-message": "~v2.0",
     "hyperf/http-server": "~v2.0",
     "hyperf/model-cache": "^2.2",
+    "hyperf/utils": "~v2.0",
     "hyperf/redis": "~v2.0",
     "hyperf/resource": "^2.2",
     "hyperf/rpc-client": "^2.2",

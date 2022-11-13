@@ -370,12 +370,3 @@ if (! function_exists('ignoreWhere')) {
     }
 }
 
-if (! function_exists('class_basename')) {
-    /**
-     * 获取不带命名空间的类名。
-     */
-    function class_basename(string $class): string
-    {
-        return basename(str_replace('\\', '/', $class));
-    }
-}
