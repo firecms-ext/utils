@@ -369,4 +369,3 @@ if (! function_exists('ignoreWhere')) {
         return $query;
     }
 }
-
