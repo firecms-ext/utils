@@ -132,30 +132,25 @@ class ModelService implements ModelServiceInterface
     public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, array $orderBy = []): array
     {
         $model = $this->model($modelClass);
-
-        $total = $model->where(function ($query) use ($where) {
+        $query = $model->where(function ($query) use ($where) {
             return $this->andWhere($query, $where);
         })
-            ->with($with)
-            ->count($model->getKeyName());
+            ->with($with);
+        $total = $query->count($model->getKeyName() ?: '*');
 
         return [
             'total' => $total,
             'page' => $page,
             'limit' => $limit,
-            'items' => $total ? $model->where(function ($query) use ($where) {
-                return $this->andWhere($query, $where);
-            })
-                ->with($with)
-                ->when(is_array($orderBy) && count($orderBy), function ($query) use ($orderBy) {
-                    foreach ($orderBy as $field => $order) {
-                        if (is_int($field)) {
-                            $query->orderByRaw($order);
-                        } else {
-                            $query->orderBy($field, $order ?: 'asc');
-                        }
+            'items' => $total ? $query->when(is_array($orderBy) && count($orderBy), function ($query) use ($orderBy) {
+                foreach ($orderBy as $field => $order) {
+                    if (is_int($field)) {
+                        $query->orderByRaw($order);
+                    } else {
+                        $query->orderBy($field, $order ?: 'asc');
                     }
-                })
+                }
+            })
                 ->when($limit > 0, function ($query) use ($page, $limit) {
                     return $query->offset((max($page, 1) - 1) * $limit)
                         ->limit($limit);

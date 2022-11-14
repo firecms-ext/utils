@@ -53,16 +53,6 @@ class BaseService implements BaseServiceInterface
             ->where(function ($query) use ($params) {
                 return $this->listWhere($query, $params);
             })
-            ->when(
-                (string)($params['field'] ?? null) ?: ($this->orderField ?: $model->getKeyName()),
-                function ($query, $value) use ($params) {
-                    // 排序方式
-                    return $query->orderBy($value, in_array(
-                        ($params['order'] ?? null) ?: $this->orderBy,
-                        ['descend', 'desc']
-                    ) ? 'desc' : 'asc');
-                }
-            )
             ->when((bool)($params['recycle'] ?? null), function ($query) {
                 // 回收站
                 return $query->onlyTrashed();
@@ -81,7 +71,17 @@ class BaseService implements BaseServiceInterface
         return [
             'total' => $total,
             'items' => $this->getCollection(
-                $query->skip(($page - 1) * $limit)
+                $query->when(
+                    (string)($params['field'] ?? null) ?: ($this->orderField ?: $model->getKeyName()),
+                    function ($query, $value) use ($params) {
+                        // 排序方式
+                        return $query->orderBy($value, in_array(
+                            ($params['order'] ?? null) ?: $this->orderBy,
+                            ['descend', 'desc']
+                        ) ? 'desc' : 'asc');
+                    }
+                )
+                    ->skip(($page - 1) * $limit)
                     ->limit($limit)
                     ->get()
             )->toArray(),
