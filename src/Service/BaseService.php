@@ -64,8 +64,8 @@ class BaseService implements BaseServiceInterface
             ];
         }
 
-        $page = min($params['page'] ?? 1, 1);
-        $limit = (int) ($params['perpage'] ?? $params['pageSize'] ?? 20);
+        $page = max($params['page'] ?? 1, 1);
+        $limit = max($params['perpage'] ?? $params['pageSize'] ?? 20, 0);
 
         return [
             'total' => $total,
@@ -80,8 +80,10 @@ class BaseService implements BaseServiceInterface
                         ) ? 'desc' : 'asc');
                     }
                 )
-                    ->skip(($page - 1) * $limit)
-                    ->limit($limit)
+                    ->when($limit, function ($query) use ($page, $limit) {
+                        return $query->offset(($page - 1) * $limit)
+                            ->limit($limit);
+                    })
                     ->get()
             )->toArray(),
         ];

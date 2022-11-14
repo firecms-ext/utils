@@ -144,7 +144,8 @@ class ModelService implements ModelServiceInterface
                 'items' => [],
             ];
         }
-
+        $page = max($page, 1);
+        $limit = max($page, 0);
         return [
             'total' => $total,
             'page' => $page,
@@ -158,8 +159,8 @@ class ModelService implements ModelServiceInterface
                     }
                 }
             })
-                ->when($limit > 0, function ($query) use ($page, $limit) {
-                    return $query->offset((max($page, 1) - 1) * $limit)
+                ->when($limit, function ($query) use ($page, $limit) {
+                    return $query->offset(($page - 1) * $limit)
                         ->limit($limit);
                 })
                 ->get()
