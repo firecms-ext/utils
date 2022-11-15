@@ -15,6 +15,11 @@ use Hyperf\RpcClient\AbstractServiceClient;
 
 class TranslationRpcService extends AbstractServiceClient implements TranslationRpcServiceInterface
 {
+    public function translate(string $string, string $from = 'zh', string $to = 'en'): string
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
     public function translations(string $category_name, string $local = 'zh_CN'): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
