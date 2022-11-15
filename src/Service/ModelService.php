@@ -17,29 +17,44 @@ use Hyperf\Database\Model\Builder;
 
 class ModelService implements ModelServiceInterface
 {
+    /**
+     * 获取数据库 表名.
+     */
     public function getTableName(string $modelClass, bool $prefix = false): string
     {
-        return $this->model($modelClass)->getTableName($prefix);
+        return $this->getModelInstance($modelClass)->getTableName($prefix);
     }
 
+    /**
+     * 获取数据库表 列信息.
+     */
     public function getTableColumns(string $modelClass): array
     {
-        return $this->model($modelClass)->getTableColumns();
+        return $this->getModelInstance($modelClass)->getTableColumns();
     }
 
+    /**
+     * 获取数据库表 字段.
+     */
     public function getTableFields(string $modelClass): array
     {
-        return $this->model($modelClass)->getTableFields();
+        return $this->getModelInstance($modelClass)->getTableFields();
     }
 
+    /**
+     * 获取数据库表 前缀。
+     */
     public function getPrefix(string $modelClass): string
     {
-        return $this->model($modelClass)->getPrefix();
+        return $this->getModelInstance($modelClass)->getPrefix();
     }
 
+    /**
+     * 新增数据.
+     */
     public function create(string $modelClass, array $data): array
     {
-        $model = $this->model($modelClass);
+        $model = $this->getModelInstance($modelClass);
         $model->fill($data);
         $model->save();
 
@@ -48,9 +63,12 @@ class ModelService implements ModelServiceInterface
         ];
     }
 
+    /**
+     * 更新数据.
+     */
     public function update(string $modelClass, string $id, array $data): array
     {
-        $this->model($modelClass)
+        $this->getModelInstance($modelClass)
             ->find($id)
             ->update($data);
 
@@ -59,28 +77,40 @@ class ModelService implements ModelServiceInterface
         ];
     }
 
+    /**
+     * 模型填充数据.
+     */
     public function fillData(string $modelClass, array $attributes, array $parent = null): array
     {
-        return $this->model($modelClass)->fillData($attributes, $parent);
+        return $this->getModelInstance($modelClass)->fillData($attributes, $parent);
     }
 
+    /**
+     * 批量插入数据。
+     */
     public function batchDataInsert(string $modelClass, array $items, ?array $parent = null): bool
     {
-        return $this->model($modelClass)->batchDataInsert($items, $parent);
+        return $this->getModelInstance($modelClass)->batchDataInsert($items, $parent);
     }
 
+    /**
+     * 模型查询（主键）.
+     */
     #[Cacheable(prefix: 'ModelService', value: '#{id}', ttl: 1)]
     public function find(string $modelClass, string $id, array $with = []): ?array
     {
-        return $this->model($modelClass)
+        return $this->getModelInstance($modelClass)
             ->with($with)
             ->find($id)
             ?->toArray();
     }
 
+    /**
+     * 模型查询（自定义条件）.
+     */
     public function getData(string $modelClass, array $where = [], array $with = []): ?array
     {
-        return $this->model($modelClass)
+        return $this->getModelInstance($modelClass)
             ->where(function ($query) use ($where) {
                 return $this->andWhere($query, $where);
             })
@@ -89,18 +119,23 @@ class ModelService implements ModelServiceInterface
             ?->toArray();
     }
 
+    /**
+     * 新增（或批量更新）.
+     */
     public function setData(string $modelClass, array $data, ?array $where = null): ?array
     {
         if ($where) {
-            $this->model($modelClass)->where(function ($query) use ($where) {
-                return $this->andWhere($query, $where);
-            })->update($data);
+            $this->getModelInstance($modelClass)
+                ->where(function ($query) use ($where) {
+                    return $this->andWhere($query, $where);
+                })
+                ->update($data);
 
             return [
                 'message' => __('message.Update success'),
             ];
         }
-        $model = $this->model($modelClass);
+        $model = $this->getModelInstance($modelClass);
         $model->fill($data);
         $model->save();
 
@@ -109,31 +144,12 @@ class ModelService implements ModelServiceInterface
         ];
     }
 
-    public function getTree(string $modelClass, array $where = [], array $columns = ['*'], array $orderBy = ['level' => 'asc', 'sort' => 'asc']): array
-    {
-        return arrayToTree($this->model($modelClass)
-            ->queryParentDescendant($params['parent'] ?? $params['parent_id'] ?? $params['parent_name'] ?? null)
-            ->where(function ($query) use ($where) {
-                unset($where['parent'], $where['parent_id'], $where['parent_name']);
-                return $this->andWhere($query, $where);
-            })
-            ->when(count($orderBy), function ($query) use ($orderBy) {
-                foreach ($orderBy as $field => $order) {
-                    if (is_int($field)) {
-                        $query->orderByRaw($order);
-                    } else {
-                        $query->orderBy($field, $order ?: 'asc');
-                    }
-                }
-            })
-            ->selectRaw(implode(',', $columns))
-            ->get()
-            ->toArray());
-    }
-
+    /**
+     * 获取数据集合.
+     */
     public function getItems(string $modelClass, array $where = [], array $with = [], array $orderBy = []): array
     {
-        return $this->model($modelClass)->where(function ($query) use ($where) {
+        return $this->getModelInstance($modelClass)->where(function ($query) use ($where) {
             return $this->andWhere($query, $where);
         })
             ->with($with)
@@ -150,9 +166,12 @@ class ModelService implements ModelServiceInterface
             ->toArray();
     }
 
+    /**
+     * 获取分页列表.
+     */
     public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, array $orderBy = []): array
     {
-        $model = $this->model($modelClass);
+        $model = $this->getModelInstance($modelClass);
         $query = $model->where(function ($query) use ($where) {
             return $this->andWhere($query, $where);
         })
@@ -190,9 +209,37 @@ class ModelService implements ModelServiceInterface
         ];
     }
 
+    /**
+     * 获取 Tree 集合.
+     */
+    public function getTree(string $modelClass, array $where = [], array $columns = ['*'], array $orderBy = ['level' => 'asc', 'sort' => 'asc']): array
+    {
+        return arrayToTree($this->getModelInstance($modelClass)
+            ->queryParentDescendant($params['parent'] ?? $params['parent_id'] ?? $params['parent_name'] ?? null)
+            ->where(function ($query) use ($where) {
+                unset($where['parent'], $where['parent_id'], $where['parent_name']);
+                return $this->andWhere($query, $where);
+            })
+            ->when(count($orderBy), function ($query) use ($orderBy) {
+                foreach ($orderBy as $field => $order) {
+                    if (is_int($field)) {
+                        $query->orderByRaw($order);
+                    } else {
+                        $query->orderBy($field, $order ?: 'asc');
+                    }
+                }
+            })
+            ->selectRaw(implode(',', array_filter($columns)))
+            ->get()
+            ->toArray(), 'parent_id', 'id', 'children');
+    }
+
+    /**
+     * 验证唯一性.
+     */
     public function validateUnique(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return ! $this->model($modelClass)
+        return ! $this->getModelInstance($modelClass)
             ->where(function ($query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -203,9 +250,12 @@ class ModelService implements ModelServiceInterface
             ->count($attribute);
     }
 
+    /**
+     * 验证数组有效.
+     */
     public function validateArray(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return $this->model($modelClass)
+        return $this->getModelInstance($modelClass)
             ->where(function ($query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -216,9 +266,12 @@ class ModelService implements ModelServiceInterface
             ->count($attribute) === count((array) $value);
     }
 
+    /**
+     * 验证是否存在.
+     */
     public function validateExists(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return (bool) $this->model($modelClass)
+        return (bool) $this->getModelInstance($modelClass)
             ->where(function (Builder $query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -229,9 +282,12 @@ class ModelService implements ModelServiceInterface
             ->count($attribute);
     }
 
+    /**
+     * 验证是否子孙.
+     */
     public function validateDescendant(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return (bool) $this->model($modelClass)
+        return (bool) $this->getModelInstance($modelClass)
             ->where(function ($query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -244,7 +300,7 @@ class ModelService implements ModelServiceInterface
             ->count($attribute);
     }
 
-    protected function model(string $modelClass): Model
+    protected function getModelInstance(string $modelClass): Model
     {
         $modelClass = (str_contains($modelClass, 'App\\Model\\') ? '' : 'App\\Model\\') . $modelClass;
 

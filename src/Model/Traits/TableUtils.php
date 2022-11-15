@@ -18,7 +18,7 @@ use Hyperf\DbConnection\Db;
 trait TableUtils
 {
     /**
-     * 获取表名.
+     * 获取数据库 表名.
      */
     public static function getTableName(bool $prefix = false): string
     {
@@ -26,7 +26,7 @@ trait TableUtils
     }
 
     /**
-     * 获取表 列信息.
+     * 获取数据库表 列信息.
      */
     public static function getTableColumns(): array
     {
@@ -41,8 +41,7 @@ trait TableUtils
     }
 
     /**
-     * 获取表 字段.
-     * @return string[]
+     * 获取数据库表 字段.
      */
     public static function getTableFields(): array
     {
@@ -50,7 +49,7 @@ trait TableUtils
     }
 
     /**
-     * 链接前缀。
+     * 获取数据库表 前缀。
      */
     public static function getPrefix(): string
     {
@@ -98,7 +97,7 @@ trait TableUtils
     }
 
     /**
-     * 批量数据插入。
+     * 批量插入数据。
      */
     public static function batchDataInsert(array $items, array|Model $parent = null): bool
     {
