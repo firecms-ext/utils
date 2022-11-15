@@ -78,6 +78,11 @@ class ContentModelRpcService extends AbstractServiceClient implements AuditModel
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
+    public function getTree(string $modelClass, array $where = [], array $columns = ['*'], array $orderBy = ['level' => 'asc', 'sort' => 'asc']): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
     public function validateUnique(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
         return $this->__request(__FUNCTION__, func_get_args());

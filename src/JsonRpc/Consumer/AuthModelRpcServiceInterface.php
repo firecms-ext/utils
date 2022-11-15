@@ -39,6 +39,8 @@ interface AuthModelRpcServiceInterface
 
     public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, array $orderBy = []): array;
 
+    public function getTree(string $modelClass, array $where = [], array $columns = ['*'], array $orderBy = ['level' => 'asc', 'sort' => 'asc']): array;
+
     public function validateUnique(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool;
 
     public function validateArray(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool;
