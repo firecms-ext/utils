@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
 namespace FirecmsExt\Utils\Service;
 
 interface BaseServiceInterface
@@ -23,15 +24,15 @@ interface BaseServiceInterface
 
     public function store(array $params): array;
 
-    public function show(string $id): array;
+    public function show(string $id, array $where = []): array;
 
-    public function update(array $params, string $id): array;
+    public function update(array $params, string $id, array $where = []): array;
 
-    public function destroy(string $ids): array;
+    public function destroy(string $ids, array $where = []): array;
 
-    public function forceDestroy(string $ids): array;
+    public function forceDestroy(string $ids, array $where = []): array;
 
-    public function restore(string $ids): array;
+    public function restore(string $ids, array $where = []): array;
 
     public function read(array $params): array;
 
@@ -43,25 +44,25 @@ interface BaseServiceInterface
 
     public function forceClearEmpty(?array $params = []): array;
 
-    public function top(array $params, string $id): array;
+    public function top(array $params, string $id, array $where = []): array;
 
-    public function sort(array $params, string $id): array;
+    public function sort(array $params, string $id, array $where = []): array;
 
-    public function display(array $params, string $ids): array;
+    public function display(array $params, string $ids, array $where = []): array;
 
-    public function enable(array $params, string $ids): array;
+    public function enable(array $params, string $ids, array $where = []): array;
 
-    public function recommend(array $params, string $ids): array;
+    public function recommend(array $params, string $ids, array $where = []): array;
 
-    public function state(array $params, string $ids): array;
+    public function state(array $params, string $ids, array $where = []): array;
 
-    public function unusual(array $params, string $ids): array;
+    public function unusual(array $params, string $ids, array $where = []): array;
 
-    public function hot(array $params, string $ids): array;
+    public function hot(array $params, string $ids, array $where = []): array;
 
-    public function directly(array $params, string $ids): array;
+    public function directly(array $params, string $ids, array $where = []): array;
 
-    public function publish(array $params, string $ids): array;
+    public function publish(array $params, string $ids, array $where = []): array;
 
-    public function publishExpired(array $params, string $ids): array;
+    public function publishExpired(array $params, string $ids, array $where = []): array;
 }
