@@ -13,7 +13,7 @@ namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 interface TranslationRpcServiceInterface
 {
-    public function translate(string $string, string $from = 'zh', string $to = 'en'): string;
+    public function translate(string $string, string $from = 'zh', string $to = 'en'): array;
 
     public function translations(string $category_name, string $local = 'zh_CN'): array;
 
