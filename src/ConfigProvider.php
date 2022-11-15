@@ -11,6 +11,8 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils;
 
+use FirecmsExt\Utils\JsonRpc\Consumer\AdvertRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\AdvertRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuditModelRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuditModelRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthModelRpcService;
@@ -58,6 +60,8 @@ class ConfigProvider
                 RegionRpcServiceInterface::class => RegionRpcService::class,
                 SettingRpcServiceInterface::class => SettingRpcService::class,
                 TranslationRpcServiceInterface::class => TranslationRpcService::class,
+
+                AdvertRpcServiceInterface::class => AdvertRpcService::class,
 
                 CategoryModelTypeRpcServiceInterface::class => CategoryModelTypeRpcService::class,
                 ContentModelTypeRpcServiceInterface::class => ContentModelTypeRpcService::class,
