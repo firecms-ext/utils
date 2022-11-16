@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
 use Carbon\Carbon;
+use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcServiceInterface;
 use Hyperf\Database\Model\Builder;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
@@ -367,5 +368,27 @@ if (! function_exists('ignoreWhere')) {
             }
         }
         return $query;
+    }
+}
+
+if (! function_exists('authUserId')) {
+    /**
+     * 当前用户ID.
+     */
+    function authUserId(): string
+    {
+        return (string) app()->get(AuthRpcServiceInterface::class)
+            ->id(request()->getHeader('authorization'));
+    }
+}
+
+if (! function_exists('authUser')) {
+    /**
+     * 获取当前用户.
+     */
+    function authUser(): array
+    {
+        return (array) app()->get(AuthRpcServiceInterface::class)
+            ->user(request()->getHeader('authorization'));
     }
 }
