@@ -15,9 +15,12 @@ use Hyperf\RpcClient\AbstractServiceClient;
 
 class RegionRpcService extends AbstractServiceClient implements RegionRpcServiceInterface
 {
-    protected $serviceName = 'RegionRpcService';
-
     public function options(array $params): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
+    public function currentCity(array $params): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }

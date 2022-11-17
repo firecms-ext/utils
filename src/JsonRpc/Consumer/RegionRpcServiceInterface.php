@@ -15,5 +15,7 @@ interface RegionRpcServiceInterface
 {
     public function options(array $params): array;
 
+    public function currentCity(array $params): array;
+
     public function search($params, int $page = 1, int $limit = -1): array;
 }
