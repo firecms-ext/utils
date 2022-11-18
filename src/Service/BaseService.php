@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
-
 namespace FirecmsExt\Utils\Service;
 
 use Carbon\Carbon;
@@ -53,12 +52,12 @@ class BaseService implements BaseServiceInterface
             ->where(function ($query) use ($params) {
                 return $this->listWhere($query, $params);
             })
-            ->when((bool)($params['recycle'] ?? null), function ($query) {
+            ->when((bool) ($params['recycle'] ?? null), function ($query) {
                 // 回收站
                 return $query->onlyTrashed();
             });
         $total = $query->count($model->getKeyName() ?: '*');
-        if (!$total) {
+        if (! $total) {
             return [
                 'total' => $total,
                 'items' => [],
@@ -72,7 +71,7 @@ class BaseService implements BaseServiceInterface
             'total' => $total,
             'items' => $this->getCollection(
                 $query->when(
-                    (string)($params['field'] ?? null) ?: ($this->orderField ?: $model->getKeyName()),
+                    (string) ($params['field'] ?? null) ?: ($this->orderField ?: $model->getKeyName()),
                     function ($query, $value) use ($params) {
                         // 排序方式
                         return $query->orderBy($value, in_array(
@@ -108,7 +107,7 @@ class BaseService implements BaseServiceInterface
                 })
                 ->orderBy('level')
                 ->when(
-                    (string)($params['field'] ?? null) ?: ($this->orderField ?: $model->getKeyName()),
+                    (string) ($params['field'] ?? null) ?: ($this->orderField ?: $model->getKeyName()),
                     function ($query, $value) use ($params) {
                         // 排序方式
                         return $query->orderBy($value, in_array(
@@ -324,10 +323,10 @@ class BaseService implements BaseServiceInterface
         Db::transaction(function () use ($params, &$count) {
             $count = $this->getModelInstance()
                 ->query(true)
-                ->when((string)$params['start_at'], function ($query, $value) {
+                ->when((string) $params['start_at'], function ($query, $value) {
                     return $query->where('created_at', '>=', $value);
                 })
-                ->where('created_at', '<=', (string)$params['end_at'])
+                ->where('created_at', '<=', (string) $params['end_at'])
                 ->where(function (Builder $query) use ($params) {
                     unset($params['start_at'], $params['end_at']);
 
@@ -350,10 +349,10 @@ class BaseService implements BaseServiceInterface
         $count = 0;
         Db::transaction(function () use ($params, &$count) {
             $count = $this->getModelInstance()
-                ->when((string)$params['start_at'], function ($query, $value) {
+                ->when((string) $params['start_at'], function ($query, $value) {
                     return $query->where('created_at', '>=', $value);
                 })
-                ->where('created_at', '<=', (string)$params['end_at'])
+                ->where('created_at', '<=', (string) $params['end_at'])
                 ->where(function (Builder $query) use ($params) {
                     unset($params['start_at'], $params['end_at']);
 
@@ -452,7 +451,7 @@ class BaseService implements BaseServiceInterface
             })
             ->findOrFail($id);
         Db::transaction(function () use ($params, $model) {
-            $model->sort = (int)$params['sort'];
+            $model->sort = (int) $params['sort'];
             $model->save();
         });
 
@@ -473,7 +472,7 @@ class BaseService implements BaseServiceInterface
                     return $this->andWhere($query, $where);
                 })
                 ->update([
-                    'display' => (int)$params['display'],
+                    'display' => (int) $params['display'],
                 ]);
         });
 
@@ -497,7 +496,7 @@ class BaseService implements BaseServiceInterface
                     return $this->andWhere($query, $where);
                 })
                 ->update([
-                    'enable' => (int)$params['enable'],
+                    'enable' => (int) $params['enable'],
                 ]);
         });
 
@@ -521,7 +520,7 @@ class BaseService implements BaseServiceInterface
                     return $this->andWhere($query, $where);
                 })
                 ->update([
-                    'recommend' => (int)$params['recommend'],
+                    'recommend' => (int) $params['recommend'],
                 ]);
         });
 
@@ -545,7 +544,7 @@ class BaseService implements BaseServiceInterface
                     return $this->andWhere($query, $where);
                 })
                 ->update([
-                    'state' => (int)$params['state'],
+                    'state' => (int) $params['state'],
                 ]);
         });
 
@@ -708,34 +707,34 @@ class BaseService implements BaseServiceInterface
     {
         return $query->when(is_numeric($params['read'] ?? null), function ($query) use ($params) {
             // 是否已读
-            return $query->where('read', (bool)$params['read']);
+            return $query->where('read', (bool) $params['read']);
         })->when(is_numeric($params['display'] ?? null), function ($query) use ($params) {
             // 是否显示
-            return $query->where('display', (bool)$params['display']);
+            return $query->where('display', (bool) $params['display']);
         })->when(is_numeric($params['unusual'] ?? null), function ($query) use ($params) {
             // 是否异常
-            return $query->where('unusual', (bool)$params['unusual']);
+            return $query->where('unusual', (bool) $params['unusual']);
         })->when(is_numeric($params['draft'] ?? null), function ($query) use ($params) {
             // 是否草稿
-            return $query->where('draft', (bool)$params['draft']);
+            return $query->where('draft', (bool) $params['draft']);
         })->when(is_numeric($params['publish'] ?? null), function ($query) use ($params) {
             // 是否发布
-            return $query->where('publish', (bool)$params['publish']);
+            return $query->where('publish', (bool) $params['publish']);
         })->when(is_numeric($params['top'] ?? null), function ($query) use ($params) {
             // 是否置顶
-            return $query->where('top', (bool)$params['top']);
+            return $query->where('top', (bool) $params['top']);
         })->when(is_numeric($params['hot'] ?? null), function ($query) use ($params) {
             // 是否热门
-            return $query->where('hot', (bool)$params['hot']);
+            return $query->where('hot', (bool) $params['hot']);
         })->when(is_numeric($params['enable'] ?? null), function ($query) use ($params) {
             // 是否启用
-            return $query->where('enable', (bool)$params['enable']);
+            return $query->where('enable', (bool) $params['enable']);
         })->when(is_numeric($params['directly'] ?? null), function ($query) use ($params) {
             // 是否直接
-            return $query->where('directly', (bool)$params['directly']);
+            return $query->where('directly', (bool) $params['directly']);
         })->when(is_numeric($params['recommend'] ?? null), function ($query) use ($params) {
             // 是否推荐
-            return $query->where('recommend', (bool)$params['recommend']);
+            return $query->where('recommend', (bool) $params['recommend']);
         })->queryKeyword($params['keyword'] ?? null);
     }
 
