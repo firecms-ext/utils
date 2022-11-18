@@ -85,7 +85,7 @@ class BaseService implements BaseServiceInterface
                         return $query->offset(($page - 1) * $limit)
                             ->limit($limit);
                     })
-                    ->selectRaw(implode(',', $this->listTableColumns()))
+                    ->selectRaw(implode(',', $this->listTableColumns($params)))
                     ->get()
             )->toArray(),
         ];
@@ -117,7 +117,7 @@ class BaseService implements BaseServiceInterface
                         ) ? 'desc' : 'asc');
                     }
                 )
-                ->selectRaw(implode(',', $this->treeTableColumns()))
+                ->selectRaw(implode(',', $this->treeTableColumns($params)))
                 ->get()
         );
     }
