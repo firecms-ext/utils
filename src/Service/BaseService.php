@@ -767,7 +767,7 @@ class BaseService implements BaseServiceInterface
     /**
      * 分页列表查询字段。
      */
-    protected function listTableSelect(): array
+    protected function listTableSelect(array $params): array
     {
         return ['*'];
     }
@@ -791,7 +791,7 @@ class BaseService implements BaseServiceInterface
     /**
      * 树列表查询字段.
      */
-    protected function treeTableSelect(): array
+    protected function treeTableSelect(array $params): array
     {
         return ['*'];
     }
