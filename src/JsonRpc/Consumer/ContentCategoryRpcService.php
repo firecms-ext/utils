@@ -13,22 +13,27 @@ namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 class ContentCategoryRpcService extends AbstractServiceClient implements ContentCategoryRpcServiceInterface
 {
-    public function tree(array $params, int $level = 4, int $limit = -1): array
-    {
-        return $this->__request(__FUNCTION__, func_get_args());
-    }
-
-    public function list(array $params, array $with = [], int $page = 1, int $limit = -1): array
-    {
-        return $this->__request(__FUNCTION__, func_get_args());
-    }
-
     public function treeOptions(array $params): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
     public function modelTypeOptions(): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
+    public function categories($model_type, $type): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
+    public function hotCategories(string $model_type): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
+    public function recommendCategories(string $model_type): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }

@@ -13,11 +13,13 @@ namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 interface ContentCategoryRpcServiceInterface
 {
-    public function tree(array $params, int $level = 4, int $limit = -1): array;
-
-    public function list(array $params, array $with = [], int $page = 1, int $limit = -1): array;
+    public function modelTypeOptions(): array;
 
     public function treeOptions(array $params): array;
 
-    public function modelTypeOptions(): array;
+    public function categories($model_type, $type): array;
+
+    public function hotCategories(string $model_type): array;
+
+    public function recommendCategories(string $model_type): array;
 }
