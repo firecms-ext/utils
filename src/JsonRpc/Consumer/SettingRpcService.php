@@ -13,12 +13,12 @@ namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 class SettingRpcService extends AbstractServiceClient implements SettingRpcServiceInterface
 {
-    public function group(string $group): ?array
+    public function group(string $group): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function value(string $group, string $name): ?string
+    public function value(string $group, string $name): string
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
