@@ -324,17 +324,17 @@ class ModelService implements ModelServiceInterface
             ->count($attribute);
     }
 
-    protected function getWiths(array $params): array
+    protected function getWiths(array $withs): array
     {
-        $withs = [];
-        foreach ($params['withs'] ?? [] as $key => $value) {
-            if (is_string($key) && is_array($value)) {
-                $withs[$key] = $value;
-            } elseif (is_string($value)) {
+        $temp = [];
+        foreach ($withs as $key => $value) {
+            if (is_string($value)) {
                 $withs[$value] = $value;
+            } else {
+                $temp [$key] = $value;
             }
         }
-        return $withs;
+        return $temp;
     }
 
     protected function getItem(array $item, array $withs): array
