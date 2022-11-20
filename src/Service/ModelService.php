@@ -179,7 +179,8 @@ class ModelService implements ModelServiceInterface
             ->get()
             ->map(function ($item) use ($withs) {
                 return $this->getItem($item->toArray(), $withs);
-            });
+            })
+            ->toArray();
     }
 
     /**
@@ -227,7 +228,8 @@ class ModelService implements ModelServiceInterface
                 ->get()
                 ->map(function ($item) use ($withs) {
                     return $this->getItem($item->toArray(), $withs);
-                }),
+                })
+                ->toArray(),
         ];
     }
 
