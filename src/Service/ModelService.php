@@ -149,6 +149,9 @@ class ModelService implements ModelServiceInterface
      */
     public function getItems(string $modelClass, array $where = [], array $with = [], array $orderBy = []): array
     {
+        $columns = $where['columns'] ?? ['*'];
+        $limit = max($where['limit'] ?? 0, 0);
+        unset($where['columns'], $where['limit']);
         return $this->getModelInstance($modelClass)->where(function ($query) use ($where) {
             return $this->andWhere($query, $where);
         })
@@ -162,6 +165,10 @@ class ModelService implements ModelServiceInterface
                     }
                 }
             })
+            ->when($limit, function ($query, $value) {
+                return $query->limit($value);
+            })
+            ->selectRaw(implode(',', $columns))
             ->get()
             ->toArray();
     }
@@ -174,8 +181,7 @@ class ModelService implements ModelServiceInterface
         $model = $this->getModelInstance($modelClass);
         $query = $model->where(function ($query) use ($where) {
             return $this->andWhere($query, $where);
-        })
-            ->with($with);
+        });
 
         $total = $query->count($model->getKeyName() ?: '*');
 
@@ -187,23 +193,27 @@ class ModelService implements ModelServiceInterface
         }
         $page = max($page, 1);
         $limit = max($page, 0);
+        $columns = $where['columns'] ?? ['*'];
+        unset($where['columns']);
         return [
             'total' => $total,
             'page' => $page,
             'limit' => $limit,
-            'items' => $query->when(count($orderBy), function ($query) use ($orderBy) {
-                foreach ($orderBy as $field => $order) {
-                    if (is_int($field)) {
-                        $query->orderByRaw($order);
-                    } else {
-                        $query->orderBy($field, $order ?: 'asc');
+            'items' => $query->with($with)
+                ->when(count($orderBy), function ($query) use ($orderBy) {
+                    foreach ($orderBy as $field => $order) {
+                        if (is_int($field)) {
+                            $query->orderByRaw($order);
+                        } else {
+                            $query->orderBy($field, $order ?: 'asc');
+                        }
                     }
-                }
-            })
+                })
                 ->when($limit, function ($query) use ($page, $limit) {
                     return $query->offset(($page - 1) * $limit)
                         ->limit($limit);
                 })
+                ->selectRaw(implode(',', $columns))
                 ->get()
                 ->toArray(),
         ];
