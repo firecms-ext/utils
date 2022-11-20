@@ -13,7 +13,19 @@ namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 interface AdvertRpcServiceInterface
 {
+    public function publishItems(array $params): array;
+
+    public function publishTopItems(array $params): array;
+
+    public function publishHotItems(array $params): array;
+
+    public function publishRecommendItems(array $params): array;
+
     public function publishList(array $params): array;
 
-    public function publishOne(array $params): array;
+    public function publishTopList(array $params): array;
+
+    public function publishHotList(array $params): array;
+
+    public function publishRecommendList(array $params): array;
 }

@@ -13,12 +13,42 @@ namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 class AdvertRpcService extends AbstractServiceClient implements AdvertRpcServiceInterface
 {
+    public function publishItems(array $params): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
+    public function publishTopItems(array $params): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
+    public function publishHotItems(array $params): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
+    public function publishRecommendItems(array $params): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
     public function publishList(array $params): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function publishOne(array $params): array
+    public function publishTopList(array $params): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
+    public function publishHotList(array $params): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
+    public function publishRecommendList(array $params): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
