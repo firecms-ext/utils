@@ -53,12 +53,12 @@ class CrawlModelRpcService extends AbstractServiceClient implements AuditModelRp
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function find(string $modelClass, string $id, array $with = []): array
+    public function find(string $modelClass, string $id, array $withs = []): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function getData(string $modelClass, array $where = [], array $with = []): array
+    public function getData(string $modelClass, array $where = [], array $withs = []): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
@@ -68,12 +68,12 @@ class CrawlModelRpcService extends AbstractServiceClient implements AuditModelRp
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function getItems(string $modelClass, array $where = [], array $with = [], array $orderBy = []): array
+    public function getItems(string $modelClass, array $where = [], array $withs = [], array $orderBy = []): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, array $orderBy = []): array
+    public function getList(string $modelClass, array $where = [], array $withs = [], int $page = 1, int $limit = 20, array $orderBy = []): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }

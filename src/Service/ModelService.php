@@ -14,6 +14,7 @@ namespace FirecmsExt\Utils\Service;
 use FirecmsExt\Utils\Model\Model;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Database\Model\Builder;
+use Hyperf\Utils\Arr;
 
 class ModelService implements ModelServiceInterface
 {
@@ -97,26 +98,30 @@ class ModelService implements ModelServiceInterface
      * 模型查询（主键）.
      */
     #[Cacheable(prefix: 'ModelService', value: '#{id}', ttl: 1)]
-    public function find(string $modelClass, string $id, array $with = []): ?array
+    public function find(string $modelClass, string $id, array $withs = []): ?array
     {
-        return $this->getModelInstance($modelClass)
-            ->with($with)
+        $withs = $this->getWiths($withs);
+
+        return $this->getItem($this->getModelInstance($modelClass)
+            ->with(array_keys($withs))
             ->find($id)
-            ?->toArray();
+            ?->toArray(), $withs);
     }
 
     /**
      * 模型查询（自定义条件）.
      */
-    public function getData(string $modelClass, array $where = [], array $with = []): ?array
+    public function getData(string $modelClass, array $where = [], array $withs = []): ?array
     {
-        return $this->getModelInstance($modelClass)
+        $withs = $this->getWiths($withs);
+
+        return $this->getItem($this->getModelInstance($modelClass)
             ->where(function ($query) use ($where) {
                 return $this->andWhere($query, $where);
             })
-            ->with($with)
+            ->with(array_keys($withs))
             ->first()
-            ?->toArray();
+            ?->toArray(), $withs);
     }
 
     /**
@@ -147,13 +152,14 @@ class ModelService implements ModelServiceInterface
     /**
      * 获取数据集合.
      */
-    public function getItems(string $modelClass, array $where = [], array $with = [], array $orderBy = []): array
+    public function getItems(string $modelClass, array $where = [], array $withs = [], array $orderBy = []): array
     {
         $columns = $where['columns'] ?? ['*'];
         $limit = max($where['limit'] ?? 0, 0);
         unset($where['columns'], $where['limit']);
+        $withs = $this->getWiths($withs);
         return $this->getModelInstance($modelClass)
-            ->with($with)
+            ->with(array_keys($withs))
             ->where(function ($query) use ($where) {
                 return $this->andWhere($query, $where);
             })
@@ -171,13 +177,15 @@ class ModelService implements ModelServiceInterface
             })
             ->selectRaw(implode(',', $columns))
             ->get()
-            ->toArray();
+            ->map(function ($item) use ($withs) {
+                return $this->getItem($item->toArray(), $withs);
+            });
     }
 
     /**
      * 获取分页列表.
      */
-    public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, array $orderBy = []): array
+    public function getList(string $modelClass, array $where = [], array $withs = [], int $page = 1, int $limit = 20, array $orderBy = []): array
     {
         $model = $this->getModelInstance($modelClass);
         $query = $model->where(function ($query) use ($where) {
@@ -192,6 +200,7 @@ class ModelService implements ModelServiceInterface
                 'items' => [],
             ];
         }
+        $withs = $this->getWiths($withs);
         $page = max($page, 1);
         $limit = max($page, 0);
         $columns = $where['columns'] ?? ['*'];
@@ -200,7 +209,7 @@ class ModelService implements ModelServiceInterface
             'total' => $total,
             'page' => $page,
             'limit' => $limit,
-            'items' => $query->with($with)
+            'items' => $query->with(array_keys($withs))
                 ->when(count($orderBy), function ($query) use ($orderBy) {
                     foreach ($orderBy as $field => $order) {
                         if (is_int($field)) {
@@ -216,7 +225,9 @@ class ModelService implements ModelServiceInterface
                 })
                 ->selectRaw(implode(',', $columns))
                 ->get()
-                ->toArray(),
+                ->map(function ($item) use ($withs) {
+                    return $this->getItem($item->toArray(), $withs);
+                }),
         ];
     }
 
@@ -309,6 +320,30 @@ class ModelService implements ModelServiceInterface
             ->descendantWhere()
             ->where($attribute, $value)
             ->count($attribute);
+    }
+
+    protected function getWiths(array $params): array
+    {
+        $withs = [];
+        foreach ($params['withs'] ?? [] as $key => $value) {
+            if (is_string($key) && is_array($value)) {
+                $withs[$key] = $value;
+            } elseif (is_string($value)) {
+                $withs[$value] = $value;
+            }
+        }
+        return $withs;
+    }
+
+    protected function getItem(array $item, array $withs): array
+    {
+        foreach ($withs as $field => $fields) {
+            if (is_array($fields)) {
+                $item[$field] = Arr::only($item[$field], $fields);
+            }
+        }
+
+        return $item;
     }
 
     protected function getModelInstance(string $modelClass): Model

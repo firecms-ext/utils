@@ -29,15 +29,15 @@ interface CrawlModelRpcServiceInterface
 
     public function batchDataInsert(string $modelClass, array $items, ?array $parent = null): bool;
 
-    public function find(string $modelClass, string $id, array $with = []): ?array;
+    public function find(string $modelClass, string $id, array $withs = []): ?array;
 
-    public function getData(string $modelClass, array $where = [], array $with = []): ?array;
+    public function getData(string $modelClass, array $where = [], array $withs = []): ?array;
 
     public function setData(string $modelClass, array $data, ?array $where = null): ?array;
 
-    public function getItems(string $modelClass, array $where = [], array $with = [], array $orderBy = []): array;
+    public function getItems(string $modelClass, array $where = [], array $withs = [], array $orderBy = []): array;
 
-    public function getList(string $modelClass, array $where = [], array $with = [], int $page = 1, int $limit = 20, array $orderBy = []): array;
+    public function getList(string $modelClass, array $where = [], array $withs = [], int $page = 1, int $limit = 20, array $orderBy = []): array;
 
     public function getTree(string $modelClass, array $where = [], array $columns = ['*'], array $orderBy = ['level' => 'asc', 'sort' => 'asc']): array;
 
