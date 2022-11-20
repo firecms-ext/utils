@@ -341,8 +341,14 @@ class ModelService implements ModelServiceInterface
     protected function getItem(array $item, array $withs): array
     {
         foreach ($withs as $field => $fields) {
-            if (is_array($fields)) {
-                $item[$field] = Arr::only($item[$field], $fields);
+            if (is_array($fields) && is_array($item[$field])) {
+                if (count(array_intersect($fields, array_keys($item[$field])))) {
+                    $item[$field] = Arr::only($item[$field], $fields);
+                } else {
+                    foreach ($item[$field] as $key => $row) {
+                        $item[$field][$key] = Arr::only($row, $fields);
+                    }
+                }
             }
         }
 
