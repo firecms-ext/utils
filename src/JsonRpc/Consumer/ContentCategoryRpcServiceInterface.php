@@ -17,9 +17,9 @@ interface ContentCategoryRpcServiceInterface
 
     public function treeOptions(array $params): array;
 
-    public function categories($model_type, $type): array;
+    public function getCategories($model_type, $type): array;
 
-    public function hotCategories(string $model_type): array;
+    public function getHotCategories(string $model_type): array;
 
-    public function recommendCategories(string $model_type): array;
+    public function getRecommendCategories(string $model_type): array;
 }

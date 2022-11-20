@@ -23,17 +23,17 @@ class ContentCategoryRpcService extends AbstractServiceClient implements Content
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function categories($model_type, $type): array
+    public function getCategories($model_type, $type): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function hotCategories(string $model_type): array
+    public function getHotCategories(string $model_type): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function recommendCategories(string $model_type): array
+    public function getRecommendCategories(string $model_type): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
