@@ -152,10 +152,11 @@ class ModelService implements ModelServiceInterface
         $columns = $where['columns'] ?? ['*'];
         $limit = max($where['limit'] ?? 0, 0);
         unset($where['columns'], $where['limit']);
-        return $this->getModelInstance($modelClass)->where(function ($query) use ($where) {
-            return $this->andWhere($query, $where);
-        })
+        return $this->getModelInstance($modelClass)
             ->with($with)
+            ->where(function ($query) use ($where) {
+                return $this->andWhere($query, $where);
+            })
             ->when(count($orderBy), function ($query) use ($orderBy) {
                 foreach ($orderBy as $field => $order) {
                     if (is_int($field)) {
