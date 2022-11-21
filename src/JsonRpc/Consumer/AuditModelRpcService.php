@@ -63,7 +63,7 @@ class AuditModelRpcService extends AbstractServiceClient implements AuditModelRp
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function setData(string $modelClass, array $data, ?array $where = null): ?array
+    public function setData(string $modelClass, array $data, ?array $where = null): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }

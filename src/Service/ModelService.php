@@ -127,7 +127,7 @@ class ModelService implements ModelServiceInterface
     /**
      * 新增（或批量更新）.
      */
-    public function setData(string $modelClass, array $data, ?array $where = null): ?array
+    public function setData(string $modelClass, array $data, ?array $where = null): array
     {
         if ($where) {
             $this->getModelInstance($modelClass)
