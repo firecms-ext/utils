@@ -352,7 +352,7 @@ class ModelService implements ModelServiceInterface
             }
         }
 
-        return $item;
+        return (array)$item;
     }
 
     protected function getModelInstance(string $modelClass): Model
