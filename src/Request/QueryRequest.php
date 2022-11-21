@@ -37,6 +37,7 @@ abstract class QueryRequest extends FormRequest
             // 基础通用
             'recycle' => 'nullable|boolean', // 回收站
             'keyword' => 'nullable|max:100', // 关键字
+            'limit' => 'nullable|integer|between:1,1000', // 分页大小
             'perpage' => 'nullable|integer|between:1,1000', // 分页大小
             'pageSize' => 'nullable|integer|between:1,1000', // 分页大小
             'page' => 'nullable|integer|min:1', // 当前页码
