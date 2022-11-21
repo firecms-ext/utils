@@ -103,7 +103,7 @@ class ModelService implements ModelServiceInterface
     {
         $withs = $this->getWiths($withs);
 
-        return $this->getItem($this->getModelInstance($modelClass)
+        return $this->getItem((array)$this->getModelInstance($modelClass)
             ->with(array_keys($withs))
             ->find($id)
             ?->toArray(), $withs);
@@ -116,7 +116,7 @@ class ModelService implements ModelServiceInterface
     {
         $withs = $this->getWiths($withs);
 
-        return $this->getItem($this->getModelInstance($modelClass)
+        return $this->getItem((array)$this->getModelInstance($modelClass)
             ->where(function ($query) use ($where) {
                 return $this->andWhere($query, $where);
             })
@@ -352,7 +352,7 @@ class ModelService implements ModelServiceInterface
             }
         }
 
-        return (array)$item;
+        return $item;
     }
 
     protected function getModelInstance(string $modelClass): Model
