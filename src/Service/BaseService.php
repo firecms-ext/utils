@@ -66,20 +66,16 @@ class BaseService implements BaseServiceInterface
 
         $page = $this->getPage($params);
         $limit = $this->getLimit($params);
-
+        $orderBy = $this->getOrderBy($params);
         return [
             'total' => $total,
             'items' => $this->getCollection(
-                $query->when(
-                    (string) ($params['field'] ?? null) ?: ($this->orderField ?: $model->getKeyName()),
-                    function ($query, $value) use ($params) {
-                        // 排序方式
-                        return $query->orderBy($value, in_array(
-                            ($params['order'] ?? null) ?: $this->orderBy,
-                            ['descend', 'desc']
-                        ) ? 'desc' : 'asc');
+                $query->where(function ($query) use ($orderBy) {
+                    foreach ($orderBy as $field => $order) {
+                        $query = $query->orderBy($field, $order ?: 'asc');
                     }
-                )
+                    return $query;
+                })->when()
                     ->when($limit, function ($query) use ($page, $limit) {
                         return $query->offset(($page - 1) * $limit)
                             ->limit($limit);
@@ -698,6 +694,25 @@ class BaseService implements BaseServiceInterface
                 __('message.Publish success', compact('count')) :
                 __('message.Publish cancel', compact('count')),
         ];
+    }
+
+    /**
+     * 获取排序规则.
+     * @param mixed $params
+     */
+    protected function getOrderBy($params): array
+    {
+        if (isset($params['orderBy'])) {
+            return $params['orderBy'];
+        }
+        if (! empty($params['field']) && ! empty($params['order'])) {
+            return [$params['field'] => in_array($params['order'], ['descend', 'desc']) ? 'desc' : 'asc'];
+        }
+        if ($this->orderField && $this->orderBy) {
+            return [$this->orderField => $this->orderBy];
+        }
+
+        return [];
     }
 
     /**
