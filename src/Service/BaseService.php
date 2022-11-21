@@ -683,11 +683,9 @@ class BaseService implements BaseServiceInterface
      */
     protected function getOrderBy(Builder $query, array $params, array $orderBy = []): Builder
     {
-        if (isset($params['orderBy'])) {
+        if (! empty($params['orderBy'])) {
             $orderBy = $params['orderBy'];
-        }
-
-        if (! empty($params['field']) && ! empty($params['order'])) {
+        } elseif (! empty($params['field']) && ! empty($params['order'])) {
             $orderBy = [$params['field'] => in_array($params['order'], ['descend', 'desc']) ? 'desc' : 'asc'];
         }
 
