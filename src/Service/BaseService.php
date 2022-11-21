@@ -69,7 +69,7 @@ class BaseService implements BaseServiceInterface
 
         return [
             'total' => $total,
-            'items' => $this->getCollection($query->where(function ($query) use ($params) {
+            'items' => $this->getCollection($query->when(true, function ($query) use ($params) {
                 return $this->getOrderBy($query, $params, [$this->orderField => $this->orderBy]);
             })
                 ->when($limit, function ($query) use ($page, $limit) {
@@ -97,7 +97,7 @@ class BaseService implements BaseServiceInterface
                     return $this->treeWhere($query, $params);
                 })
                 ->orderBy('level')
-                ->where(function ($query) use ($params) {
+                ->when(true, function ($query) use ($params) {
                     return $this->getOrderBy($query, $params, ['sort' => 'asc']);
                 })
                 ->selectRaw(implode(',', $this->treeTableColumns($params)))
@@ -118,7 +118,7 @@ class BaseService implements BaseServiceInterface
                 ->where(function ($query) use ($params) {
                     return $this->listWhere($query, $params);
                 })
-                ->where(function ($query) use ($params, $sort) {
+                ->when(true, function ($query) use ($params, $sort) {
                     return $this->getOrderBy($query, $params, (array) $sort);
                 })
                 ->selectRaw(implode(',', $columns))
@@ -143,7 +143,7 @@ class BaseService implements BaseServiceInterface
                     return $this->treeWhere($query, $params);
                 })
                 ->orderBy('level')
-                ->where(function ($query) use ($params, $sort) {
+                ->when(true, function ($query) use ($params, $sort) {
                     return $this->getOrderBy($query, $params, (array) $sort);
                 })
                 ->selectRaw(implode(',', $columns))
