@@ -19,7 +19,7 @@ interface AuthRpcServiceInterface
 
     public function id(array $authorization): ?string;
 
-    public function user(array $authorization): ?array;
+    public function user(array $authorization): array;
 
     public function username(array $authorization): ?string;
 }

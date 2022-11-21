@@ -13,5 +13,5 @@ namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 interface IpQueryRpcServiceInterface
 {
-    public function query(string $ip): ?array;
+    public function query(string $ip): array;
 }

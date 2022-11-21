@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
-
 namespace FirecmsExt\Utils\Service;
 
 use FirecmsExt\Utils\Model\Model;
@@ -99,11 +98,11 @@ class ModelService implements ModelServiceInterface
      * 模型查询（主键）.
      */
     #[Cacheable(prefix: 'ModelService', value: '#{id}', ttl: 1)]
-    public function find(string $modelClass, string $id, array $withs = []): ?array
+    public function find(string $modelClass, string $id, array $withs = []): array
     {
         $withs = $this->getWiths($withs);
 
-        return $this->getItem((array)$this->getModelInstance($modelClass)
+        return $this->getItem((array) $this->getModelInstance($modelClass)
             ->with(array_keys($withs))
             ->find($id)
             ?->toArray(), $withs);
@@ -112,11 +111,11 @@ class ModelService implements ModelServiceInterface
     /**
      * 模型查询（自定义条件）.
      */
-    public function getData(string $modelClass, array $where = [], array $withs = []): ?array
+    public function getData(string $modelClass, array $where = [], array $withs = []): array
     {
         $withs = $this->getWiths($withs);
 
-        return $this->getItem((array)$this->getModelInstance($modelClass)
+        return $this->getItem((array) $this->getModelInstance($modelClass)
             ->where(function ($query) use ($where) {
                 return $this->andWhere($query, $where);
             })
@@ -196,7 +195,7 @@ class ModelService implements ModelServiceInterface
 
         $total = $query->count($model->getKeyName() ?: '*');
 
-        if (!$total) {
+        if (! $total) {
             return [
                 'total' => $total,
                 'items' => [],
@@ -264,7 +263,7 @@ class ModelService implements ModelServiceInterface
      */
     public function validateUnique(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return !$this->getModelInstance($modelClass)
+        return ! $this->getModelInstance($modelClass)
             ->where(function ($query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -281,14 +280,14 @@ class ModelService implements ModelServiceInterface
     public function validateArray(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
         return $this->getModelInstance($modelClass)
-                ->where(function ($query) use ($ignore) {
-                    return $this->ignoreWhere($query, $ignore);
-                })
-                ->where(function ($query) use ($where) {
-                    return $this->andWhere($query, $where);
-                })
-                ->whereIn($attribute, $value)
-                ->count($attribute) === count((array)$value);
+            ->where(function ($query) use ($ignore) {
+                return $this->ignoreWhere($query, $ignore);
+            })
+            ->where(function ($query) use ($where) {
+                return $this->andWhere($query, $where);
+            })
+            ->whereIn($attribute, $value)
+            ->count($attribute) === count((array) $value);
     }
 
     /**
@@ -296,7 +295,7 @@ class ModelService implements ModelServiceInterface
      */
     public function validateExists(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return (bool)$this->getModelInstance($modelClass)
+        return (bool) $this->getModelInstance($modelClass)
             ->where(function (Builder $query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -312,7 +311,7 @@ class ModelService implements ModelServiceInterface
      */
     public function validateDescendant(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return (bool)$this->getModelInstance($modelClass)
+        return (bool) $this->getModelInstance($modelClass)
             ->where(function ($query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })

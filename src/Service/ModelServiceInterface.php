@@ -29,11 +29,11 @@ interface ModelServiceInterface
 
     public function batchDataInsert(string $modelClass, array $items, ?array $parent = null): bool;
 
-    public function find(string $modelClass, string $id, array $withs = []): ?array;
+    public function find(string $modelClass, string $id, array $withs = []): array;
 
-    public function getData(string $modelClass, array $where = [], array $withs = []): ?array;
+    public function getData(string $modelClass, array $where = [], array $withs = []): array;
 
-    public function setData(string $modelClass, array $data, ?array $where = null): ?array;
+    public function setData(string $modelClass, array $data, ?array $where = null): array;
 
     public function getItems(string $modelClass, array $where = [], array $withs = [], array $orderBy = []): array;
 
