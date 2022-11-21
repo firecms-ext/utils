@@ -64,8 +64,8 @@ class BaseService implements BaseServiceInterface
             ];
         }
 
-        $page = max($params['page'] ?? 1, 1);
-        $limit = max($params['perpage'] ?? $params['pageSize'] ?? 20, 0);
+        $page = $this->getPage($params);
+        $limit = $this->getLimit($params);
 
         return [
             'total' => $total,
@@ -698,6 +698,16 @@ class BaseService implements BaseServiceInterface
                 __('message.Publish success', compact('count')) :
                 __('message.Publish cancel', compact('count')),
         ];
+    }
+
+    protected function getPage(array $params, int $default = 1): int
+    {
+        return max($params['page'] ?? $default, 1);
+    }
+
+    protected function getLimit(array $params, int $default = 10): int
+    {
+        return max($params['limit'] ?? $params['perpage'] ?? $params['pageSize'] ?? $default, 0);
     }
 
     /**
