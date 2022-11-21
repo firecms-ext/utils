@@ -69,17 +69,16 @@ class BaseService implements BaseServiceInterface
 
         return [
             'total' => $total,
-            'items' => $this->getCollection(
-                $query->where(function ($query) use ($params) {
+            'items' => $this->getCollection($query->where(function ($query) use ($params) {
                 return $this->getOrderBy($query, $params, [$this->orderField => $this->orderBy]);
             })
-                    ->when($limit, function ($query) use ($page, $limit) {
-                        return $query->offset(($page - 1) * $limit)
-                            ->limit($limit);
-                    })
-                    ->selectRaw(implode(',', $this->listTableColumns($params)))
-                    ->get()
-            )->toArray(),
+                ->when($limit, function ($query) use ($page, $limit) {
+                    return $query->offset(($page - 1) * $limit)
+                        ->limit($limit);
+                })
+                ->selectRaw(implode(',', $this->listTableColumns($params)))
+                ->get())
+                ->toArray(),
         ];
     }
 
@@ -708,7 +707,7 @@ class BaseService implements BaseServiceInterface
      */
     protected function getPage(array $params, int $default = 1): int
     {
-        return max($params['page'] ?? $default, 1);
+        return (int) max($params['page'] ?? $default, 1);
     }
 
     /**
@@ -716,7 +715,7 @@ class BaseService implements BaseServiceInterface
      */
     protected function getLimit(array $params, int $default = 10): int
     {
-        return max($params['limit'] ?? $params['perpage'] ?? $params['pageSize'] ?? $default, 0);
+        return (int) max($params['limit'] ?? $params['perpage'] ?? $params['pageSize'] ?? $default, 0);
     }
 
     /**
