@@ -259,6 +259,16 @@ class ModelService implements ModelServiceInterface
     }
 
     /**
+     * 查询数量.
+     */
+    public function getCount(string $modelClass, array $where = [], ?string $column = null): int
+    {
+        $model = $this->getModelInstance($modelClass);
+
+        return $model->where($where)->count($column ?: $model->getKeyName());
+    }
+
+    /**
      * 验证唯一性.
      */
     public function validateUnique(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool

@@ -41,6 +41,8 @@ interface CrawlModelRpcServiceInterface
 
     public function getTree(string $modelClass, array $where = [], array $columns = ['*'], array $orderBy = ['level' => 'asc', 'sort' => 'asc']): array;
 
+    public function getCount(string $modelClass, array $where = [], ?string $column = null): int;
+
     public function validateUnique(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool;
 
     public function validateArray(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool;

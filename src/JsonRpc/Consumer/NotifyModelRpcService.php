@@ -83,6 +83,11 @@ class NotifyModelRpcService extends AbstractServiceClient implements AuditModelR
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
+    public function getCount(string $modelClass, array $where = [], ?string $column = null): int
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
     public function validateUnique(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
         return $this->__request(__FUNCTION__, func_get_args());
