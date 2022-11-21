@@ -700,11 +700,17 @@ class BaseService implements BaseServiceInterface
         ];
     }
 
+    /**
+     * 解析页码
+     */
     protected function getPage(array $params, int $default = 1): int
     {
         return max($params['page'] ?? $default, 1);
     }
 
+    /**
+     * 解析页容.
+     */
     protected function getLimit(array $params, int $default = 10): int
     {
         return max($params['limit'] ?? $params['perpage'] ?? $params['pageSize'] ?? $default, 0);
