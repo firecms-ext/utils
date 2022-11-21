@@ -66,19 +66,12 @@ class BaseService implements BaseServiceInterface
 
         $page = $this->getPage($params);
         $limit = $this->getLimit($params);
-        $orderBy = $this->getOrderBy($params, $this->orderField, $this->orderBy);
+
         return [
             'total' => $total,
             'items' => $this->getCollection(
-                $query->where(function (Builder $query) use ($orderBy) {
-                foreach ($orderBy as $field => $order) {
-                    if (is_int($field)) {
-                        $query = $query->orderByRaw($order);
-                    } else {
-                        $query = $query->orderBy($field, $order);
-                    }
-                }
-                return $query;
+                $query->where(function ($query) use ($params) {
+                return $this->getOrderBy($query, $params, [$this->orderField => $this->orderBy]);
             })
                     ->when($limit, function ($query) use ($page, $limit) {
                         return $query->offset(($page - 1) * $limit)
@@ -96,7 +89,6 @@ class BaseService implements BaseServiceInterface
     public function treeTable(array $params): array
     {
         $model = $this->getModelInstance();
-        $orderBy = $this->getOrderBy($params, 'sort', 'asc');
         return $this->getTreeCollection(
             $model->with($this->treeWith())
                 ->where(function ($query) use ($params) {
@@ -106,15 +98,8 @@ class BaseService implements BaseServiceInterface
                     return $this->treeWhere($query, $params);
                 })
                 ->orderBy('level')
-                ->where(function (Builder $query) use ($orderBy) {
-                    foreach ($orderBy as $field => $order) {
-                        if (is_int($field)) {
-                            $query = $query->orderByRaw($order);
-                        } else {
-                            $query = $query->orderBy($field, $order);
-                        }
-                    }
-                    return $query;
+                ->where(function ($query) use ($params) {
+                    return $this->getOrderBy($query, $params, ['sort' => 'asc']);
                 })
                 ->selectRaw(implode(',', $this->treeTableColumns($params)))
                 ->get()
@@ -126,24 +111,16 @@ class BaseService implements BaseServiceInterface
      */
     public function options(array $params, ?array $columns = ['id', 'title', 'enable'], ?array $sort = ['sort' => 'asc']): array
     {
-        $orderBy = $this->getOrderBy($params);
         return options(
             $this->getModelInstance()
-                ->where(function (Builder $query) use ($params) {
+                ->where(function ($query) use ($params) {
                     return $this->baseWhere($query, $params);
                 })
-                ->where(function (Builder $query) use ($params) {
+                ->where(function ($query) use ($params) {
                     return $this->listWhere($query, $params);
                 })
-                ->where(function (Builder $query) use ($orderBy) {
-                    foreach ($orderBy as $field => $order) {
-                        if (is_int($field)) {
-                            $query = $query->orderByRaw($order);
-                        } else {
-                            $query = $query->orderBy($field, $order);
-                        }
-                    }
-                    return $query;
+                ->where(function ($query) use ($params, $sort) {
+                    return $this->getOrderBy($query, $params, (array) $sort);
                 })
                 ->selectRaw(implode(',', $columns))
                 ->get()
@@ -158,25 +135,17 @@ class BaseService implements BaseServiceInterface
      */
     public function treeOptions(array $params, ?array $columns = ['id', 'parent_id', 'title', 'enable'], ?array $sort = ['sort' => 'asc']): array
     {
-        $orderBy = $this->getOrderBy($params);
         return treeToOptions(arrayToTree(
             $this->getModelInstance()
-                ->where(function (Builder $query) use ($params) {
+                ->where(function ($query) use ($params) {
                     return $this->baseWhere($query, $params);
                 })
-                ->where(function (Builder $query) use ($params) {
+                ->where(function ($query) use ($params) {
                     return $this->treeWhere($query, $params);
                 })
                 ->orderBy('level')
-                ->where(function (Builder $query) use ($orderBy) {
-                    foreach ($orderBy as $field => $order) {
-                        if (is_int($field)) {
-                            $query = $query->orderByRaw($order);
-                        } else {
-                            $query = $query->orderBy($field, $order);
-                        }
-                    }
-                    return $query;
+                ->where(function ($query) use ($params, $sort) {
+                    return $this->getOrderBy($query, $params, (array) $sort);
                 })
                 ->selectRaw(implode(',', $columns))
                 ->get()
@@ -310,7 +279,7 @@ class BaseService implements BaseServiceInterface
         Db::transaction(function () use ($params, &$count) {
             $count = $this->getModelInstance()
                 ->where('read', false)
-                ->where(function (Builder $query) use ($params) {
+                ->where(function ($query) use ($params) {
                     return $this->andWhere($query, $params);
                 })
                 ->update([
@@ -337,7 +306,7 @@ class BaseService implements BaseServiceInterface
                     return $query->where('created_at', '>=', $value);
                 })
                 ->where('created_at', '<=', (string) $params['end_at'])
-                ->where(function (Builder $query) use ($params) {
+                ->where(function ($query) use ($params) {
                     unset($params['start_at'], $params['end_at']);
 
                     return $this->andWhere($query, $params);
@@ -363,7 +332,7 @@ class BaseService implements BaseServiceInterface
                     return $query->where('created_at', '>=', $value);
                 })
                 ->where('created_at', '<=', (string) $params['end_at'])
-                ->where(function (Builder $query) use ($params) {
+                ->where(function ($query) use ($params) {
                     unset($params['start_at'], $params['end_at']);
 
                     return $this->andWhere($query, $params);
@@ -387,7 +356,7 @@ class BaseService implements BaseServiceInterface
         Db::transaction(function () use (&$count, $params) {
             $count = $this->getModelInstance()
                 ->query(true)
-                ->where(function (Builder $query) use ($params) {
+                ->where(function ($query) use ($params) {
                     return $this->andWhere($query, $params);
                 })
                 ->delete();
@@ -408,7 +377,7 @@ class BaseService implements BaseServiceInterface
         Db::transaction(function () use (&$count, $params) {
             $count = $this->getModelInstance()
                 ->onlyTrashed()
-                ->where(function (Builder $query) use ($params) {
+                ->where(function ($query) use ($params) {
                     return $this->andWhere($query, $params);
                 })
                 ->forceDelete();
@@ -713,19 +682,25 @@ class BaseService implements BaseServiceInterface
     /**
      * 获取排序规则.
      */
-    protected function getOrderBy(array $params, string $defaultField = '', string $defaultOrder = ''): array
+    protected function getOrderBy(Builder $query, array $params, array $orderBy = []): Builder
     {
         if (isset($params['orderBy'])) {
-            return $params['orderBy'];
-        }
-        if (! empty($params['field']) && ! empty($params['order'])) {
-            return [$params['field'] => in_array($params['order'], ['descend', 'desc']) ? 'desc' : 'asc'];
-        }
-        if ($defaultField && $defaultOrder) {
-            return [$defaultField => $defaultOrder];
+            $orderBy = $params['orderBy'];
         }
 
-        return [];
+        if (! empty($params['field']) && ! empty($params['order'])) {
+            $orderBy = [$params['field'] => in_array($params['order'], ['descend', 'desc']) ? 'desc' : 'asc'];
+        }
+
+        foreach ($orderBy as $field => $order) {
+            if (is_int($field) && $order) {
+                $query = $query->orderByRaw($order);
+            } elseif (is_string($field) && $field) {
+                $query = $query->orderBy($field, $order);
+            }
+        }
+
+        return $query;
     }
 
     /**
