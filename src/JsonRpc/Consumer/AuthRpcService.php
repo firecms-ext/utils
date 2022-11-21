@@ -28,7 +28,7 @@ class AuthRpcService extends AbstractServiceClient implements AuthRpcServiceInte
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function user(array $authorization): ?array
+    public function user(array $authorization): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }

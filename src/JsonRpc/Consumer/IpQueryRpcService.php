@@ -15,7 +15,7 @@ use Hyperf\RpcClient\AbstractServiceClient;
 
 class IpQueryRpcService extends AbstractServiceClient implements IpQueryRpcServiceInterface
 {
-    public function query(string $ip): ?array
+    public function query(string $ip): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
