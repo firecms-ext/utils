@@ -66,16 +66,20 @@ class BaseService implements BaseServiceInterface
 
         $page = $this->getPage($params);
         $limit = $this->getLimit($params);
-        $orderBy = $this->getOrderBy($params);
+        $orderBy = $this->getOrderBy($params, $this->orderField, $this->orderBy);
         return [
             'total' => $total,
             'items' => $this->getCollection(
-                $query->where(function ($query) use ($orderBy) {
-                    foreach ($orderBy as $field => $order) {
-                        $query = $query->orderBy($field, $order ?: 'asc');
+                $query->where(function (Builder $query) use ($orderBy) {
+                foreach ($orderBy as $field => $order) {
+                    if (is_int($field)) {
+                        $query = $query->orderByRaw($order);
+                    } else {
+                        $query = $query->orderBy($field, $order);
                     }
-                    return $query;
-                })->when()
+                }
+                return $query;
+            })
                     ->when($limit, function ($query) use ($page, $limit) {
                         return $query->offset(($page - 1) * $limit)
                             ->limit($limit);
@@ -92,7 +96,7 @@ class BaseService implements BaseServiceInterface
     public function treeTable(array $params): array
     {
         $model = $this->getModelInstance();
-
+        $orderBy = $this->getOrderBy($params, 'sort', 'asc');
         return $this->getTreeCollection(
             $model->with($this->treeWith())
                 ->where(function ($query) use ($params) {
@@ -102,16 +106,16 @@ class BaseService implements BaseServiceInterface
                     return $this->treeWhere($query, $params);
                 })
                 ->orderBy('level')
-                ->when(
-                    (string) ($params['field'] ?? null) ?: ($this->orderField ?: $model->getKeyName()),
-                    function ($query, $value) use ($params) {
-                        // 排序方式
-                        return $query->orderBy($value, in_array(
-                            ($params['order'] ?? null) ?: $this->orderBy,
-                            ['descend', 'desc']
-                        ) ? 'desc' : 'asc');
+                ->where(function (Builder $query) use ($orderBy) {
+                    foreach ($orderBy as $field => $order) {
+                        if (is_int($field)) {
+                            $query = $query->orderByRaw($order);
+                        } else {
+                            $query = $query->orderBy($field, $order);
+                        }
                     }
-                )
+                    return $query;
+                })
                 ->selectRaw(implode(',', $this->treeTableColumns($params)))
                 ->get()
         );
@@ -122,6 +126,7 @@ class BaseService implements BaseServiceInterface
      */
     public function options(array $params, ?array $columns = ['id', 'title', 'enable'], ?array $sort = ['sort' => 'asc']): array
     {
+        $orderBy = $this->getOrderBy($params);
         return options(
             $this->getModelInstance()
                 ->where(function (Builder $query) use ($params) {
@@ -130,9 +135,13 @@ class BaseService implements BaseServiceInterface
                 ->where(function (Builder $query) use ($params) {
                     return $this->listWhere($query, $params);
                 })
-                ->when($sort, function ($query, $value) {
-                    foreach ($value as $field => $order) {
-                        $query = $query->orderBy($field, $order);
+                ->where(function (Builder $query) use ($orderBy) {
+                    foreach ($orderBy as $field => $order) {
+                        if (is_int($field)) {
+                            $query = $query->orderByRaw($order);
+                        } else {
+                            $query = $query->orderBy($field, $order);
+                        }
                     }
                     return $query;
                 })
@@ -149,6 +158,7 @@ class BaseService implements BaseServiceInterface
      */
     public function treeOptions(array $params, ?array $columns = ['id', 'parent_id', 'title', 'enable'], ?array $sort = ['sort' => 'asc']): array
     {
+        $orderBy = $this->getOrderBy($params);
         return treeToOptions(arrayToTree(
             $this->getModelInstance()
                 ->where(function (Builder $query) use ($params) {
@@ -158,9 +168,13 @@ class BaseService implements BaseServiceInterface
                     return $this->treeWhere($query, $params);
                 })
                 ->orderBy('level')
-                ->when($sort, function ($query, $value) {
-                    foreach ($value as $field => $order) {
-                        $query = $query->orderBy($field, $order);
+                ->where(function (Builder $query) use ($orderBy) {
+                    foreach ($orderBy as $field => $order) {
+                        if (is_int($field)) {
+                            $query = $query->orderByRaw($order);
+                        } else {
+                            $query = $query->orderBy($field, $order);
+                        }
                     }
                     return $query;
                 })
@@ -698,9 +712,8 @@ class BaseService implements BaseServiceInterface
 
     /**
      * 获取排序规则.
-     * @param mixed $params
      */
-    protected function getOrderBy($params): array
+    protected function getOrderBy(array $params, string $defaultField = '', string $defaultOrder = ''): array
     {
         if (isset($params['orderBy'])) {
             return $params['orderBy'];
@@ -708,8 +721,8 @@ class BaseService implements BaseServiceInterface
         if (! empty($params['field']) && ! empty($params['order'])) {
             return [$params['field'] => in_array($params['order'], ['descend', 'desc']) ? 'desc' : 'asc'];
         }
-        if ($this->orderField && $this->orderBy) {
-            return [$this->orderField => $this->orderBy];
+        if ($defaultField && $defaultOrder) {
+            return [$defaultField => $defaultOrder];
         }
 
         return [];
