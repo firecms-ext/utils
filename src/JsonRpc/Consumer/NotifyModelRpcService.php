@@ -48,7 +48,12 @@ class NotifyModelRpcService extends AbstractServiceClient implements AuditModelR
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function batchDataInsert(string $modelClass, array $items, ?array $parent = null): bool
+    public function getBatchData(string $modelClass, array $items, array $parent = null, ?array $common = null): array
+    {
+        return $this->__request(__FUNCTION__, func_get_args());
+    }
+
+    public function batchDataInsert(string $modelClass, array $items, ?array $parent = null, ?array $common = null): bool
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }

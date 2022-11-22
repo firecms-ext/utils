@@ -27,7 +27,9 @@ interface AuditModelRpcServiceInterface
 
     public function fillData(string $modelClass, array $attributes, array $parent = null): array;
 
-    public function batchDataInsert(string $modelClass, array $items, ?array $parent = null): bool;
+    public function getBatchData(string $modelClass, array $items, array $parent = null, ?array $common = null): array;
+
+    public function batchDataInsert(string $modelClass, array $items, ?array $parent = null, ?array $common = null): bool;
 
     public function find(string $modelClass, string $id, array $withs = []): array;
 
