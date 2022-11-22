@@ -35,6 +35,8 @@ use FirecmsExt\Utils\JsonRpc\Consumer\ContentModelRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\ContentModelRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\ContentModelTypeRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\ContentModelTypeRpcServiceInterface;
+use FirecmsExt\Utils\JsonRpc\Consumer\CosRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\CosRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\CrawlModelRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\CrawlModelRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\IpQueryRpcService;
@@ -61,6 +63,7 @@ class ConfigProvider
                 IpQueryRpcServiceInterface::class => IpQueryRpcService::class,
                 RegionRpcServiceInterface::class => RegionRpcService::class,
                 CodeRpcServiceInterface::class => CodeRpcService::class,
+                CosRpcServiceInterface::class => CosRpcService::class,
                 SettingRpcServiceInterface::class => SettingRpcService::class,
                 TranslationRpcServiceInterface::class => TranslationRpcService::class,
 
