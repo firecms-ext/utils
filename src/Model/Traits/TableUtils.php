@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
 namespace FirecmsExt\Utils\Model\Traits;
 
 use Carbon\Carbon;
@@ -30,7 +31,7 @@ trait TableUtils
      */
     public static function getTableColumns(): array
     {
-        if (! $items = cache()->get(static::class . __FUNCTION__)) {
+        if (!$items = cache()->get(static::class . __FUNCTION__)) {
             foreach (Db::select('SHOW COLUMNS FROM ' . static::getTableName(true)) as $row) {
                 $items[$row->Field] = $row;
             }
@@ -53,7 +54,7 @@ trait TableUtils
      */
     public static function getPrefix(): string
     {
-        return (string) static::query()->getConnection()->getTablePrefix();
+        return (string)static::query()->getConnection()->getTablePrefix();
     }
 
     /**
@@ -97,16 +98,24 @@ trait TableUtils
     }
 
     /**
-     * 批量插入数据。
+     * 获取批量数据。
      */
-    public static function batchDataInsert(array $items, array|Model $parent = null): bool
+    public static function getBatchData(array $items, array|Model $parent = null, ?array $common = null): array
     {
         $data = [];
         foreach ($items as $item) {
-            $data[] = static::fillData($item, $parent);
+            $data[] = static::fillData($common + $item, $parent);
         }
 
-        return static::insert($data);
+        return $data;
+    }
+
+    /**
+     * 批量插入数据。
+     */
+    public static function batchDataInsert(array $items, array|Model $parent = null, ?array $common = null): bool
+    {
+        return static::insert(static::getBatchData($items, $parent, $common));
     }
 
     /**
