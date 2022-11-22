@@ -89,7 +89,7 @@ class ModelService implements ModelServiceInterface
     /**
      * 获取批量数据。
      */
-    public function getBatchData(string $modelClass, array $items, array $parent = null, ?array $common = null): array
+    public function getBatchData(string $modelClass, array $items, array $parent = null, array $common = []): array
     {
         return $this->getModelInstance($modelClass)->getBatchData($items, $parent, $common);
     }
@@ -97,7 +97,7 @@ class ModelService implements ModelServiceInterface
     /**
      * 批量插入数据。
      */
-    public function batchDataInsert(string $modelClass, array $items, ?array $parent = null, ?array $common = null): bool
+    public function batchDataInsert(string $modelClass, array $items, ?array $parent = null, array $common = []): bool
     {
         return $this->getModelInstance($modelClass)->batchDataInsert($items, $parent, $common);
     }

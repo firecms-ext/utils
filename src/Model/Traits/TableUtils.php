@@ -99,7 +99,7 @@ trait TableUtils
     /**
      * 获取批量数据。
      */
-    public static function getBatchData(array $items, array|Model $parent = null, ?array $common = null): array
+    public static function getBatchData(array $items, array|Model $parent = null, array $common = []): array
     {
         $data = [];
         foreach ($items as $item) {
@@ -112,7 +112,7 @@ trait TableUtils
     /**
      * 批量插入数据。
      */
-    public static function batchDataInsert(array $items, array|Model $parent = null, ?array $common = null): bool
+    public static function batchDataInsert(array $items, array|Model $parent = null, array $common = []): bool
     {
         return static::insert(static::getBatchData($items, $parent, $common));
     }

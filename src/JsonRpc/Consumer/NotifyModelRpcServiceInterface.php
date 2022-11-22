@@ -27,9 +27,9 @@ interface NotifyModelRpcServiceInterface
 
     public function fillData(string $modelClass, array $attributes, array $parent = null): array;
 
-    public function getBatchData(string $modelClass, array $items, array $parent = null, ?array $common = null): array;
+    public function getBatchData(string $modelClass, array $items, array $parent = null, array $common = []): array;
 
-    public function batchDataInsert(string $modelClass, array $items, ?array $parent = null, ?array $common = null): bool;
+    public function batchDataInsert(string $modelClass, array $items, ?array $parent = null, array $common = []): bool;
 
     public function find(string $modelClass, string $id, array $withs = []): array;
 
