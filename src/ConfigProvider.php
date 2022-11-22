@@ -25,6 +25,8 @@ use FirecmsExt\Utils\JsonRpc\Consumer\CategoryModelTypeRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\CategoryModelTypeRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\CategoryRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\CategoryRpcServiceInterface;
+use FirecmsExt\Utils\JsonRpc\Consumer\CodeRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\CodeRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\ContentCategoryRpcService;
@@ -58,6 +60,7 @@ class ConfigProvider
                 ConstantRpcServiceInterface::class => ConstantRpcService::class,
                 IpQueryRpcServiceInterface::class => IpQueryRpcService::class,
                 RegionRpcServiceInterface::class => RegionRpcService::class,
+                CodeRpcServiceInterface::class => CodeRpcService::class,
                 SettingRpcServiceInterface::class => SettingRpcService::class,
                 TranslationRpcServiceInterface::class => TranslationRpcService::class,
 
