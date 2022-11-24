@@ -723,35 +723,38 @@ class BaseService implements BaseServiceInterface
     {
         return $query->when(is_numeric($params['read'] ?? null), function ($query) use ($params) {
             // 是否已读
-            return $query->where('read', (bool) $params['read']);
+            return $query->where('read', (int) $params['read']);
         })->when(is_numeric($params['display'] ?? null), function ($query) use ($params) {
             // 是否显示
-            return $query->where('display', (bool) $params['display']);
+            return $query->where('display', (int) $params['display']);
         })->when(is_numeric($params['unusual'] ?? null), function ($query) use ($params) {
             // 是否异常
-            return $query->where('unusual', (bool) $params['unusual']);
+            return $query->where('unusual', (int) $params['unusual']);
         })->when(is_numeric($params['draft'] ?? null), function ($query) use ($params) {
             // 是否草稿
-            return $query->where('draft', (bool) $params['draft']);
+            return $query->where('draft', (int) $params['draft']);
+        })->when(is_numeric($params['state'] ?? null), function ($query) use ($params) {
+            // 是否发布
+            return $query->where('state', (int) $params['state']);
         })->when(is_numeric($params['publish'] ?? null), function ($query) use ($params) {
             // 是否发布
-            return $query->where('publish', (bool) $params['publish']);
+            return $query->where('publish', (int) $params['publish']);
         })->when(is_numeric($params['top'] ?? null), function ($query) use ($params) {
             // 是否置顶
-            return $query->where('top', (bool) $params['top']);
+            return $query->where('top', (int) $params['top']);
         })->when(is_numeric($params['hot'] ?? null), function ($query) use ($params) {
             // 是否热门
-            return $query->where('hot', (bool) $params['hot']);
+            return $query->where('hot', (int) $params['hot']);
         })->when(is_numeric($params['enable'] ?? null), function ($query) use ($params) {
             // 是否启用
-            return $query->where('enable', (bool) $params['enable']);
+            return $query->where('enable', (int) $params['enable']);
         })->when(is_numeric($params['directly'] ?? null), function ($query) use ($params) {
             // 是否直接
-            return $query->where('directly', (bool) $params['directly']);
+            return $query->where('directly', (int) $params['directly']);
         })->when(is_numeric($params['recommend'] ?? null), function ($query) use ($params) {
             // 是否推荐
-            return $query->where('recommend', (bool) $params['recommend']);
-        })->queryKeyword($params['keyword'] ?? null);
+            return $query->where('recommend', (int) $params['recommend']);
+        })->queryKeyword($params['keyword'] ?? '');
     }
 
     /**
