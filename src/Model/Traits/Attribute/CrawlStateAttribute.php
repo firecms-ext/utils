@@ -44,7 +44,7 @@ trait CrawlStateAttribute
         if (! in_array($value, [0, 1, true, false])) {
             $value = $this->getStateValue((string) $value);
         }
-        $this->attributes['crawl_state'] = (int) $value;
+        $this->attributes['state'] = (int) $value;
     }
 
     public function getStateValue(string $name): ?int

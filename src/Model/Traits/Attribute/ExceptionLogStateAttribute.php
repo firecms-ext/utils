@@ -44,7 +44,7 @@ trait ExceptionLogStateAttribute
         if (! in_array($value, [0, 1, true, false])) {
             $value = $this->getStateValue((string) $value);
         }
-        $this->attributes['exception_log_state'] = (int) $value;
+        $this->attributes['state'] = (int) $value;
     }
 
     public function getStateValue(string $name): ?int
