@@ -11,7 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model;
 
-use Carbon\Carbon;
 use FirecmsExt\Utils\Model\Traits\TableUtils;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Model\Model as BaseModel;
@@ -20,33 +19,7 @@ use Hyperf\ModelCache\CacheableInterface;
 use Hyperf\Snowflake\Concern\Snowflake;
 
 /**
- * @property string $id
- * @property string $user_id
- * @property string $category_id
- * @property string $model_type
- * @property string $model_id
- * @property string $username
- * @property string $nickname
- * @property string $avatar
- * @property string $subject
- * @property string $title
- * @property string $name
- * @property string $node
- * @property int $level
- * @property int $top
- * @property int $sort
- * @property int $enable
- * @property int $display
- * @property int $publish
- * @property int $unusual
- * @property int $recommend
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property Carbon $deleted_at
- * @property Carbon $publish_at
- * @property Carbon $expired_at
- * @property Carbon $execution_at
- * @method static static queryKeyword($value)
+ * @method static queryKeyword($value)
  */
 abstract class Model extends BaseModel implements CacheableInterface
 {

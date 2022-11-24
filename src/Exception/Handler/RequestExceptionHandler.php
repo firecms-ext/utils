@@ -33,11 +33,11 @@ class RequestExceptionHandler extends ExceptionHandler
 
             echo PHP_EOL;
             var_dump('【' . get_class($throwable) . '】' . sprintf(
-                    '%s[%s] in %s',
-                    $throwable->getMessage(),
-                    $throwable->getLine(),
-                    $throwable->getFile()
-                ));
+                '%s[%s] in %s',
+                $throwable->getMessage(),
+                $throwable->getLine(),
+                $throwable->getFile()
+            ));
             echo $throwable->getTraceAsString();
             echo PHP_EOL;
         }
