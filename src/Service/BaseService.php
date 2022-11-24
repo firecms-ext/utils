@@ -161,13 +161,15 @@ class BaseService implements BaseServiceInterface
     public function store(array $params): array
     {
         // 新增数据
-        $model = $this->getModelInstance()->create($this->storeData($params));
+        $model = $this->getModelInstance()
+            ->create($this->storeData($params));
         // 新增之后
         if ($result = $this->afterStore($model, $params)) {
             return $result;
         }
 
-        return $this->getResource($model)->toArray();
+        return $this->getResource($model)
+            ->toArray();
     }
 
     /**
@@ -181,7 +183,8 @@ class BaseService implements BaseServiceInterface
                     return $this->andWhere($query, $where);
                 })
                 ->findOrFail($id)
-        )->toArray();
+        )
+            ->toArray();
     }
 
     /**
@@ -724,37 +727,52 @@ class BaseService implements BaseServiceInterface
         return $query->when(is_numeric($params['read'] ?? null), function ($query) use ($params) {
             // 是否已读
             return $query->where('read', (int) $params['read']);
-        })->when(is_numeric($params['display'] ?? null), function ($query) use ($params) {
-            // 是否显示
-            return $query->where('display', (int) $params['display']);
-        })->when(is_numeric($params['unusual'] ?? null), function ($query) use ($params) {
-            // 是否异常
-            return $query->where('unusual', (int) $params['unusual']);
-        })->when(is_numeric($params['draft'] ?? null), function ($query) use ($params) {
-            // 是否草稿
-            return $query->where('draft', (int) $params['draft']);
-        })->when(is_numeric($params['state'] ?? null), function ($query) use ($params) {
-            // 是否发布
-            return $query->where('state', (int) $params['state']);
-        })->when(is_numeric($params['publish'] ?? null), function ($query) use ($params) {
-            // 是否发布
-            return $query->where('publish', (int) $params['publish']);
-        })->when(is_numeric($params['top'] ?? null), function ($query) use ($params) {
-            // 是否置顶
-            return $query->where('top', (int) $params['top']);
-        })->when(is_numeric($params['hot'] ?? null), function ($query) use ($params) {
-            // 是否热门
-            return $query->where('hot', (int) $params['hot']);
-        })->when(is_numeric($params['enable'] ?? null), function ($query) use ($params) {
-            // 是否启用
-            return $query->where('enable', (int) $params['enable']);
-        })->when(is_numeric($params['directly'] ?? null), function ($query) use ($params) {
-            // 是否直接
-            return $query->where('directly', (int) $params['directly']);
-        })->when(is_numeric($params['recommend'] ?? null), function ($query) use ($params) {
-            // 是否推荐
-            return $query->where('recommend', (int) $params['recommend']);
-        })->queryKeyword($params['keyword'] ?? '');
+        })
+            ->when(is_numeric($params['display'] ?? null), function ($query) use ($params) {
+                // 是否显示
+                return $query->where('display', (int) $params['display']);
+            })
+            ->when(is_numeric($params['unusual'] ?? null), function ($query) use ($params) {
+                // 是否异常
+                return $query->where('unusual', (int) $params['unusual']);
+            })
+            ->when(is_numeric($params['repeal'] ?? null), function ($query) use ($params) {
+                // 是否撤销
+                return $query->where('repeal', (int) $params['repeal']);
+            })
+            ->when(is_numeric($params['draft'] ?? null), function ($query) use ($params) {
+                // 是否草稿
+                return $query->where('draft', (int) $params['draft']);
+            })
+            ->when(is_numeric($params['state'] ?? null), function ($query) use ($params) {
+                // 当前状态
+                return $query->where('state', (int) $params['state']);
+            })
+            ->when(is_numeric($params['publish'] ?? null), function ($query) use ($params) {
+                // 是否发布
+                return $query->where('publish', (int) $params['publish']);
+            })
+            ->when(is_numeric($params['top'] ?? null), function ($query) use ($params) {
+                // 是否置顶
+                return $query->where('top', (int) $params['top']);
+            })
+            ->when(is_numeric($params['hot'] ?? null), function ($query) use ($params) {
+                // 是否热门
+                return $query->where('hot', (int) $params['hot']);
+            })
+            ->when(is_numeric($params['enable'] ?? null), function ($query) use ($params) {
+                // 是否启用
+                return $query->where('enable', (int) $params['enable']);
+            })
+            ->when(is_numeric($params['directly'] ?? null), function ($query) use ($params) {
+                // 是否直接
+                return $query->where('directly', (int) $params['directly']);
+            })
+            ->when(is_numeric($params['recommend'] ?? null), function ($query) use ($params) {
+                // 是否推荐
+                return $query->where('recommend', (int) $params['recommend']);
+            })
+            ->queryKeyword($params['keyword'] ?? '');
     }
 
     /**
@@ -905,6 +923,7 @@ class BaseService implements BaseServiceInterface
         if ($recycle) {
             $model = $model->onlyTrashed();
         }
-        return $model->query(true)->whereIn($model->getKeyName(), $ids);
+        return $model->query(true)
+            ->whereIn($model->getKeyName(), $ids);
     }
 }
