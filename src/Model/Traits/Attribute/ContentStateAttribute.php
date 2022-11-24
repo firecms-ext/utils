@@ -14,40 +14,40 @@ namespace FirecmsExt\Utils\Model\Traits\Attribute;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
 
 /**
- * @property int $content_state
- * @property string $content_state_name
- * @property string $content_state_alias
- * @property string $content_state_title
+ * @property int $state
+ * @property string $state_name
+ * @property string $state_alias
+ * @property string $state_title
  */
 trait ContentStateAttribute
 {
-    public function getContentStateNameAttribute(): string
+    public function getStateNameAttribute(): string
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->name('content_state', (int) $this->content_state);
+            ->name('content_state', (int) $this->state);
     }
 
-    public function getContentStateAliasAttribute(): string
+    public function getStateAliasAttribute(): string
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('content_state', (int) $this->content_state);
+            ->alias('content_state', (int) $this->state);
     }
 
-    public function getContentStateTitleAttribute(): string
+    public function getStateTitleAttribute(): string
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->title('content_state', (int) $this->content_state);
+            ->title('content_state', (int) $this->state);
     }
 
-    public function setContentStateAttribute($value): void
+    public function setStateAttribute($value): void
     {
         if (! in_array($value, [0, 1, true, false])) {
-            $value = $this->getContentStateValue((string) $value);
+            $value = $this->getStateValue((string) $value);
         }
         $this->attributes['content_state'] = (int) $value;
     }
 
-    public function getContentStateValue(string $name): ?int
+    public function getStateValue(string $name): ?int
     {
         return app()->get(ConstantRpcServiceInterface::class)
             ->value('content_state', $name);

@@ -14,40 +14,40 @@ namespace FirecmsExt\Utils\Model\Traits\Attribute;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
 
 /**
- * @property int $exception_log_state
- * @property string $exception_log_state_name
- * @property string $exception_log_state_alias
- * @property string $exception_log_state_title
+ * @property int $state
+ * @property string $state_name
+ * @property string $state_alias
+ * @property string $state_title
  */
 trait ExceptionLogStateAttribute
 {
-    public function getExceptionLogStateNameAttribute(): string
+    public function getStateNameAttribute(): string
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->name('exception_log_state', (int) $this->exception_log_state);
+            ->name('exception_log_state', (int) $this->state);
     }
 
-    public function getExceptionLogStateAliasAttribute(): string
+    public function getStateAliasAttribute(): string
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('exception_log_state', (int) $this->exception_log_state);
+            ->alias('exception_log_state', (int) $this->state);
     }
 
-    public function getExceptionLogStateTitleAttribute(): string
+    public function getStateTitleAttribute(): string
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->title('exception_log_state', (int) $this->exception_log_state);
+            ->title('exception_log_state', (int) $this->state);
     }
 
-    public function setExceptionLogStateAttribute($value): void
+    public function setStateAttribute($value): void
     {
         if (! in_array($value, [0, 1, true, false])) {
-            $value = $this->getExceptionLogStateValue((string) $value);
+            $value = $this->getStateValue((string) $value);
         }
         $this->attributes['exception_log_state'] = (int) $value;
     }
 
-    public function getExceptionLogStateValue(string $name): ?int
+    public function getStateValue(string $name): ?int
     {
         return app()->get(ConstantRpcServiceInterface::class)
             ->value('exception_log_state', $name);

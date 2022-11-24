@@ -19,24 +19,24 @@ use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
  * @property string $state_alias
  * @property string $state_title
  */
-trait CrawlStateAttribute
+trait AuditStateAttribute
 {
     public function getStateNameAttribute(): string
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->name('crawl_state', (int)$this->state);
+            ->name('audit_state', (int) $this->state);
     }
 
     public function getStateAliasAttribute(): string
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('crawl_state', (int)$this->state);
+            ->alias('audit_state', (int) $this->state);
     }
 
     public function getStateTitleAttribute(): string
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->title('crawl_state', (int)$this->state);
+            ->title('audit_state', (int) $this->state);
     }
 
     public function setStateAttribute($value): void
@@ -44,12 +44,12 @@ trait CrawlStateAttribute
         if (! in_array($value, [0, 1, true, false])) {
             $value = $this->getStateValue((string) $value);
         }
-        $this->attributes['crawl_state'] = (int) $value;
+        $this->attributes['audit_state'] = (int) $value;
     }
 
     public function getStateValue(string $name): ?int
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->value('crawl_state', $name);
+            ->value('audit_state', $name);
     }
 }
