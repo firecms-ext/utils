@@ -31,6 +31,7 @@ abstract class QueryRequest extends FormRequest
             'recommend' => 'nullable|boolean', // 推荐
             'enable' => 'nullable|boolean', // 启用
             'unusual' => 'nullable|boolean', // 异常
+            'state' => 'nullable|integer',// 状态
             // 下拉选项
             'parent_id' => 'nullable|integer', // 上级
             'category_id' => 'nullable|integer', // 分类
