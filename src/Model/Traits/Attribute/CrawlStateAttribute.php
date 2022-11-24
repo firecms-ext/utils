@@ -24,19 +24,19 @@ trait CrawlStateAttribute
     public function getStateNameAttribute(): string
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->name('crawl_state', (int)$this->state);
+            ->name('crawl_state', (int) $this->state);
     }
 
     public function getStateAliasAttribute(): string
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('crawl_state', (int)$this->state);
+            ->alias('crawl_state', (int) $this->state);
     }
 
     public function getStateTitleAttribute(): string
     {
         return app()->get(ConstantRpcServiceInterface::class)
-            ->title('crawl_state', (int)$this->state);
+            ->title('crawl_state', (int) $this->state);
     }
 
     public function setStateAttribute($value): void
