@@ -30,6 +30,16 @@ class RequestExceptionHandler extends ExceptionHandler
             $message = $throwable->getMessage();
             var_dump($message);
             var_dump($data);
+
+            echo PHP_EOL;
+            var_dump('【' . get_class($throwable) . '】' . sprintf(
+                    '%s[%s] in %s',
+                    $throwable->getMessage(),
+                    $throwable->getLine(),
+                    $throwable->getFile()
+                ));
+            echo $throwable->getTraceAsString();
+            echo PHP_EOL;
         }
 
         return $response->withHeader('Content-Type', 'application/json; charset=utf-8')
