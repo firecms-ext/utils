@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
-
 namespace FirecmsExt\Utils\Model\Traits;
 
 use Carbon\Carbon;
@@ -31,7 +30,7 @@ trait TableUtils
      */
     public static function getTableColumns(): array
     {
-        if (!$items = cache()->get(static::class . __FUNCTION__)) {
+        if (! $items = cache()->get(static::class . __FUNCTION__)) {
             foreach (Db::select('SHOW COLUMNS FROM ' . static::getTableName(true)) as $row) {
                 $items[$row->Field] = $row;
             }
@@ -54,7 +53,7 @@ trait TableUtils
      */
     public static function getPrefix(): string
     {
-        return (string)static::query()->getConnection()->getTablePrefix();
+        return (string) static::query()->getConnection()->getTablePrefix();
     }
 
     /**
