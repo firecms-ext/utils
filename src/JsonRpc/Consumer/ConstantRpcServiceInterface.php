@@ -15,8 +15,6 @@ interface ConstantRpcServiceInterface
 {
     public function all(): array;
 
-    public function options(array $params): array;
-
     public function items(string $category_name): array;
 
     public function names(string $category_name): array;

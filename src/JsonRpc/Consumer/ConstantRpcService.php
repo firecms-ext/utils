@@ -18,11 +18,6 @@ class ConstantRpcService extends AbstractServiceClient implements ConstantRpcSer
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function options(array $params): array
-    {
-        return $this->__request(__FUNCTION__, func_get_args());
-    }
-
     public function items(string $category_name): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
