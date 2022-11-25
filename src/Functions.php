@@ -11,6 +11,8 @@ declare(strict_types=1);
  */
 use Carbon\Carbon;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcServiceInterface;
+use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
+use Hyperf\Contract\ConfigInterface;
 use Hyperf\Database\Model\Builder;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
@@ -79,7 +81,9 @@ if (! function_exists('generateId')) {
      */
     function generateId(): string
     {
-        return (string) app()->get(IdGeneratorInterface::class)->generate();
+        return (string) app()
+            ->get(IdGeneratorInterface::class)
+            ->generate();
     }
 }
 
@@ -123,7 +127,8 @@ if (! function_exists('age')) {
      */
     function age(string $birthday): int
     {
-        return Carbon::parse($birthday)->diffInYears();
+        return Carbon::parse($birthday)
+            ->diffInYears();
     }
 }
 
@@ -379,7 +384,8 @@ if (! function_exists('authUserId')) {
      */
     function authUserId(): string
     {
-        return (string) app()->get(AuthRpcServiceInterface::class)
+        return (string) app()
+            ->get(AuthRpcServiceInterface::class)
             ->id(request()->getHeader('authorization'));
     }
 }
@@ -390,7 +396,28 @@ if (! function_exists('authUser')) {
      */
     function authUser(): array
     {
-        return (array) app()->get(AuthRpcServiceInterface::class)
+        return (array) app()
+            ->get(AuthRpcServiceInterface::class)
             ->user(request()->getHeader('authorization'));
+    }
+}
+
+if (! function_exists('getConstants')) {
+    /**
+     * 获取系统常量.
+     */
+    function getConstants(?string $category_name = null): array
+    {
+        if (! $constants = config('constants')) {
+            $constants = (array) app()
+                ->get(ConstantRpcServiceInterface::class)
+                ->all();
+
+            app()
+                ->get(ConfigInterface::class)
+                ->set('constant', $constants);
+        }
+
+        return $constants[$category_name] ?? $constants;
     }
 }
