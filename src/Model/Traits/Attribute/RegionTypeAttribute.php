@@ -41,7 +41,7 @@ trait RegionTypeAttribute
 
     public function setRegionTypeAttribute($value): void
     {
-        if (! in_array($value, [0, 1, true, false])) {
+        if (! is_numeric($value)) {
             $value = $this->getRegionTypeValue((string) $value);
         }
         $this->attributes['region_type'] = (int) $value;
