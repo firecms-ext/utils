@@ -11,7 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
 use Hyperf\Database\Model\Builder;
 
 /**
