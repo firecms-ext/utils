@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of FirecmsExt utils.
  *
@@ -9,9 +10,11 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
 use Carbon\Carbon;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
+use FirecmsExt\Utils\JsonRpc\Consumer\SettingRpcServiceInterface;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Database\Model\Builder;
 use Hyperf\HttpServer\Contract\RequestInterface;
@@ -419,5 +422,25 @@ if (! function_exists('getConstants')) {
         }
 
         return $constants[$category_name] ?? $constants;
+    }
+}
+
+if (! function_exists('getSettings')) {
+    /**
+     * 获取系统常量.
+     */
+    function getSettings(?string $group = null): array
+    {
+        if (! $settings = config('settings')) {
+            $settings = (array) app()
+                ->get(SettingRpcServiceInterface::class)
+                ->group();
+
+            app()
+                ->get(ConfigInterface::class)
+                ->set('constant', $settings);
+        }
+
+        return $settings[$group] ?? $settings;
     }
 }
