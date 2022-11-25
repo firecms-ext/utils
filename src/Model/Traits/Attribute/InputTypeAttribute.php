@@ -11,8 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
-
 /**
  * @property int $input_type
  * @property string $input_type_name
@@ -23,33 +21,29 @@ trait InputTypeAttribute
 {
     public function getInputTypeNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('input_type', (int) $this->input_type);
-    }
-
-    public function getInputTypeTitleAttribute(): string
-    {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('input_type', (int) $this->input_type);
+        return getConstantValueName('input_type', $this->input_type);
     }
 
     public function getInputTypeAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('input_type', (int) $this->input_type);
+        return $this->input_type_name;
+    }
+
+    public function getInputTypeTitleAttribute(): string
+    {
+        return getConstantValueTitle('input_type', $this->input_type);
     }
 
     public function setInputTypeAttribute($value): void
     {
-        if (! is_numeric($value)) {
+        if (! in_array($value, getConstantValues('input_type'))) {
             $value = $this->getInputTypeValue((string) $value);
         }
         $this->attributes['input_type'] = (int) $value;
     }
 
-    public function getInputTypeValue(string $name): ?int
+    public function getInputTypeValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('input_type', $name);
+        return getConstantNameValue('input_type', $name);
     }
 }

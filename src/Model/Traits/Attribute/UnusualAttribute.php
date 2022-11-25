@@ -11,8 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
-
 /**
  * @property int $unusual
  * @property string $unusual_name
@@ -23,20 +21,17 @@ trait UnusualAttribute
 {
     public function getUnusualNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('unusual', (int) $this->unusual);
+        return getConstantValueName('unusual', $this->unusual);
     }
 
     public function getUnusualAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('unusual', (int) $this->unusual);
+        return $this->unusual_name;
     }
 
     public function getUnusualTitleAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('unusual', (int) $this->unusual);
+        return getConstantValueTitle('unusual', $this->unusual);
     }
 
     public function setUnusualAttribute($value): void
@@ -47,9 +42,8 @@ trait UnusualAttribute
         $this->attributes['unusual'] = (int) $value;
     }
 
-    public function getUnusualValue(string $name): ?int
+    public function getUnusualValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('unusual', $name);
+        return getConstantNameValue('unusual', $name);
     }
 }

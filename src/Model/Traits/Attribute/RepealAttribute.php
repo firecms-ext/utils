@@ -11,8 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
-
 /**
  * @property int $repeal
  * @property string $repeal_name
@@ -23,20 +21,17 @@ trait RepealAttribute
 {
     public function getRepealNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('repeal', (int) $this->repeal);
+        return getConstantValueName('repeal', $this->repeal);
     }
 
     public function getRepealAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('repeal', (int) $this->repeal);
+        return $this->repeal_name;
     }
 
     public function getRepealTitleAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('repeal', (int) $this->repeal);
+        return getConstantValueTitle('repeal', $this->repeal);
     }
 
     public function setRepealAttribute($value): void
@@ -47,9 +42,8 @@ trait RepealAttribute
         $this->attributes['repeal'] = (int) $value;
     }
 
-    public function getRepealValue(string $name): ?int
+    public function getRepealValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('repeal', $name);
+        return getConstantNameValue('repeal', $name);
     }
 }

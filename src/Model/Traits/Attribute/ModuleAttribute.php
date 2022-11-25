@@ -11,7 +11,6 @@ declare(strict_types=1);
  */
 namespace App\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
 use Hyperf\Database\Model\Builder;
 
 /**
@@ -24,41 +23,36 @@ trait ModuleAttribute
 {
     public function getModuleNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('module', (int) $this->module);
+        return getConstantValueName('module', $this->module);
     }
 
     public function getModuleAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('module', (int) $this->module);
+        return $this->module_name;
     }
 
     public function getModuleTitleAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('module', (int) $this->module);
+        return getConstantValueTitle('module', $this->module);
     }
 
     public function setModuleAttribute($value): void
     {
-        if (! in_array($value, [0, 1, true, false])) {
+        if (! in_array($value, getConstantValues('module'))) {
             $value = $this->getModuleValue((string) $value);
         }
         $this->attributes['module'] = (int) $value;
     }
 
-    public function getModuleValue(string $name): ?int
+    public function getModuleValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('module', $name);
+        return getConstantNameValue('module', $name);
     }
 
     public function scopeQueryModule(Builder $query, int|string $value): Builder
     {
         if (! is_numeric($value)) {
-            $value = app()->get(ConstantRpcServiceInterface::class)
-                ->value('module', $value);
+            $value = $this->getModuleValue($value);
         }
 
         return $query->where('module', (int) $value);

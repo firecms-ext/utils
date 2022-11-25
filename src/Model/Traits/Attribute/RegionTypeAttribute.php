@@ -11,45 +11,39 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
-
 /**
- * @property int $region_type
- * @property string $region_type_name
- * @property string $region_type_alias
- * @property string $region_type_title
+ * @property int $type
+ * @property string $type_name
+ * @property string $type_alias
+ * @property string $type_title
  */
 trait RegionTypeAttribute
 {
-    public function getRegionTypeNameAttribute(): string
+    public function getTypeNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('region_type', (int) $this->region_type);
+        return getConstantValueName('region_type', $this->type);
     }
 
-    public function getRegionTypeAliasAttribute(): string
+    public function getTypeAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('region_type', (int) $this->region_type);
+        return $this->type_name;
     }
 
-    public function getRegionTypeTitleAttribute(): string
+    public function getTypeTitleAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('region_type', (int) $this->region_type);
+        return getConstantValueTitle('region_type', $this->type);
     }
 
-    public function setRegionTypeAttribute($value): void
+    public function setTypeAttribute($value): void
     {
         if (! is_numeric($value)) {
-            $value = $this->getRegionTypeValue((string) $value);
+            $value = $this->getTypeValue((string) $value);
         }
-        $this->attributes['region_type'] = (int) $value;
+        $this->attributes['type'] = (int) $value;
     }
 
-    public function getRegionTypeValue(string $name): ?int
+    public function getTypeValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('region_type', $name);
+        return getConstantNameValue('region_type', $name);
     }
 }

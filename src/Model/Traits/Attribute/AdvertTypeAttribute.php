@@ -36,13 +36,13 @@ trait AdvertTypeAttribute
 
     public function setTypeAttribute($value): void
     {
-        if (! is_numeric($value)) {
+        if (! in_array($value, getConstantValues('advert_type'))) {
             $value = $this->getTypeValue((string) $value);
         }
-        $this->attributes['advert_type'] = (int) $value;
+        $this->attributes['type'] = (int) $value;
     }
 
-    public function getTypeValue(string $name): ?int
+    public function getTypeValue(string $name): int
     {
         return getConstantNameValue('advert_type', $name);
     }

@@ -11,9 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\AuthModelRpcServiceInterface;
-use FirecmsExt\Utils\JsonRpc\Consumer\SettingRpcServiceInterface;
-
 /**
  * @property array $user
  * @property array $userinfo
@@ -28,8 +25,7 @@ trait UserAttribute
 {
     public function getUserAttribute(): array
     {
-        return (array) app()->get(AuthModelRpcServiceInterface::class)
-            ->find('User', (string) $this->user_id, ['info']);
+        return userInfo((string) $this->user_id, ['info']);
     }
 
     public function getUserinfoAttribute(): array
@@ -49,19 +45,16 @@ trait UserAttribute
 
     public function getAvatarAttribute(): string
     {
-        return $this->user['info']['avatar'] ?? app()->get(SettingRpcServiceInterface::class)
-            ->value('default_image', 'avatar');
+        return $this->user['info']['avatar'] ?? getSetting('default_image', 'avatar');
     }
 
     public function getImagePhotoAttribute(): string
     {
-        return $this->user['info']['image_photo'] ?? app()->get(SettingRpcServiceInterface::class)
-            ->value('default_image', 'image_photo');
+        return $this->user['info']['image_photo'] ?? getSetting('default_image', 'image_photo');
     }
 
     public function getIdentifyPhotoAttribute(): string
     {
-        return $this->user['info']['identify_photo'] ?? app()->get(SettingRpcServiceInterface::class)
-            ->value('default_image', 'identify_photo');
+        return $this->user['info']['identify_photo'] ?? getSetting('default_image', 'identify_photo');
     }
 }

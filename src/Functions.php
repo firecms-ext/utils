@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
 use Carbon\Carbon;
+use FirecmsExt\Utils\JsonRpc\Consumer\AuthModelRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\SettingRpcServiceInterface;
@@ -404,6 +405,24 @@ if (! function_exists('authUser')) {
     }
 }
 
+if (! function_exists('userInfo')) {
+    /**
+     * 获取用户信息.
+     */
+    function userInfo(string $id, array $withs = ['info']): array
+    {
+        $key = 'userinfo:' . $id;
+        if (! $user = cache()->get($key)) {
+            $user = app()
+                ->get(AuthModelRpcServiceInterface::class)
+                ->find('User', $id, $withs);
+        }
+        cache()->set($key, $user, 10);
+
+        return $user;
+    }
+}
+
 if (! function_exists('getConstants')) {
     /**
      * 获取系统常量.
@@ -421,6 +440,24 @@ if (! function_exists('getConstants')) {
         }
 
         return $constants[$category_name] ?? $constants;
+    }
+}
+
+if (! function_exists('getConstantValues')) {
+    /**
+     * 获取系统常量-获取ID.
+     */
+    function getConstantValues(string $category_name): array
+    {
+        $key = 'constant' . $category_name . 'values';
+        if (! $constants = config($key)) {
+            $constants = Arr::pluck(getConstants($category_name), 'value');
+            app()
+                ->get(ConfigInterface::class)
+                ->set($key, $constants);
+        }
+
+        return $constants;
     }
 }
 
@@ -513,5 +550,17 @@ if (! function_exists('getSettings')) {
         }
 
         return $settings[$group] ?? $settings;
+    }
+}
+
+if (! function_exists('getSetting')) {
+    /**
+     * 获取系统设置.
+     */
+    function getSetting(string $group, string $name = null): array|string
+    {
+        $settings = getSettings($group);
+
+        return $settings[$name] ?? $settings;
     }
 }

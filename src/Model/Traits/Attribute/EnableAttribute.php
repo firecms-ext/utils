@@ -11,8 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
-
 /**
  * @property int $enable
  * @property string $enable_alias
@@ -23,20 +21,17 @@ trait EnableAttribute
 {
     public function getEnableNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('enable', (int) $this->enable);
+        return getConstantValueName('enable', $this->enable);
     }
 
     public function getEnableAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('enable', (int) $this->enable);
+        return $this->enable_name;
     }
 
     public function getEnableTitleAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('enable', (int) $this->enable);
+        return getConstantValueTitle('enable', $this->enable);
     }
 
     public function setEnableAttribute($value): void
@@ -47,9 +42,8 @@ trait EnableAttribute
         $this->attributes['enable'] = (int) $value;
     }
 
-    public function getEnableValue(string $name): ?int
+    public function getEnableValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('enable', $name);
+        return getConstantNameValue('enable', $name);
     }
 }

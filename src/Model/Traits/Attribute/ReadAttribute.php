@@ -11,8 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
-
 /**
  * @property int $read
  * @property string $read_alias
@@ -23,20 +21,17 @@ trait ReadAttribute
 {
     public function getReadNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('read', (int) $this->read);
+        return getConstantValueName('read', $this->read);
     }
 
     public function getReadAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('read', (int) $this->read);
+        return $this->read_name;
     }
 
     public function getReadTitleAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('read', (int) $this->read);
+        return getConstantValueTitle('read', $this->read);
     }
 
     public function setReadAttribute($value): void
@@ -47,9 +42,8 @@ trait ReadAttribute
         $this->attributes['read'] = (int) $value;
     }
 
-    public function getReadValue(string $name): ?int
+    public function getReadValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('read', $name);
+        return getConstantNameValue('read', $name);
     }
 }

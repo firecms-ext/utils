@@ -11,8 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
-
 /**
  * @property int $recommend
  * @property string $recommend_name
@@ -22,20 +20,17 @@ trait RecommendAttribute
 {
     public function getRecommendNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('recommend', (int) $this->recommend);
-    }
-
-    public function getRecommendTitleAttribute(): string
-    {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('recommend', (int) $this->recommend);
+        return getConstantValueName('recommend', $this->recommend);
     }
 
     public function getRecommendAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('recommend', (int) $this->recommend);
+        return $this->recommend_name;
+    }
+
+    public function getRecommendTitleAttribute(): string
+    {
+        return getConstantValueTitle('recommend', $this->recommend);
     }
 
     public function setRecommendAttribute($value): void
@@ -46,9 +41,8 @@ trait RecommendAttribute
         $this->attributes['recommend'] = (int) $value;
     }
 
-    public function getRecommendValue(string $name): ?int
+    public function getRecommendValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('recommend', $name);
+        return getConstantNameValue('recommend', $name);
     }
 }

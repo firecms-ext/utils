@@ -11,8 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
-
 /**
  * @property int $directly
  * @property string $directly_name
@@ -23,20 +21,17 @@ trait DirectlyAttribute
 {
     public function getDirectlyNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('directly', (int) $this->directly);
+        return getConstantValueName('directly', $this->directly);
     }
 
     public function getDirectlyAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('directly', (int) $this->directly);
+        return $this->directly_name;
     }
 
     public function getDirectlyTitleAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('directly', (int) $this->directly);
+        return getConstantValueTitle('directly', $this->directly);
     }
 
     public function setDirectlyAttribute($value): void
@@ -47,9 +42,8 @@ trait DirectlyAttribute
         $this->attributes['directly'] = (int) $value;
     }
 
-    public function getDirectlyValue(string $name): ?int
+    public function getDirectlyValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('directly', $name);
+        return getConstantNameValue('directly', $name);
     }
 }

@@ -11,8 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
-
 /**
  * 热门.
  * @property int $hot
@@ -24,20 +22,17 @@ trait HotAttribute
 {
     public function getHotNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('hot', (int) $this->hot);
+        return getConstantValueName('hot', $this->hot);
     }
 
     public function getHotAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('hot', (int) $this->hot);
+        return $this->hot_name;
     }
 
     public function getHotTitleAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('hot', (int) $this->hot);
+        return getConstantValueTitle('hot', $this->hot);
     }
 
     public function setHotAttribute($value): void
@@ -48,9 +43,8 @@ trait HotAttribute
         $this->attributes['hot'] = (int) $value;
     }
 
-    public function getHotValue(string $name): ?int
+    public function getHotValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('hot', $name);
+        return getConstantNameValue('hot', $name);
     }
 }

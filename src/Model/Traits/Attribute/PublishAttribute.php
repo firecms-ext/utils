@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
 use Carbon\Carbon;
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
 use Hyperf\Database\Model\Builder;
 
 /**
@@ -26,26 +25,22 @@ trait PublishAttribute
 {
     public function getPublishNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('publish', (int) $this->publish);
+        return getConstantValueName('publish', $this->publish);
     }
 
     public function getPublishAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('publish', (int) $this->publish);
+        return $this->publish_name;
     }
 
     public function getPublishTitleAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('publish', (int) $this->publish);
+        return getConstantValueTitle('publish', $this->publish);
     }
 
-    public function getPublishValue(string $name): ?int
+    public function getPublishValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('publish', $name);
+        return getConstantNameValue('publish', $name);
     }
 
     public function setPublishAtAttribute($value): void

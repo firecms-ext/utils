@@ -39,13 +39,13 @@ trait ContentStateAttribute
 
     public function setStateAttribute($value): void
     {
-        if (! is_numeric($value)) {
+        if (! in_array($value, getConstantValues('content_state'))) {
             $value = $this->getStateValue((string) $value);
         }
         $this->attributes['state'] = (int) $value;
     }
 
-    public function getStateValue(string $name): ?int
+    public function getStateValue(string $name): int
     {
         return getConstantNameValue('content_state', $name);
     }

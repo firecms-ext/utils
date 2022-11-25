@@ -39,13 +39,13 @@ trait ExceptionLogStateAttribute
 
     public function setStateAttribute($value): void
     {
-        if (! is_numeric($value)) {
+        if (! in_array($value, getConstantValues('exception_log_state'))) {
             $value = $this->getStateValue((string) $value);
         }
         $this->attributes['state'] = (int) $value;
     }
 
-    public function getStateValue(string $name): ?int
+    public function getStateValue(string $name): int
     {
         return getConstantNameValue('exception_log_state', $name);
     }

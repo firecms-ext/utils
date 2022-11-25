@@ -11,8 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
-
 /**
  * @property int $gender
  * @property string $gender_alias
@@ -23,33 +21,29 @@ trait GenderAttribute
 {
     public function getGenderNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('gender', (int) $this->gender);
+        return getConstantValueName('gender', $this->gender);
     }
 
     public function getGenderAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('gender', (int) $this->gender);
+        return $this->gender_name;
     }
 
     public function getGenderTitleAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('gender', (int) $this->gender);
+        return getConstantValueTitle('gender', $this->gender);
     }
 
     public function setGenderAttribute($value): void
     {
-        if (! in_array($value, [0, 1, true, false])) {
+        if (! in_array($value, getConstantValues('gender'))) {
             $value = $this->getGenderValue((string) $value);
         }
         $this->attributes['gender'] = (int) $value;
     }
 
-    public function getGenderValue(string $name): ?int
+    public function getGenderValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('gender', $name);
+        return getConstantNameValue('gender', $name);
     }
 }

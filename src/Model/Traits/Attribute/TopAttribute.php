@@ -11,8 +11,6 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
-
 /**
  * @property int $top
  * @property string $top_name
@@ -22,20 +20,17 @@ trait TopAttribute
 {
     public function getTopNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('top', (int) $this->top);
-    }
-
-    public function getTopTitleAttribute(): string
-    {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('top', (int) $this->top);
+        return getConstantValueName('top', $this->top);
     }
 
     public function getTopAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('top', (int) $this->top);
+        return $this->top_name;
+    }
+
+    public function getTopTitleAttribute(): string
+    {
+        return getConstantValueTitle('top', $this->top);
     }
 
     public function setTopAttribute($value): void
@@ -46,9 +41,8 @@ trait TopAttribute
         $this->attributes['top'] = (int) $value;
     }
 
-    public function getTopValue(string $name): ?int
+    public function getTopValue(string $name): int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('top', $name);
+        return getConstantNameValue('top', $name);
     }
 }
