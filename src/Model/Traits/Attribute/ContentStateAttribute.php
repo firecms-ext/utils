@@ -25,23 +25,17 @@ trait ContentStateAttribute
 {
     public function getStateNameAttribute(): string
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->name('content_state', (int) $this->state);
+        return getConstantValueName('content_state', $this->state);
     }
 
     public function getStateAliasAttribute(): string
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->alias('content_state', (int) $this->state);
+        return $this->state_name;
     }
 
     public function getStateTitleAttribute(): string
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->title('content_state', (int) $this->state);
+        return getConstantValueTitle('content_state', $this->state);
     }
 
     public function setStateAttribute($value): void
@@ -54,9 +48,7 @@ trait ContentStateAttribute
 
     public function getStateValue(string $name): ?int
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->value('content_state', $name);
+        return getConstantNameValue('content_state', $name);
     }
 
     public function scopeQueryStateName(Builder $query, string $value = 'Agree'): Builder

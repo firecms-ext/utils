@@ -25,23 +25,17 @@ trait ExceptionLogStateAttribute
 {
     public function getStateNameAttribute(): string
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->name('exception_log_state', (int) $this->state);
+        return getConstantValueName('exception_log_state', $this->state);
     }
 
     public function getStateAliasAttribute(): string
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->alias('exception_log_state', (int) $this->state);
+        return $this->state_name;
     }
 
     public function getStateTitleAttribute(): string
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->title('exception_log_state', (int) $this->state);
+        return getConstantValueTitle('exception_log_state', $this->state);
     }
 
     public function setStateAttribute($value): void
@@ -54,9 +48,7 @@ trait ExceptionLogStateAttribute
 
     public function getStateValue(string $name): ?int
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->value('exception_log_state', $name);
+        return getConstantNameValue('exception_log_state', $name);
     }
 
     public function scopeQueryStateName(Builder $query, string $value): Builder

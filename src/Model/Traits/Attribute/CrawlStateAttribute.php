@@ -25,23 +25,17 @@ trait CrawlStateAttribute
 {
     public function getStateNameAttribute(): string
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->name('crawl_state', (int) $this->state);
+        return getConstantValueName('crawl_state', $this->state);
     }
 
     public function getStateAliasAttribute(): string
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->alias('crawl_state', (int) $this->state);
+        return $this->state_name;
     }
 
     public function getStateTitleAttribute(): string
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->title('crawl_state', (int) $this->state);
+        return getConstantValueTitle('crawl_state', $this->state);
     }
 
     public function setStateAttribute($value): void
@@ -54,9 +48,7 @@ trait CrawlStateAttribute
 
     public function getStateValue(string $name): ?int
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->value('crawl_state', $name);
+        return getConstantNameValue('crawl_state', $name);
     }
 
     public function scopeQueryStateName(Builder $query, string $value): Builder

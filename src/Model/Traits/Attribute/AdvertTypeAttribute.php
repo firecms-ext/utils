@@ -11,45 +11,39 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
-
 /**
- * @property int $advert_type
- * @property string $advert_type_name
- * @property string $advert_type_alias
- * @property string $advert_type_title
+ * @property int $type
+ * @property string $type_name
+ * @property string $type_alias
+ * @property string $type_title
  */
 trait AdvertTypeAttribute
 {
-    public function getAdvertTypeNameAttribute(): string
+    public function getTypeNameAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->name('advert_type', (int) $this->advert_type);
+        return getConstantValueName('advert_type', $this->type);
     }
 
-    public function getAdvertTypeAliasAttribute(): string
+    public function getTypeAliasAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->alias('advert_type', (int) $this->advert_type);
+        return $this->type_name;
     }
 
-    public function getAdvertTypeTitleAttribute(): string
+    public function getTypeTitleAttribute(): string
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->title('advert_type', (int) $this->advert_type);
+        return getConstantValueTitle('advert_type', $this->type);
     }
 
-    public function setAdvertTypeAttribute($value): void
+    public function setTypeAttribute($value): void
     {
-        if (! in_array($value, [0, 1, true, false])) {
-            $value = $this->getAdvertTypeValue((string) $value);
+        if (! is_numeric($value)) {
+            $value = $this->getTypeValue((string) $value);
         }
         $this->attributes['advert_type'] = (int) $value;
     }
 
-    public function getAdvertTypeValue(string $name): ?int
+    public function getTypeValue(string $name): ?int
     {
-        return app()->get(ConstantRpcServiceInterface::class)
-            ->value('advert_type', $name);
+        return getConstantNameValue('advert_type', $name);
     }
 }

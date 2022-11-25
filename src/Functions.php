@@ -20,6 +20,7 @@ use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Redis\Redis;
 use Hyperf\Snowflake\IdGeneratorInterface;
 use Hyperf\Utils\ApplicationContext;
+use Hyperf\Utils\Arr;
 use Hyperf\Utils\Str;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -423,9 +424,81 @@ if (! function_exists('getConstants')) {
     }
 }
 
+if (! function_exists('getConstantValueName')) {
+    /**
+     * 获取系统常量-名称（别名）.
+     */
+    function getConstantValueName(string $category_name, int $value): string
+    {
+        $key = 'constant' . $category_name . 'value.name';
+        if (! $constants = config($key)) {
+            $constants = Arr::pluck(getConstants($category_name), 'name', 'value');
+            app()
+                ->get(ConfigInterface::class)
+                ->set($key, $constants);
+        }
+
+        return $constants[$value] ?? '';
+    }
+}
+
+if (! function_exists('getConstantValueTitle')) {
+    /**
+     * 获取系统常量-标题（消息）.
+     */
+    function getConstantValueTitle(string $category_name, int $value): string
+    {
+        $key = 'constant' . $category_name . 'value.title';
+        if (! $constants = config($key)) {
+            $constants = Arr::pluck(getConstants($category_name), 'title', 'value');
+            app()
+                ->get(ConfigInterface::class)
+                ->set($key, $constants);
+        }
+
+        return $constants[$value] ?? '';
+    }
+}
+
+if (! function_exists('getConstantNameTitle')) {
+    /**
+     * 获取系统常量-标题（消息）.
+     */
+    function getConstantNameTitle(string $category_name, string $name): string
+    {
+        $key = 'constant' . $category_name . 'name.title';
+        if (! $constants = config($key)) {
+            $constants = Arr::pluck(getConstants($category_name), 'title', 'name');
+            app()
+                ->get(ConfigInterface::class)
+                ->set($key, $constants);
+        }
+
+        return $constants[$name] ?? '';
+    }
+}
+
+if (! function_exists('getConstantNameValue')) {
+    /**
+     * 获取系统常量-实际值.
+     */
+    function getConstantNameValue(string $category_name, string $name): int
+    {
+        $key = 'constant' . $category_name . 'name.value';
+        if (! $constants = config($key)) {
+            $constants = Arr::pluck(getConstants($category_name), 'value', 'name');
+            app()
+                ->get(ConfigInterface::class)
+                ->set($key, $constants);
+        }
+
+        return (int) ($constants[$name] ?? 0);
+    }
+}
+
 if (! function_exists('getSettings')) {
     /**
-     * 获取系统常量.
+     * 获取系统设置.
      */
     function getSettings(?string $group = null): array
     {

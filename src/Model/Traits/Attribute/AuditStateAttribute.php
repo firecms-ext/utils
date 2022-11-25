@@ -9,9 +9,9 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
+
 namespace FirecmsExt\Utils\Model\Traits\Attribute;
 
-use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
 use Hyperf\Database\Model\Builder;
 
 /**
@@ -25,23 +25,17 @@ trait AuditStateAttribute
 {
     public function getStateNameAttribute(): string
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->name('audit_state', (int) $this->state);
+        return getConstantValueName('audit_state', $this->state);
     }
 
     public function getStateAliasAttribute(): string
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->alias('audit_state', (int) $this->state);
+        return $this->state_name;
     }
 
     public function getStateTitleAttribute(): string
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->title('audit_state', (int) $this->state);
+        return getConstantValueTitle('audit_state', $this->state);
     }
 
     public function setStateAttribute($value): void
@@ -54,9 +48,7 @@ trait AuditStateAttribute
 
     public function getStateValue(string $name): ?int
     {
-        return app()
-            ->get(ConstantRpcServiceInterface::class)
-            ->value('audit_state', $name);
+        return getConstantNameValue('audit_state', $name);
     }
 
     public function scopeQueryStateName(Builder $query, string $value): Builder
