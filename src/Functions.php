@@ -188,6 +188,16 @@ if (! function_exists('toTree')) {
     }
 }
 
+if (! function_exists('ArrToTree')) {
+    /**
+     * 转树.
+     */
+    function ArrToTree(array $rows, string $pid = 'parent_id', string $id = 'id', string $children = 'children'): array
+    {
+        return arrayToTree($rows, $pid, $id, $children);
+    }
+}
+
 if (! function_exists('arrayToTree')) {
     /**
      * 转树.
