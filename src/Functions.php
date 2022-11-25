@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * This file is part of FirecmsExt utils.
  *
@@ -10,7 +9,6 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
-
 use Carbon\Carbon;
 use FirecmsExt\Utils\JsonRpc\Consumer\AuthRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\ConstantRpcServiceInterface;
@@ -434,11 +432,11 @@ if (! function_exists('getSettings')) {
         if (! $settings = config('settings')) {
             $settings = (array) app()
                 ->get(SettingRpcServiceInterface::class)
-                ->group();
+                ->getAll();
 
             app()
                 ->get(ConfigInterface::class)
-                ->set('constant', $settings);
+                ->set('settings', $settings);
         }
 
         return $settings[$group] ?? $settings;

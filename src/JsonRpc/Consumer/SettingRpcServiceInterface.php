@@ -13,7 +13,7 @@ namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 interface SettingRpcServiceInterface
 {
-    public function configs(): array;
+    public function getAll(): array;
 
     public function group(string $group): array;
 

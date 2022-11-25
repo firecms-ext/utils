@@ -9,13 +9,11 @@ declare(strict_types=1);
  * @contact  zhimengxingyun@klmis.cn
  * @license  https://github.com/firecms-ext/utils/blob/master/LICENSE
  */
-
 namespace FirecmsExt\Utils\JsonRpc\Consumer;
 
 class SettingRpcService extends AbstractServiceClient implements SettingRpcServiceInterface
 {
-
-    public function configs(): array
+    public function getAll(): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
