@@ -46,7 +46,7 @@ trait ContentStateAttribute
 
     public function setStateAttribute($value): void
     {
-        if (! in_array($value, [0, 1, true, false])) {
+        if (! is_numeric($value)) {
             $value = $this->getStateValue((string) $value);
         }
         $this->attributes['state'] = (int) $value;
