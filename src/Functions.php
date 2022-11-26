@@ -574,3 +574,18 @@ if (! function_exists('getSetting')) {
         return $settings[$name] ?? $settings;
     }
 }
+
+if (! function_exists('dd')) {
+    /**
+     * 打印调试.
+     * @param mixed $var
+     */
+    function dd($var, ...$moreVars): void
+    {
+        if (config('app_env') === 'dev') {
+            dump($var, $moreVars);
+        } else {
+            var_dump($var, $moreVars);
+        }
+    }
+}
