@@ -42,15 +42,16 @@ abstract class AbstractConsumerMessage extends ConsumerMessage
         if (! $this->exchange) {
             $this->exchange = config('app_prefix', 'firecms') . '.' . $this->getType();
             if ($this->type === Type::FANOUT) {
+                // 广播到不同交换机
                 $this->exchange .= '.' . $this->routingKey;
             }
         }
 
         if (! $this->queue) {
-            $this->queue = config('app_queues', 'queues');
+            $this->queue = $this->routingKey;
             if ($this->type === Type::FANOUT) {
-                // 广播给不同队列
-                $this->queue .= '.' . $this->routingKey;
+                // 广播到每个服务
+                $this->queue .= '.' . ($_SERVER['HOSTNAME'] ?? env('APP_QUEUE', ''));
             }
         }
     }

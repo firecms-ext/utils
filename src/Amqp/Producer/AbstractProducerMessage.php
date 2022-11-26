@@ -29,8 +29,6 @@ abstract class AbstractProducerMessage extends ProducerMessage
 {
     public function __construct(array $data)
     {
-        ddd('MQ 投递：' . static::class);
-
         if (! $this->routingKey) {
             $this->routingKey = Str::snake(str_replace([
                 'FirecmsExt\\Utils\\Amqp\\Producer',
@@ -39,13 +37,17 @@ abstract class AbstractProducerMessage extends ProducerMessage
                 '\\',
             ], '', static::class));
         }
+
         if (! $this->exchange) {
             $this->exchange = config('app_prefix', 'firecms') . '.' . $this->getType();
             if ($this->type === Type::FANOUT) {
+                // 广播到不同交换机
                 $this->exchange .= '.' . $this->routingKey;
             }
         }
 
         $this->payload = $data;
+
+        ddd('MQ 投递：' . static::class);
     }
 }
