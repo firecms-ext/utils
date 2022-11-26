@@ -582,9 +582,15 @@ if (! function_exists('ddd')) {
     function ddd(mixed $var, ...$moreVars): void
     {
         if (config('app_env') === 'dev') {
-            dump($var, $moreVars);
+            dump($var);
+            foreach ($moreVars as $v) {
+                dump($v);
+            }
         } else {
             var_dump($var, $moreVars);
+            foreach ($moreVars as $v) {
+                var_dump($v);
+            }
         }
     }
 }
