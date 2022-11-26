@@ -575,12 +575,11 @@ if (! function_exists('getSetting')) {
     }
 }
 
-if (! function_exists('dd')) {
+if (! function_exists('ddd')) {
     /**
      * 打印调试.
-     * @param mixed $var
      */
-    function dd($var, ...$moreVars): void
+    function ddd(mixed $var, ...$moreVars): void
     {
         if (config('app_env') === 'dev') {
             dump($var, $moreVars);
