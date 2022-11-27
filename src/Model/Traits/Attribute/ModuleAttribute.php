@@ -38,7 +38,7 @@ trait ModuleAttribute
 
     public function setModuleAttribute($value): void
     {
-        if (! is_numeric($value)) {
+        if (! is_numeric($value) && $value) {
             $value = $this->getModuleValue((string) $value);
         }
         $this->attributes['module'] = (int) $value;
@@ -51,7 +51,7 @@ trait ModuleAttribute
 
     public function scopeQueryModule(Builder $query, int|string $value): Builder
     {
-        if (! is_numeric($value)) {
+        if (! is_numeric($value) && $value) {
             $value = $this->getModuleValue($value);
         }
 

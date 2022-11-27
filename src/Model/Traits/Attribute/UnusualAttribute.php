@@ -36,7 +36,7 @@ trait UnusualAttribute
 
     public function setUnusualAttribute($value): void
     {
-        if (! is_bool($value)) {
+        if (! is_bool($value) && $value) {
             $value = $this->getUnusualValue((string) $value);
         }
         $this->attributes['unusual'] = (int) $value;

@@ -36,7 +36,7 @@ trait RegionTypeAttribute
 
     public function setTypeAttribute($value): void
     {
-        if (! is_numeric($value)) {
+        if (! is_numeric($value) && $value) {
             $value = $this->getTypeValue((string) $value);
         }
         $this->attributes['type'] = (int) $value;

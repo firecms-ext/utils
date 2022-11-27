@@ -35,7 +35,7 @@ trait RecommendAttribute
 
     public function setRecommendAttribute($value): void
     {
-        if (! is_bool($value)) {
+        if (! is_bool($value) && $value) {
             $value = $this->getRecommendValue((string) $value);
         }
         $this->attributes['recommend'] = (int) $value;

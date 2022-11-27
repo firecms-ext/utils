@@ -30,7 +30,7 @@ trait PublishExpiredAttribute
 
     public function setPublishAttribute($value): void
     {
-        if (! is_bool($value)) {
+        if (! is_bool($value) && $value) {
             $value = $this->getPublishValue((string) $value);
         }
         $this->attributes['publish'] = $value = (int) $value;

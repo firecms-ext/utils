@@ -36,7 +36,7 @@ trait DirectlyAttribute
 
     public function setDirectlyAttribute($value): void
     {
-        if (! is_bool($value)) {
+        if (! is_bool($value) && $value) {
             $value = $this->getDirectlyValue((string) $value);
         }
         $this->attributes['directly'] = (int) $value;

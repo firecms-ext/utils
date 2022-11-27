@@ -39,7 +39,7 @@ trait ExceptionLogStateAttribute
 
     public function setStateAttribute($value): void
     {
-        if (! is_numeric($value)) {
+        if (! is_numeric($value) && $value) {
             $value = $this->getStateValue((string) $value);
         }
         $this->attributes['state'] = (int) $value;
