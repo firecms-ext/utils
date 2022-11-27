@@ -36,7 +36,7 @@ trait ReadAttribute
 
     public function setReadAttribute($value): void
     {
-        if (! in_array($value, [0, 1, true, false, '0', '1']) && $value) {
+        if (! in_array($value, [0, 1, true, false, '0', '1', 'true', 'false']) && $value) {
             $value = $this->getReadValue((string) $value);
         }
         $this->attributes['read'] = (int) $value;
