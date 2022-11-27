@@ -20,7 +20,7 @@ trait RecommendAttribute
 {
     public function getRecommendNameAttribute(): string
     {
-        return getConstantValueName('recommend', $this->recommend);
+        return getConstantValueName('recommend', (int) $this->recommend);
     }
 
     public function getRecommendAliasAttribute(): string
@@ -30,7 +30,7 @@ trait RecommendAttribute
 
     public function getRecommendTitleAttribute(): string
     {
-        return getConstantValueTitle('recommend', $this->recommend);
+        return getConstantValueTitle('recommend', (int) $this->recommend);
     }
 
     public function setRecommendAttribute($value): void

@@ -21,7 +21,7 @@ trait RepealAttribute
 {
     public function getRepealNameAttribute(): string
     {
-        return getConstantValueName('repeal', $this->repeal);
+        return getConstantValueName('repeal', (int) $this->repeal);
     }
 
     public function getRepealAliasAttribute(): string
@@ -31,7 +31,7 @@ trait RepealAttribute
 
     public function getRepealTitleAttribute(): string
     {
-        return getConstantValueTitle('repeal', $this->repeal);
+        return getConstantValueTitle('repeal', (int) $this->repeal);
     }
 
     public function setRepealAttribute($value): void

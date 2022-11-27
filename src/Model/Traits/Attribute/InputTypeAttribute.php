@@ -21,7 +21,7 @@ trait InputTypeAttribute
 {
     public function getInputTypeNameAttribute(): string
     {
-        return getConstantValueName('input_type', $this->input_type);
+        return getConstantValueName('input_type', (int) $this->input_type);
     }
 
     public function getInputTypeAliasAttribute(): string
@@ -31,7 +31,7 @@ trait InputTypeAttribute
 
     public function getInputTypeTitleAttribute(): string
     {
-        return getConstantValueTitle('input_type', $this->input_type);
+        return getConstantValueTitle('input_type', (int) $this->input_type);
     }
 
     public function setInputTypeAttribute($value): void

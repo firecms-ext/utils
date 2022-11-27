@@ -21,7 +21,7 @@ trait DisplayAttribute
 {
     public function getDisplayNameAttribute(): string
     {
-        return getConstantValueName('display', $this->display);
+        return getConstantValueName('display', (int) $this->display);
     }
 
     public function getDisplayAliasAttribute(): string
@@ -31,7 +31,7 @@ trait DisplayAttribute
 
     public function getDisplayTitleAttribute(): string
     {
-        return getConstantValueTitle('display', $this->display);
+        return getConstantValueTitle('display', (int) $this->display);
     }
 
     public function setDisplayAttribute($value): void

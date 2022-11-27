@@ -22,7 +22,7 @@ trait HotAttribute
 {
     public function getHotNameAttribute(): string
     {
-        return getConstantValueName('hot', $this->hot);
+        return getConstantValueName('hot', (int) $this->hot);
     }
 
     public function getHotAliasAttribute(): string
@@ -32,7 +32,7 @@ trait HotAttribute
 
     public function getHotTitleAttribute(): string
     {
-        return getConstantValueTitle('hot', $this->hot);
+        return getConstantValueTitle('hot', (int) $this->hot);
     }
 
     public function setHotAttribute($value): void
@@ -45,6 +45,6 @@ trait HotAttribute
 
     public function getHotValue(string $name): int
     {
-        return getConstantNameValue('hot', $name);
+        return getConstantNameValue('hot', (string) $name);
     }
 }

@@ -21,7 +21,7 @@ trait UnusualAttribute
 {
     public function getUnusualNameAttribute(): string
     {
-        return getConstantValueName('unusual', $this->unusual);
+        return getConstantValueName('unusual', (int) $this->unusual);
     }
 
     public function getUnusualAliasAttribute(): string
@@ -31,7 +31,7 @@ trait UnusualAttribute
 
     public function getUnusualTitleAttribute(): string
     {
-        return getConstantValueTitle('unusual', $this->unusual);
+        return getConstantValueTitle('unusual', (int) $this->unusual);
     }
 
     public function setUnusualAttribute($value): void

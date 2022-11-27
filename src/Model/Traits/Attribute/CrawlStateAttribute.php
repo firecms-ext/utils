@@ -24,7 +24,7 @@ trait CrawlStateAttribute
 {
     public function getStateNameAttribute(): string
     {
-        return getConstantValueName('crawl_state', $this->state);
+        return getConstantValueName('crawl_state', (int) $this->state);
     }
 
     public function getStateAliasAttribute(): string
@@ -34,7 +34,7 @@ trait CrawlStateAttribute
 
     public function getStateTitleAttribute(): string
     {
-        return getConstantValueTitle('crawl_state', $this->state);
+        return getConstantValueTitle('crawl_state', (int) $this->state);
     }
 
     public function setStateAttribute($value): void

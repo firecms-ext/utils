@@ -25,7 +25,7 @@ trait PublishAttribute
 {
     public function getPublishNameAttribute(): string
     {
-        return getConstantValueName('publish', $this->publish);
+        return getConstantValueName('publish', (int) $this->publish);
     }
 
     public function getPublishAliasAttribute(): string
@@ -35,7 +35,7 @@ trait PublishAttribute
 
     public function getPublishTitleAttribute(): string
     {
-        return getConstantValueTitle('publish', $this->publish);
+        return getConstantValueTitle('publish', (int) $this->publish);
     }
 
     public function getPublishValue(string $name): int

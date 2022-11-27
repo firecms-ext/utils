@@ -24,7 +24,7 @@ trait ContentStateAttribute
 {
     public function getStateNameAttribute(): string
     {
-        return getConstantValueName('content_state', $this->state);
+        return getConstantValueName('content_state', (int) $this->state);
     }
 
     public function getStateAliasAttribute(): string
@@ -34,7 +34,7 @@ trait ContentStateAttribute
 
     public function getStateTitleAttribute(): string
     {
-        return getConstantValueTitle('content_state', $this->state);
+        return getConstantValueTitle('content_state', (int) $this->state);
     }
 
     public function setStateAttribute($value): void

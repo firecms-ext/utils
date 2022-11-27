@@ -21,7 +21,7 @@ trait ReadAttribute
 {
     public function getReadNameAttribute(): string
     {
-        return getConstantValueName('read', $this->read);
+        return getConstantValueName('read', (int) $this->read);
     }
 
     public function getReadAliasAttribute(): string
@@ -31,7 +31,7 @@ trait ReadAttribute
 
     public function getReadTitleAttribute(): string
     {
-        return getConstantValueTitle('read', $this->read);
+        return getConstantValueTitle('read', (int) $this->read);
     }
 
     public function setReadAttribute($value): void

@@ -21,7 +21,7 @@ trait GenderAttribute
 {
     public function getGenderNameAttribute(): string
     {
-        return getConstantValueName('gender', $this->gender);
+        return getConstantValueName('gender', (int) $this->gender);
     }
 
     public function getGenderAliasAttribute(): string
@@ -31,7 +31,7 @@ trait GenderAttribute
 
     public function getGenderTitleAttribute(): string
     {
-        return getConstantValueTitle('gender', $this->gender);
+        return getConstantValueTitle('gender', (int) $this->gender);
     }
 
     public function setGenderAttribute($value): void

@@ -21,7 +21,7 @@ trait RegionTypeAttribute
 {
     public function getTypeNameAttribute(): string
     {
-        return getConstantValueName('region_type', $this->type);
+        return getConstantValueName('region_type', (int) $this->type);
     }
 
     public function getTypeAliasAttribute(): string
@@ -31,7 +31,7 @@ trait RegionTypeAttribute
 
     public function getTypeTitleAttribute(): string
     {
-        return getConstantValueTitle('region_type', $this->type);
+        return getConstantValueTitle('region_type', (int) $this->type);
     }
 
     public function setTypeAttribute($value): void

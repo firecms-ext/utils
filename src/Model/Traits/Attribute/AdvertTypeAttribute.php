@@ -21,7 +21,7 @@ trait AdvertTypeAttribute
 {
     public function getTypeNameAttribute(): string
     {
-        return getConstantValueName('advert_type', $this->type);
+        return getConstantValueName('advert_type', (int) $this->type);
     }
 
     public function getTypeAliasAttribute(): string
@@ -31,7 +31,7 @@ trait AdvertTypeAttribute
 
     public function getTypeTitleAttribute(): string
     {
-        return getConstantValueTitle('advert_type', $this->type);
+        return getConstantValueTitle('advert_type', (int) $this->type);
     }
 
     public function setTypeAttribute($value): void

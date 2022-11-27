@@ -23,7 +23,7 @@ trait ModuleAttribute
 {
     public function getModuleNameAttribute(): string
     {
-        return getConstantValueName('module', $this->module);
+        return getConstantValueName('module', (int) $this->module);
     }
 
     public function getModuleAliasAttribute(): string
@@ -33,7 +33,7 @@ trait ModuleAttribute
 
     public function getModuleTitleAttribute(): string
     {
-        return getConstantValueTitle('module', $this->module);
+        return getConstantValueTitle('module', (int) $this->module);
     }
 
     public function setModuleAttribute($value): void

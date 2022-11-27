@@ -24,7 +24,7 @@ trait AuditStateAttribute
 {
     public function getStateNameAttribute(): string
     {
-        return getConstantValueName('audit_state', $this->state);
+        return getConstantValueName('audit_state', (int) $this->state);
     }
 
     public function getStateAliasAttribute(): string
@@ -34,7 +34,7 @@ trait AuditStateAttribute
 
     public function getStateTitleAttribute(): string
     {
-        return getConstantValueTitle('audit_state', $this->state);
+        return getConstantValueTitle('audit_state', (int) $this->state);
     }
 
     public function setStateAttribute($value): void

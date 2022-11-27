@@ -24,7 +24,7 @@ trait ExceptionLogStateAttribute
 {
     public function getStateNameAttribute(): string
     {
-        return getConstantValueName('exception_log_state', $this->state);
+        return getConstantValueName('exception_log_state', (int) $this->state);
     }
 
     public function getStateAliasAttribute(): string
@@ -34,7 +34,7 @@ trait ExceptionLogStateAttribute
 
     public function getStateTitleAttribute(): string
     {
-        return getConstantValueTitle('exception_log_state', $this->state);
+        return getConstantValueTitle('exception_log_state', (int) $this->state);
     }
 
     public function setStateAttribute($value): void

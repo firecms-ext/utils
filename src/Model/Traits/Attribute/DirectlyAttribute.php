@@ -21,7 +21,7 @@ trait DirectlyAttribute
 {
     public function getDirectlyNameAttribute(): string
     {
-        return getConstantValueName('directly', $this->directly);
+        return getConstantValueName('directly', (int) $this->directly);
     }
 
     public function getDirectlyAliasAttribute(): string
@@ -31,7 +31,7 @@ trait DirectlyAttribute
 
     public function getDirectlyTitleAttribute(): string
     {
-        return getConstantValueTitle('directly', $this->directly);
+        return getConstantValueTitle('directly', (int) $this->directly);
     }
 
     public function setDirectlyAttribute($value): void

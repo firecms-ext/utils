@@ -25,7 +25,7 @@ trait UserAttribute
 {
     public function getUserAttribute(): array
     {
-        return userInfo((string) $this->user_id, ['info']);
+        return $this->user_id ? userInfo((string) $this->user_id, ['info']) : [];
     }
 
     public function getUserinfoAttribute(): array

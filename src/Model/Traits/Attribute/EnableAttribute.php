@@ -21,7 +21,7 @@ trait EnableAttribute
 {
     public function getEnableNameAttribute(): string
     {
-        return getConstantValueName('enable', $this->enable);
+        return getConstantValueName('enable', (int) $this->enable);
     }
 
     public function getEnableAliasAttribute(): string
@@ -31,7 +31,7 @@ trait EnableAttribute
 
     public function getEnableTitleAttribute(): string
     {
-        return getConstantValueTitle('enable', $this->enable);
+        return getConstantValueTitle('enable', (int) $this->enable);
     }
 
     public function setEnableAttribute($value): void

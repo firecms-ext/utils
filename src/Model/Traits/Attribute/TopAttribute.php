@@ -20,7 +20,7 @@ trait TopAttribute
 {
     public function getTopNameAttribute(): string
     {
-        return getConstantValueName('top', $this->top);
+        return getConstantValueName('top', (int) $this->top);
     }
 
     public function getTopAliasAttribute(): string
@@ -30,7 +30,7 @@ trait TopAttribute
 
     public function getTopTitleAttribute(): string
     {
-        return getConstantValueTitle('top', $this->top);
+        return getConstantValueTitle('top', (int) $this->top);
     }
 
     public function setTopAttribute($value): void
