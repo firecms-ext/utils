@@ -35,7 +35,7 @@ trait TopAttribute
 
     public function setTopAttribute($value): void
     {
-        if (! is_bool($value) && $value) {
+        if (! in_array($value, [0, 1, true, false, '0', '1']) && $value) {
             $value = $this->getTopValue((string) $value);
         }
         $this->attributes['top'] = (int) $value;

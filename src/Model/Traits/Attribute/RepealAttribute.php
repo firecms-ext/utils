@@ -36,7 +36,7 @@ trait RepealAttribute
 
     public function setRepealAttribute($value): void
     {
-        if (! is_bool($value) && $value) {
+        if (! in_array($value, [0, 1, true, false, '0', '1']) && $value) {
             $value = $this->getRepealValue((string) $value);
         }
         $this->attributes['repeal'] = (int) $value;
