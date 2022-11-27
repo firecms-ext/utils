@@ -36,7 +36,7 @@ trait InputTypeAttribute
 
     public function setInputTypeAttribute($value): void
     {
-        if (! in_array($value, getConstantValues('input_type'))) {
+        if (! is_numeric($value)) {
             $value = $this->getInputTypeValue((string) $value);
         }
         $this->attributes['input_type'] = (int) $value;

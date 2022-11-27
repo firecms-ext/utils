@@ -36,7 +36,7 @@ trait GenderAttribute
 
     public function setGenderAttribute($value): void
     {
-        if (! in_array($value, getConstantValues('gender'))) {
+        if (! is_numeric($value)) {
             $value = $this->getGenderValue((string) $value);
         }
         $this->attributes['gender'] = (int) $value;

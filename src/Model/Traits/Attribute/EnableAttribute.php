@@ -36,7 +36,7 @@ trait EnableAttribute
 
     public function setEnableAttribute($value): void
     {
-        if (! in_array($value, [0, 1, true, false])) {
+        if (! is_bool($value)) {
             $value = $this->getEnableValue((string) $value);
         }
         $this->attributes['enable'] = (int) $value;

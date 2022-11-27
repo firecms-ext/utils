@@ -36,7 +36,7 @@ trait DisplayAttribute
 
     public function setDisplayAttribute($value): void
     {
-        if (! in_array($value, [0, 1, true, false])) {
+        if (! is_bool($value)) {
             $value = $this->getDisplayValue((string) $value);
         }
         $this->attributes['display'] = (int) $value;

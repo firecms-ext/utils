@@ -37,7 +37,7 @@ trait HotAttribute
 
     public function setHotAttribute($value): void
     {
-        if (! in_array($value, [0, 1, true, false])) {
+        if (! is_bool($value)) {
             $value = $this->getHotValue((string) $value);
         }
         $this->attributes['hot'] = (int) $value;

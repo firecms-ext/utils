@@ -38,7 +38,7 @@ trait ModuleAttribute
 
     public function setModuleAttribute($value): void
     {
-        if (! in_array($value, getConstantValues('module'))) {
+        if (! is_numeric($value)) {
             $value = $this->getModuleValue((string) $value);
         }
         $this->attributes['module'] = (int) $value;

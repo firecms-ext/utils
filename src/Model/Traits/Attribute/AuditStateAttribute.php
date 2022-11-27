@@ -39,7 +39,7 @@ trait AuditStateAttribute
 
     public function setStateAttribute($value): void
     {
-        if (! in_array($value, getConstantValues('audit_state'))) {
+        if (! is_numeric($value)) {
             $value = $this->getStateValue((string) $value);
         }
         $this->attributes['state'] = (int) $value;
