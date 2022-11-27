@@ -53,7 +53,7 @@ trait PublishAttribute
 
     public function setPublishAttribute($value): void
     {
-        if (! in_array($value, [0, 1, true, false, '0', '1', 'true', 'false']) && $value) {
+        if (! in_array($value, [0, 1]) && $value) {
             $value = $this->getPublishValue((string) $value);
         }
 
