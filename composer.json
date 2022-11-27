@@ -42,6 +42,7 @@
     "hyperf/rpc-client": "^2.2",
     "hyperf/snowflake": "v2.2.33.1",
     "hyperf/validation": "^2.2",
+    "hyperf/logger": "~2.2.0",
     "nesbot/carbon": "^2.62"
   },
   "require-dev": {
