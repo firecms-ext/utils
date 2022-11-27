@@ -45,6 +45,8 @@ use FirecmsExt\Utils\JsonRpc\Consumer\LogModelRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\LogModelRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\NotifyModelRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\NotifyModelRpcServiceInterface;
+use FirecmsExt\Utils\JsonRpc\Consumer\PinYinRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\PinYinRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\RegionRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\RegionRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\SettingRpcService;
@@ -65,6 +67,7 @@ class ConfigProvider
                 CodeRpcServiceInterface::class => CodeRpcService::class,
                 CosRpcServiceInterface::class => CosRpcService::class,
                 SettingRpcServiceInterface::class => SettingRpcService::class,
+                PinYinRpcServiceInterface::class => PinYinRpcService::class,
                 TranslationRpcServiceInterface::class => TranslationRpcService::class,
 
                 AdvertRpcServiceInterface::class => AdvertRpcService::class,
