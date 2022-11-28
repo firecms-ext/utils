@@ -188,11 +188,11 @@ if (! function_exists('toTree')) {
     }
 }
 
-if (! function_exists('ArrToTree')) {
+if (! function_exists('arrToTree')) {
     /**
      * 转树.
      */
-    function ArrToTree(array $rows, string $pid = 'parent_id', string $id = 'id', string $children = 'children'): array
+    function arrToTree(array $rows, string $pid = 'parent_id', string $id = 'id', string $children = 'children'): array
     {
         return arrayToTree($rows, $pid, $id, $children);
     }
