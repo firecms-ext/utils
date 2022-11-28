@@ -69,7 +69,7 @@ class BaseService implements BaseServiceInterface
 
         return [
             'total' => $total,
-            'items' => $this->getCollection($query->when(true, function ($query) use ($params) {
+            'items' => $this->getCollectionResource($query->when(true, function ($query) use ($params) {
                 return $this->getOrderBy($query, $params, [$this->orderField => $this->orderBy]);
             })
                 ->when($limit, function ($query) use ($page, $limit) {
@@ -88,7 +88,7 @@ class BaseService implements BaseServiceInterface
     public function treeTable(array $params): array
     {
         $model = $this->getModelInstance();
-        return $this->getTreeCollection(
+        return $this->getTreeCollectionResource(
             $model->with($this->treeWith())
                 ->where(function ($query) use ($params) {
                     return $this->baseWhere($query, $params);
@@ -842,19 +842,31 @@ class BaseService implements BaseServiceInterface
     }
 
     /**
+     * 获取响应资源.
+     */
+    protected function getResource(mixed $model, ?string $resourceClass = null): JsonResource
+    {
+        return $resourceClass ? new $resourceClass($model) : new $this->showResourceClass($model);
+    }
+
+    /**
      * 获取响应集合.
      */
-    protected function getCollection(mixed $collection): ResourceCollection
+    protected function getCollectionResource(mixed $collection, ?string $resourceClass = null): ResourceCollection
     {
-        return new $this->listCollectionClass($collection);
+        return $resourceClass ? new $resourceClass($collection) : new $this->listCollectionClass($collection);
     }
 
     /**
      * 获取树响应集合.
      */
-    protected function getTreeCollection(Collection $collection): array
+    protected function getTreeCollectionResource(Collection $collection, ?string $resourceClass = null): array
     {
-        return arrayToTree((new $this->treeCollectionClass($collection))->toArray());
+        return arrayToTree($this->getCollectionResource(
+            $collection,
+            $resourceClass ?: $this->treeCollectionClass
+        )
+            ->toArray());
     }
 
     /**
@@ -887,14 +899,6 @@ class BaseService implements BaseServiceInterface
     protected function afterUpdate(mixed $model, array $params): mixed
     {
         return null;
-    }
-
-    /**
-     * 获取响应资源.
-     */
-    protected function getResource(mixed $model, ?string $resourceClass = null): JsonResource
-    {
-        return $resourceClass ? new $resourceClass($model) : new $this->showResourceClass($model);
     }
 
     /**
