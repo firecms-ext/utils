@@ -259,7 +259,7 @@ if (! function_exists('options')) {
         $items = [];
 
         foreach ($rows as $key => $row) {
-            if ($label && $value) {
+            if (isset($row[$label], $row[$value])) {
                 $items[] = [
                     'value' => (string) $row[$value],
                     'label' => (string) $row[$label],
