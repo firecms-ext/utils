@@ -724,51 +724,51 @@ class BaseService implements BaseServiceInterface
      */
     protected function baseWhere(Builder $query, array $params): Builder
     {
-        return $query->when(in_array($params['read'] ?? null, [0, 1]), function ($query) use ($params) {
+        return $query->when(in_array($params['read'] ?? '-', [0, 1]), function ($query) use ($params) {
             // 是否已读
             return $query->where('read', (int) $params['read']);
         })
-            ->when(in_array($params['display'] ?? null, [0, 1]), function ($query) use ($params) {
+            ->when(in_array($params['display'] ?? '-', [0, 1]), function ($query) use ($params) {
                 // 是否显示
                 return $query->where('display', (int) $params['display']);
             })
-            ->when(in_array($params['unusual'] ?? null, [0, 1]), function ($query) use ($params) {
+            ->when(in_array($params['unusual'] ?? '-', [0, 1]), function ($query) use ($params) {
                 // 是否异常
                 return $query->where('unusual', (int) $params['unusual']);
             })
-            ->when(in_array($params['repeal'] ?? null, [0, 1]), function ($query) use ($params) {
+            ->when(in_array($params['repeal'] ?? '-', [0, 1]), function ($query) use ($params) {
                 // 是否撤销
                 return $query->where('repeal', (int) $params['repeal']);
             })
-            ->when(in_array($params['draft'] ?? null, [0, 1]), function ($query) use ($params) {
+            ->when(in_array($params['draft'] ?? '-', [0, 1]), function ($query) use ($params) {
                 // 是否草稿
                 return $query->where('draft', (int) $params['draft']);
             })
-            ->when(in_array($params['state'] ?? null, [0, 1]), function ($query) use ($params) {
+            ->when(in_array($params['state'] ?? '-', [0, 1]), function ($query) use ($params) {
                 // 当前状态
                 return $query->where('state', (int) $params['state']);
             })
-            ->when(in_array($params['publish'] ?? null, [0, 1]), function ($query) use ($params) {
+            ->when(in_array($params['publish'] ?? '-', [0, 1]), function ($query) use ($params) {
                 // 是否发布
                 return $query->where('publish', (int) $params['publish']);
             })
-            ->when(in_array($params['top'] ?? null, [0, 1]), function ($query) use ($params) {
+            ->when(in_array($params['top'] ?? '-', [0, 1]), function ($query) use ($params) {
                 // 是否置顶
                 return $query->where('top', (int) $params['top']);
             })
-            ->when(in_array($params['hot'] ?? null, [0, 1]), function ($query) use ($params) {
+            ->when(in_array($params['hot'] ?? '-', [0, 1]), function ($query) use ($params) {
                 // 是否热门
                 return $query->where('hot', (int) $params['hot']);
             })
-            ->when(in_array($params['enable'] ?? null, [0, 1]), function ($query) use ($params) {
+            ->when(in_array($params['enable'] ?? '-', [0, 1]), function ($query) use ($params) {
                 // 是否启用
                 return $query->where('enable', (int) $params['enable']);
             })
-            ->when(in_array($params['directly'] ?? null, [0, 1]), function ($query) use ($params) {
+            ->when(in_array($params['directly'] ?? '-', [0, 1]), function ($query) use ($params) {
                 // 是否直接
                 return $query->where('directly', (int) $params['directly']);
             })
-            ->when(in_array($params['recommend'] ?? null, [0, 1]), function ($query) use ($params) {
+            ->when(in_array($params['recommend'] ?? '-', [0, 1]), function ($query) use ($params) {
                 // 是否推荐
                 return $query->where('recommend', (int) $params['recommend']);
             })
