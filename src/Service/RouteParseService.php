@@ -45,7 +45,8 @@ class RouteParseService
      */
     public function parse(?string $path = null, string $server = 'http'): array
     {
-        $factory = ApplicationContext::getContainer()->get(DispatcherFactory::class);
+        $factory = ApplicationContext::getContainer()
+            ->get(DispatcherFactory::class);
         $router = $factory->getRouter($server);
 
         return $this->rows($this->analyzeRouter($server, $router, $path));
@@ -98,7 +99,8 @@ class RouteParseService
             $middlewares = config('middlewares.' . $serverName, []);
             $middlewares = array_merge($middlewares, $registeredMiddlewares);
 
-            if ($name = ($handler->options['name'] ?? null)) {
+            if ($name = ($handler->options['name'] ?? null
+            && in_array(AuthenticateMiddleware::class, $middlewares))) {
                 $data[$unique] = [
                     'server' => $serverName,
                     'method' => [$method],
