@@ -471,7 +471,7 @@ if (! function_exists('getConstantValues')) {
     }
 }
 
-if (! function_exists('getConstantValues')) {
+if (! function_exists('getConstantOptions')) {
     /**
      * 获取系统常量-选项.
      */
