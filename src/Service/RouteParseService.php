@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Service;
 
+use FirecmsExt\Utils\Middleware\AuthenticateMiddleware;
 use Hyperf\HttpServer\MiddlewareManager;
 use Hyperf\HttpServer\Router\Dispatched;
 use Hyperf\HttpServer\Router\DispatcherFactory;
