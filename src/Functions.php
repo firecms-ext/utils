@@ -471,6 +471,24 @@ if (! function_exists('getConstantValues')) {
     }
 }
 
+if (! function_exists('getConstantValues')) {
+    /**
+     * 获取系统常量-选项.
+     */
+    function getConstantOptions(string $category_name): array
+    {
+        $key = 'constant' . $category_name . 'options';
+        if (! $constants = config($key)) {
+            $constants = options(getConstants($category_name), 'title', 'value');
+            app()
+                ->get(ConfigInterface::class)
+                ->set($key, $constants);
+        }
+
+        return $constants;
+    }
+}
+
 if (! function_exists('getConstantValueName')) {
     /**
      * 获取系统常量-名称（别名）.
