@@ -844,7 +844,7 @@ class BaseService implements BaseServiceInterface
     /**
      * 获取响应资源.
      */
-    protected function getResource(mixed $model, ?string $resourceClass = null): JsonResource
+    protected function getResource(Model $model, ?string $resourceClass = null): JsonResource
     {
         return $resourceClass ? new $resourceClass($model) : new $this->showResourceClass($model);
     }
@@ -880,7 +880,7 @@ class BaseService implements BaseServiceInterface
     /**
      * 新增之后.
      */
-    protected function afterStore(mixed $model, array $params): mixed
+    protected function afterStore(Model $model, array $params): mixed
     {
         return null;
     }
@@ -896,7 +896,7 @@ class BaseService implements BaseServiceInterface
     /**
      * 更新之后.
      */
-    protected function afterUpdate(mixed $model, array $params): mixed
+    protected function afterUpdate(Model $model, array $params): mixed
     {
         return null;
     }
