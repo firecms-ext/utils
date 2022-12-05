@@ -451,7 +451,7 @@ if (! function_exists('getConstants')) {
                 ->set('constant', $constants);
         }
 
-        return $constants[strtolower($category_name)] ?? $constants;
+        return $constants[strtolower((string) $category_name)] ?? $constants;
     }
 }
 
@@ -588,7 +588,7 @@ if (! function_exists('getSettings')) {
                 ->set('settings', $settings);
         }
 
-        return $settings[strtolower($group)] ?? $settings;
+        return $settings[strtolower((string) $group)] ?? $settings;
     }
 }
 
@@ -596,13 +596,13 @@ if (! function_exists('getSetting')) {
     /**
      * 获取系统设置.
      */
-    function getSetting(string $group, string $name = null): array|string
+    function getSetting(string $group, ?string $name = null): array|string
     {
         $settings = getSettings($group);
 
         $settings = array_change_key_case($settings, CASE_LOWER);
 
-        return $settings[strtolower($name)] ?? $settings;
+        return $settings[strtolower((string) $name)] ?? $settings;
     }
 }
 
