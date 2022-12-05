@@ -50,7 +50,7 @@ trait ContentStateAttribute
         return getConstantNameValue('content_state', $name);
     }
 
-    public function scopeQueryStateName(Builder $query, string $value = 'Agree'): Builder
+    public function scopeQueryStateName(Builder $query, string $value = 'Accept'): Builder
     {
         return $query->when($value, function ($query, $value) {
             return $query->where('state', $this->getStateValue($value));
