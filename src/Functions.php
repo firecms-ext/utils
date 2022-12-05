@@ -444,12 +444,14 @@ if (! function_exists('getConstants')) {
                 ->get(ConstantRpcServiceInterface::class)
                 ->all();
 
+            $constants = array_change_key_case($constants, CASE_LOWER);
+
             app()
                 ->get(ConfigInterface::class)
                 ->set('constant', $constants);
         }
 
-        return $constants[$category_name] ?? $constants;
+        return $constants[strtolower($category_name)] ?? $constants;
     }
 }
 
@@ -462,6 +464,7 @@ if (! function_exists('getConstantValues')) {
         $key = 'constant' . $category_name . 'values';
         if (! $constants = config($key)) {
             $constants = Arr::pluck(getConstants($category_name), 'value');
+
             app()
                 ->get(ConfigInterface::class)
                 ->set($key, $constants);
@@ -480,6 +483,7 @@ if (! function_exists('getConstantOptions')) {
         $key = 'constant' . $category_name . 'options';
         if (! $constants = config($key)) {
             $constants = options(getConstants($category_name), 'title', 'value');
+
             app()
                 ->get(ConfigInterface::class)
                 ->set($key, $constants);
@@ -534,12 +538,15 @@ if (! function_exists('getConstantNameTitle')) {
         $key = 'constant' . $category_name . 'name.title';
         if (! $constants = config($key)) {
             $constants = Arr::pluck(getConstants($category_name), 'title', 'name');
+
+            $constants = array_change_key_case($constants, CASE_LOWER);
+
             app()
                 ->get(ConfigInterface::class)
                 ->set($key, $constants);
         }
 
-        return $constants[$name] ?? '';
+        return $constants[strtolower($name)] ?? '';
     }
 }
 
@@ -552,12 +559,14 @@ if (! function_exists('getConstantNameValue')) {
         $key = 'constant' . $category_name . 'name.value';
         if (! $constants = config($key)) {
             $constants = Arr::pluck(getConstants($category_name), 'value', 'name');
+
+            $constants = array_change_key_case($constants, CASE_LOWER);
             app()
                 ->get(ConfigInterface::class)
                 ->set($key, $constants);
         }
 
-        return (int) ($constants[$name] ?? 0);
+        return (int) ($constants[strtolower($name)] ?? 0);
     }
 }
 
@@ -572,12 +581,14 @@ if (! function_exists('getSettings')) {
                 ->get(SettingRpcServiceInterface::class)
                 ->getAll();
 
+            $settings = array_change_key_case($settings, CASE_LOWER);
+
             app()
                 ->get(ConfigInterface::class)
                 ->set('settings', $settings);
         }
 
-        return $settings[$group] ?? $settings;
+        return $settings[strtolower($group)] ?? $settings;
     }
 }
 
@@ -589,7 +600,9 @@ if (! function_exists('getSetting')) {
     {
         $settings = getSettings($group);
 
-        return $settings[$name] ?? $settings;
+        $settings = array_change_key_case($settings, CASE_LOWER);
+
+        return $settings[strtolower($name)] ?? $settings;
     }
 }
 
