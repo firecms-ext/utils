@@ -14,6 +14,7 @@ namespace FirecmsExt\Utils\Service;
 use FirecmsExt\Utils\Model\Model;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Database\Model\Builder;
+use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Arr;
 
 class ModelService implements ModelServiceInterface
@@ -289,7 +290,7 @@ class ModelService implements ModelServiceInterface
                 return $this->andWhere($query, $where);
             })
             ->where($attribute, $value)
-            ->count($attribute);
+            ->exists();
     }
 
     /**
@@ -313,7 +314,7 @@ class ModelService implements ModelServiceInterface
      */
     public function validateExists(string $modelClass, string $attribute, mixed $value, array $ignore = [], array $where = []): bool
     {
-        return (bool) $this->getModelInstance($modelClass)
+        return $this->getModelInstance($modelClass)
             ->where(function (Builder $query) use ($ignore) {
                 return $this->ignoreWhere($query, $ignore);
             })
@@ -321,7 +322,7 @@ class ModelService implements ModelServiceInterface
                 return $this->andWhere($query, $where);
             })
             ->where($attribute, $value)
-            ->count($attribute);
+            ->exists();
     }
 
     /**
