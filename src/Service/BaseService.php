@@ -658,7 +658,7 @@ class BaseService implements BaseServiceInterface
                     ->update([
                         'publish' => true,
                         'publish_at' => isset($params['publish_at']) && $params['publish_at'] ?: Carbon::now(),
-                        'expired_at' => $params['expired_at'] ?? null,
+                        'expired_at' => $params['expired_at'] ?: null,
                     ]);
             } else {
                 $count = $this->queryByIds($ids, false)
