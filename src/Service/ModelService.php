@@ -134,7 +134,8 @@ class ModelService implements ModelServiceInterface
     {
         return $this->getModelInstance($modelClass)
             ->where($where)
-            ->pluck($column, $key);
+            ->pluck($column, $key)
+            ->toArray();
     }
 
     /**
