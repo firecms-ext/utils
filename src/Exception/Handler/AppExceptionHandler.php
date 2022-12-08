@@ -53,9 +53,9 @@ class AppExceptionHandler extends ExceptionHandler
             'trace_string' => $throwable->getTraceAsString(),
         ];
 
-        // 异常通知推送（异步执行，不能影响正常流程）
+        // 异常通知推送
         app()->get(Producer::class)->produce(new NotifyProducer($data));
-        // 异常日志推送（异步执行，不能影响正常流程）
+        // 异常日志推送
         app()->get(Producer::class)->produce(new ExceptionLogProducer($data));
 
         return $response->withHeader('Content-Type', 'application/json; charset=utf-8')

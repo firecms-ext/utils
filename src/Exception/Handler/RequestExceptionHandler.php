@@ -11,7 +11,10 @@ declare(strict_types=1);
  */
 namespace FirecmsExt\Utils\Exception\Handler;
 
+use FirecmsExt\Utils\Amqp\Producer\AppException\NotifyProducer;
+use FirecmsExt\Utils\Amqp\Producer\Log\ExceptionLogProducer;
 use FirecmsExt\Utils\Constants\HttpCode;
+use Hyperf\Amqp\Producer;
 use Hyperf\ExceptionHandler\ExceptionHandler;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\HttpServer\Contract\RequestInterface;
@@ -41,6 +44,21 @@ class RequestExceptionHandler extends ExceptionHandler
             echo $throwable->getTraceAsString();
             echo PHP_EOL;
         }
+
+        $data = [
+            'throwable' => get_class($throwable),
+            'subject' => '【' . config('app_name', 'firecms') . '】异常通知',
+            'message' => $throwable->getMessage(),
+            'line' => $throwable->getLine(),
+            'file' => $throwable->getFile(),
+            'traces' => $throwable->getTrace(),
+            'trace_string' => $throwable->getTraceAsString(),
+        ];
+
+        // 异常通知推送
+        app()->get(Producer::class)->produce(new NotifyProducer($data));
+        // 异常日志推送
+        app()->get(Producer::class)->produce(new ExceptionLogProducer($data));
 
         return $response->withHeader('Content-Type', 'application/json; charset=utf-8')
             ->withHeader('Server', 'Hyperf Firecms ' . ucwords(str_replace('_', ' ', env('APP_NAME'))))
