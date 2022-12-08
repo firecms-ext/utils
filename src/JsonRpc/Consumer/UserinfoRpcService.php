@@ -53,7 +53,7 @@ class UserinfoRpcService extends AbstractServiceClient implements UserinfoRpcSer
         return $this->__request(__FUNCTION__, func_get_args());
     }
 
-    public function getMenu(string $id, int $module, ?string $parent_name = null): array
+    public function getMenu(string $id, int $module, ?string $parent_name = null, ?string $resourceClass = null): array
     {
         return $this->__request(__FUNCTION__, func_get_args());
     }
