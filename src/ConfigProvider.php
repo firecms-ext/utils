@@ -53,6 +53,8 @@ use FirecmsExt\Utils\JsonRpc\Consumer\SettingRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\SettingRpcServiceInterface;
 use FirecmsExt\Utils\JsonRpc\Consumer\TranslationRpcService;
 use FirecmsExt\Utils\JsonRpc\Consumer\TranslationRpcServiceInterface;
+use FirecmsExt\Utils\JsonRpc\Consumer\UserinfoRpcService;
+use FirecmsExt\Utils\JsonRpc\Consumer\UserinfoRpcServiceInterface;
 
 class ConfigProvider
 {
@@ -85,6 +87,8 @@ class ConfigProvider
                 ContentModelRpcServiceInterface::class => ContentModelRpcService::class,
                 LogModelRpcServiceInterface::class => LogModelRpcService::class,
                 NotifyModelRpcServiceInterface::class => NotifyModelRpcService::class,
+
+                UserinfoRpcServiceInterface::class => UserinfoRpcService::class,
             ],
             'commands' => [
             ],
