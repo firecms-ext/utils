@@ -14,7 +14,6 @@ namespace FirecmsExt\Utils\Service;
 use FirecmsExt\Utils\Model\Model;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Database\Model\Builder;
-use Hyperf\DbConnection\Db;
 use Hyperf\Utils\Arr;
 
 class ModelService implements ModelServiceInterface
@@ -115,6 +114,27 @@ class ModelService implements ModelServiceInterface
             ->with(array_keys($withs))
             ->find($id)
             ?->toArray(), $withs);
+    }
+
+    public function exists(string $modelClass, array $where): bool
+    {
+        return $this->getModelInstance($modelClass)
+            ->where($where)
+            ->exists();
+    }
+
+    public function value(string $modelClass, array $where, string $column): string
+    {
+        return $this->getModelInstance($modelClass)
+            ->where($where)
+            ->value($column);
+    }
+
+    public function pluck(string $modelClass, array $where, string $column, ?string $key = null): array
+    {
+        return $this->getModelInstance($modelClass)
+            ->where($where)
+            ->pluck($column, $key);
     }
 
     /**

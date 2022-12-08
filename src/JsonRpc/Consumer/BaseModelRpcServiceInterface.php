@@ -33,6 +33,12 @@ interface BaseModelRpcServiceInterface
 
     public function find(string $modelClass, string $id, array $withs = []): array;
 
+    public function exists(string $modelClass, array $where): bool;
+
+    public function value(string $modelClass, array $where, string $column): string;
+
+    public function pluck(string $modelClass, array $where, string $column, ?string $key = null): array;
+
     public function getData(string $modelClass, array $where = [], array $withs = []): array;
 
     public function setData(string $modelClass, array $data, ?array $where = null): array;
